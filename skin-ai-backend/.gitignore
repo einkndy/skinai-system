@@ -7,6 +7,5 @@ device_capture/
 node_modules/
 dist/
 
-# Ignore semua model kecuali model utama
-model/*
-!model/model.h5
+model/
+*.h5
