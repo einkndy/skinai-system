@@ -4,3 +4,8 @@ __pycache__/
 .env
 uploads/
 device_capture/
+node_modules/
+dist/
+
+model/
+*.h5
