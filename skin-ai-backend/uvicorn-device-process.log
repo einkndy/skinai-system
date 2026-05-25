@@ -1,0 +1,2295 @@
+MYSQL CONNECTED
+MYSQL HOST: localhost
+MYSQL USER: root
+MYSQL DATABASE: skinanalyzer_db
+TABLE LOADED
+MYSQL READY
+MODEL LOADED
+AI READY
+WATCHDOG ACTIVE
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63107 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:63359 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63108 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:63360 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63109 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:63361 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63110 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:63362 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54050 - "GET /openapi.json HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63111 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:63363 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63112 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:63364 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63113 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:63365 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63114 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:63366 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63115 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:63367 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63116 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:63368 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:59374 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE OFFLINE: ESP_CTRL_01
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:59375 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:59376 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:59377 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:59378 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:59379 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56723 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56724 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE OFFLINE: ESP_CAM_01
+DEVICE ONLINE: ESP_CTRL_01
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64944 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE ONLINE: ESP_CAM_01
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56107 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64945 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56108 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64946 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56109 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64947 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56110 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64948 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56111 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64949 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56112 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64950 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56113 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64951 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56114 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64952 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56115 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64953 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56116 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+IMAGE RECEIVED: 04c621fc-0252-4ef0-938a-ce618500b7ed.jpg
+INFO:     192.168.1.46:56117 - "POST /device-process HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64954 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56118 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64955 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56119 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64956 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56120 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64957 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56121 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64958 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56122 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+IMAGE RECEIVED: 06e866f5-8594-4fbd-ba31-698f6a427642.jpg
+INFO:     192.168.1.46:56123 - "POST /device-process HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64959 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56124 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64960 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56125 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64961 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56126 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64962 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56127 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64963 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56128 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+IMAGE RECEIVED: f3af1c9c-c171-4cd1-afa3-6956f5c226c4.jpg
+INFO:     192.168.1.46:56129 - "POST /device-process HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64964 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56130 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64965 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56131 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64966 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56132 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64967 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56133 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56134 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64968 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64969 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56135 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64970 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56136 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64971 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56137 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64972 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56138 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64973 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56139 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64974 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56140 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64975 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56141 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64976 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56142 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64977 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56143 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64978 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56144 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64979 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56145 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64980 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56146 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64981 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56147 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64982 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56148 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64983 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56149 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64984 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56150 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64985 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56151 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64986 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56152 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64987 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56153 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64988 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56154 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64989 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56155 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64990 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56156 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64991 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56157 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64992 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56158 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64993 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56159 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64994 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56160 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64995 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56161 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64996 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56162 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64997 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56163 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64998 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56164 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:64999 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56165 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:65000 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:56166 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:51900 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE OFFLINE: ESP_CTRL_01
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:51901 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:51902 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:51903 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:51904 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:51905 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:51906 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:51907 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:51908 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:51909 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:51910 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:51911 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:58495 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE OFFLINE: ESP_CAM_01
+DEVICE ONLINE: ESP_CTRL_01
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:61566 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE ONLINE: ESP_CAM_01
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54308 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:61567 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54309 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:61568 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54310 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:61569 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54311 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:61570 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54312 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63282 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54313 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63283 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+IMAGE RECEIVED: 4493d200-89f1-4aaf-b971-e1bfce41c272.jpg
+INFO:     192.168.1.46:54314 - "POST /device-process HTTP/1.1" 200 OK
+IMAGE RECEIVED: a2e66a51-8425-40b1-b724-b91660ca994b.jpg
+INFO:     192.168.1.46:54315 - "POST /device-process HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54316 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63284 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54317 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63285 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54318 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63286 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54319 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63287 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54320 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63288 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54321 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63289 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54322 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63290 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54323 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63291 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54324 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63292 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54325 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63293 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54326 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63294 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54327 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63295 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54328 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63296 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+INFO:     192.168.1.18:54731 - "GET /docs HTTP/1.1" 200 OK
+INFO:     192.168.1.18:54731 - "GET /openapi.json HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54329 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63297 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54330 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63298 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54331 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63299 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54332 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63300 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54333 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63301 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54334 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63302 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54335 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63303 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54336 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63304 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54337 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63305 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54338 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63306 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54339 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63307 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54340 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63308 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54341 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63309 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54342 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63310 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54343 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63311 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54344 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63312 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54345 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63313 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54346 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63314 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54347 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63315 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54348 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63316 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54349 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63317 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54350 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63318 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54351 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63319 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54352 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63320 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54353 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63321 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54354 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63322 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54355 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63323 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54356 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63324 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54357 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63325 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54358 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63326 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54359 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63327 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54360 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63328 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54361 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63329 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54362 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63330 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54363 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63331 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54364 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63332 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54365 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63333 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54366 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63334 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54367 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63335 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54368 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63336 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54369 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63337 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54370 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63338 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54371 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63339 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54372 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63340 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54373 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63341 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54374 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63342 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54375 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63343 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54376 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63344 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54377 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63345 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54378 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63346 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54379 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63347 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54380 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63348 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54381 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63349 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54382 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63350 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54383 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63351 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54384 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63352 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54385 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63353 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54386 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63354 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54387 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63355 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54388 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63356 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54389 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63357 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CAM_01', 'status': 'online'}
+INFO:     192.168.1.46:54390 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63358 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63359 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63360 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63361 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63362 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63363 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63364 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63365 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63366 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63367 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63368 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63369 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63370 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63371 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63372 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+DEVICE HEARTBEAT OK {'device_id': 'ESP_CTRL_01', 'status': 'online'}
+INFO:     192.168.1.45:63373 - "POST /devices/heartbeat HTTP/1.1" 200 OK
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 2003 (HY000): Can't connect to MySQL server on 'localhost:3306' (10061)
+device-watchdog skipped: Database belum aktif
+MYSQL ERROR: 
