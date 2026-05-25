@@ -82,7 +82,11 @@ def load_ai_model():
     global model, MODEL_READY, MODEL_ERROR, MODEL_LOADED_AT
 
     try:
-        model = tf.keras.models.load_model(MODEL_PATH)
+        model = tf.keras.models.load_model(
+            MODEL_PATH,
+            compile=False
+        )
+
         MODEL_READY = True
         MODEL_ERROR = None
         MODEL_LOADED_AT = datetime.now().isoformat(timespec="seconds")
