@@ -55,7 +55,7 @@ if not os.path.exists(MODEL_PATH):
 
     os.makedirs("model", exist_ok=True)
 
-    file_id = "14qKOCUIv7Vu3DYWfGsqDJ0BQhRgGU15X"
+    file_id = "15SRs6jLBFk8i8XBnv6AbR6cMjjvqwpOV"
 
     url = f"https://drive.google.com/uc?id={file_id}"
 
