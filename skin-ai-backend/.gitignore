@@ -9,3 +9,6 @@ dist/
 
 model/
 *.h5
+
+saved_model/
+saved_model.zip
