@@ -1,21 +1,10 @@
-import keras
 import tensorflow as tf
 
-print("Loading modern model...")
-
-# load model modern
-model = keras.models.load_model(
-    "model/model.h5",
+model = tf.keras.models.load_model(
+    "model/model_fixed.h5",
     compile=False
 )
 
-print("Saving compatible model...")
+model.export("saved_model")
 
-# save ulang ke format tensorflow lama
-tf.keras.models.save_model(
-    model,
-    "model/model_fixed.h5",
-    save_format="h5"
-)
-
-print("MODEL FIXED SUCCESS")
+print("MODEL BERHASIL DIKONVERSI")

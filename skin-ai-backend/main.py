@@ -22,6 +22,7 @@ import json
 import random
 import re
 import gdown
+import zipfile
 
 
 
@@ -48,22 +49,26 @@ app.add_middleware(
 )
 
 CLASSES = ["berminyak", "kombinasi", "normal", "kering", "sensitif"]
-MODEL_PATH = "model/model.h5"
 
-if not os.path.exists(MODEL_PATH):
-    print("DOWNLOADING AI MODEL...")
+MODEL_DIR = "saved_model"
+MODEL_ZIP = "saved_model.zip"
 
-    os.makedirs("model", exist_ok=True)
+if not os.path.exists(MODEL_DIR):
 
-    file_id = "15SRs6jLBFk8i8XBnv6AbR6cMjjvqwpOV"
+    print("DOWNLOADING AI MODEL ZIP...")
+
+    file_id = "1rrgKcnFbCHoG_ditGhvb4RBzvlrRfIcQ"
 
     url = f"https://drive.google.com/uc?id={file_id}"
 
     gdown.download(
         url,
-        MODEL_PATH,
+        MODEL_ZIP,
         quiet=False,
     )
+
+    with zipfile.ZipFile(MODEL_ZIP, "r") as zip_ref:
+        zip_ref.extractall(".")
 
     print("MODEL DOWNLOAD COMPLETE")
 
@@ -83,7 +88,7 @@ def load_ai_model():
 
     try:
         model = tf.keras.models.load_model(
-            MODEL_PATH,
+            MODEL_DIR,
             compile=False
         )
 
@@ -399,11 +404,11 @@ async def device_watchdog_loop():
 
 @app.get("/model-status")
 def get_model_status():
-    model_exists = os.path.exists(MODEL_PATH)
+    model_exists = os.path.exists(MODEL_DIR)
     model_size_mb = None
 
     if model_exists:
-        model_size_mb = round(os.path.getsize(MODEL_PATH) / (1024 * 1024), 2)
+        model_size_mb = None
 
     return {
         "ready": MODEL_READY,
