@@ -30,7 +30,6 @@
 #include <HTTPClient.h>
 #include "esp_camera.h"
 #include "esp_http_server.h"
-#include "WiFiClient.h"
 
 const char* WIFI_SSID = "DIRECTOR ROOM";
 const char* WIFI_PASSWORD = "rahasiaein3211";
@@ -314,6 +313,7 @@ void sendHeartbeat() {
 
   HTTPClient http;
   http.begin(heartbeatUrl());
+
   http.addHeader("Content-Type", "application/json");
 
   String payload = heartbeatPayload();
@@ -324,6 +324,9 @@ void sendHeartbeat() {
   Serial.println(payload);
 
   int statusCode = http.POST(payload);
+
+  Serial.print("HEARTBEAT STATUS: ");
+  Serial.println(statusCode);
 
   if (statusCode >= 200 && statusCode < 300) {
     if (!deviceRegistered) {
@@ -344,7 +347,6 @@ bool uploadImage(camera_fb_t *fb) {
     connectWifi();
   }
 
-  WiFiClient client;
   HTTPClient http;
 
   String boundary = "SkinAIBoundary";
@@ -371,7 +373,7 @@ bool uploadImage(camera_fb_t *fb) {
   Serial.println("UPLOAD START");
   Serial.println(url);
 
-  http.begin(client, url);
+  http.begin(url);
   http.addHeader(
     "Content-Type",
     "multipart/form-data; boundary=" + boundary
@@ -384,6 +386,8 @@ bool uploadImage(camera_fb_t *fb) {
   int code = http.POST(payload, totalLength);
 
   Serial.print("HTTP CODE: ");
+  Serial.println(code);
+  Serial.print("UPLOAD STATUS: ");
   Serial.println(code);
 
   bool uploadOk = code >= 200 && code < 300;

@@ -100,6 +100,9 @@ void sendHeartbeat() {
 
   int statusCode = http.POST(heartbeatPayload());
 
+  Serial.print("HEARTBEAT STATUS: ");
+  Serial.println(statusCode);
+
   if (statusCode >= 200 && statusCode < 300) {
     if (!deviceRegistered) {
       Serial.println("DEVICE REGISTERED");
