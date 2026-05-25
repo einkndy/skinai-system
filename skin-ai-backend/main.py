@@ -388,13 +388,13 @@ async def device_watchdog_loop():
         await asyncio.sleep(WATCHDOG_INTERVAL_SECONDS)
 
 
-@app.on_event("startup")
-async def start_device_watchdog():
-    if getattr(app.state, "device_watchdog_started", False):
-        return
+# @app.on_event("startup")
+# async def start_device_watchdog():
+#     if getattr(app.state, "device_watchdog_started", False):
+#         return
 
-    app.state.device_watchdog_started = True
-    asyncio.create_task(device_watchdog_loop())
+#     app.state.device_watchdog_started = True
+#     asyncio.create_task(device_watchdog_loop())
 
 
 @app.get("/model-status")
