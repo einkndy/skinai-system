@@ -10,3 +10,4 @@ bcrypt
 passlib
 python-jose
 python-dotenv
+mysql-connector-python
