@@ -11,3 +11,4 @@ passlib
 python-jose
 python-dotenv
 mysql-connector-python
+tensorflow-cpu
