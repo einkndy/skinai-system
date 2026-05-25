@@ -1,7 +1,24 @@
-export const API_URL = "http://10.148.246.97:8000";
-export const ESP32_IP = "10.148.246.97";
-export const ESP_IP = `http://${ESP32_IP}`;
-export const STREAM_URL = `http://${ESP32_IP}/stream`;
-export const CAPTURE_URL = `http://${ESP32_IP}/capture`;
+const config = {
 
+  // BACKEND PRODUCTION
+  API_BASE_URL: "https://skinai-backend-pb4j.onrender.com",
 
+  // BACKEND LOCAL
+  LOCAL_API_URL: "http://127.0.0.1:8000",
+
+  // ESP32 LOCAL NETWORK
+  ESP32_IP: "10.148.246.97",
+
+};
+
+export const API_URL = config.API_BASE_URL;
+
+export const ESP32_IP = config.ESP32_IP;
+
+export const ESP_IP = `http://${config.ESP32_IP}`;
+
+export const STREAM_URL = `${ESP_IP}/stream`;
+
+export const CAPTURE_URL = `${ESP_IP}/capture`;
+
+export default config;

@@ -42,7 +42,10 @@ app.mount(
 # ===== CORS (WAJIB untuk React) =====
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # nanti bisa dibatasi
+    allow_origins=[
+        "http://localhost:5173",
+        "https://localhost:5173",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -413,7 +416,7 @@ def get_model_status():
     return {
         "ready": MODEL_READY,
         "status": "ready" if MODEL_READY else "offline",
-        "model_path": MODEL_PATH,
+        "model_path": MODEL_DIR,
         "model_exists": model_exists,
         "model_size_mb": model_size_mb,
         "classes": CLASSES,
