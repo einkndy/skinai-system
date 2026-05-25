@@ -5,11 +5,19 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DB_HOST = os.getenv("DB_HOST")
+# =========================
+# DATABASE CONFIG
+# =========================
+
+DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = int(os.getenv("DB_PORT", 3306))
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER", "root")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "")
+DB_NAME = os.getenv("DB_NAME", "skinanalyzer_db")
+
+# =========================
+# DATABASE CONNECTION
+# =========================
 
 
 def get_db_connection():
@@ -21,7 +29,7 @@ def get_db_connection():
             password=DB_PASSWORD,
             database=DB_NAME,
             autocommit=False,
-            connection_timeout=5,
+            connection_timeout=10,
             ssl_disabled=False,
         )
 
@@ -44,6 +52,10 @@ def get_db_connection():
 
 def is_db_error(connection):
     return isinstance(connection, dict) and connection.get("status") == "error"
+
+# =========================
+# TABLE UTILITIES
+# =========================
 
 
 def ensure_columns(cursor, table_name, columns):
@@ -90,11 +102,17 @@ def ensure_unique_index(cursor, table_name, index_name, columns):
         cursor.execute(
             f"CREATE UNIQUE INDEX {index_name} ON {table_name} ({columns})"
         )
+
     except Error as error:
         print(f"INDEX WARNING {index_name}:", error)
 
+# =========================
+# DATABASE INITIALIZATION
+# =========================
+
 
 def init_database():
+
     db = get_db_connection()
 
     if is_db_error(db):
@@ -105,8 +123,13 @@ def init_database():
 
     print("MYSQL CONNECTED")
     print(f"MYSQL HOST: {DB_HOST}")
+    print(f"MYSQL PORT: {DB_PORT}")
     print(f"MYSQL USER: {DB_USER}")
     print(f"MYSQL DATABASE: {DB_NAME}")
+
+    # =========================
+    # ADMINS
+    # =========================
 
     cursor.execute(
         """
@@ -122,6 +145,10 @@ def init_database():
         )
         """
     )
+
+    # =========================
+    # USERS
+    # =========================
 
     cursor.execute(
         """
@@ -142,6 +169,10 @@ def init_database():
         """
     )
 
+    # =========================
+    # PATIENTS
+    # =========================
+
     cursor.execute(
         """
         CREATE TABLE IF NOT EXISTS patients(
@@ -154,6 +185,10 @@ def init_database():
         )
         """
     )
+
+    # =========================
+    # ANALYSIS HISTORY
+    # =========================
 
     cursor.execute(
         """
@@ -182,6 +217,10 @@ def init_database():
         """
     )
 
+    # =========================
+    # ACTIVITY LOGS
+    # =========================
+
     cursor.execute(
         """
         CREATE TABLE IF NOT EXISTS activity_logs(
@@ -195,6 +234,10 @@ def init_database():
         )
         """
     )
+
+    # =========================
+    # DEVICES
+    # =========================
 
     cursor.execute(
         """
@@ -216,6 +259,10 @@ def init_database():
         )
         """
     )
+
+    # =========================
+    # ENSURE COLUMNS
+    # =========================
 
     ensure_columns(
         cursor,
@@ -312,6 +359,10 @@ def init_database():
         },
     )
 
+    # =========================
+    # UNIQUE INDEXES
+    # =========================
+
     ensure_unique_index(
         cursor,
         "users",
@@ -340,6 +391,10 @@ def init_database():
         "device_id",
     )
 
+    # =========================
+    # DATA FIXING
+    # =========================
+
     cursor.execute(
         """
         UPDATE users
@@ -367,6 +422,7 @@ def init_database():
     )
 
     db.commit()
+
     cursor.close()
     db.close()
 
