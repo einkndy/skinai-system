@@ -21,6 +21,7 @@ import base64
 import json
 import random
 import re
+import gdown
 
 
 
@@ -48,6 +49,24 @@ app.add_middleware(
 
 CLASSES = ["berminyak", "kombinasi", "normal", "kering", "sensitif"]
 MODEL_PATH = "model/model.h5"
+
+if not os.path.exists(MODEL_PATH):
+    print("DOWNLOADING AI MODEL...")
+
+    os.makedirs("model", exist_ok=True)
+
+    file_id = "14qKOCUIv7Vu3DYWfGsqDJ0BQhRgGU15X"
+
+    url = f"https://drive.google.com/uc?id={file_id}"
+
+    gdown.download(
+        url,
+        MODEL_PATH,
+        quiet=False,
+    )
+
+    print("MODEL DOWNLOAD COMPLETE")
+
 model = None
 MODEL_READY = False
 MODEL_ERROR = None
