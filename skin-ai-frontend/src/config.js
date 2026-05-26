@@ -7,17 +7,18 @@ const config = {
   LOCAL_API_URL: "http://127.0.0.1:8000",
 
   // ESP32 LOCAL NETWORK
-  ESP32_IP: "10.148.246.97",
+  ESP32_IP: "10.148.246.163",
+  ESP32_STREAM_PORT: 81,
 
 };
 
-export const API_URL = config.API_BASE_URL;
+export const API_URL = config.LOCAL_API_URL;
 
 export const ESP32_IP = config.ESP32_IP;
 
 export const ESP_IP = `http://${config.ESP32_IP}`;
 
-export const STREAM_URL = `${ESP_IP}/stream`;
+export const STREAM_URL = `http://${config.ESP32_IP}:${config.ESP32_STREAM_PORT}/stream`;
 
 export const CAPTURE_URL = `${ESP_IP}/capture`;
 

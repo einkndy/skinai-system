@@ -193,21 +193,6 @@ export default function Login() {
 
             <div>
               <label className="text-sm font-medium text-gray-700">
-                Nama Klinik
-              </label>
-              <input
-                type="text"
-                placeholder="Klinik Estetika"
-                value={clinicName}
-                required
-                disabled={authLoading}
-                onChange={(e) => setClinicName(e.target.value)}
-                className="w-full h-12 mt-2 px-4 rounded-2xl bg-gray-100 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <div>
-              <label className="text-sm font-medium text-gray-700">
                 Email Admin
               </label>
               <input

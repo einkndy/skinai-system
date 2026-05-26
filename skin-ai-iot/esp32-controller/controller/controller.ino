@@ -30,7 +30,7 @@
 const char* WIFI_SSID = "DIRECTOR ROOM";
 const char* WIFI_PASSWORD = "rahasiaein3211";
 
-const char* API_URL = "10.148.246.97:8000";
+const char* BACKEND_BASE_URL = "http://10.148.246.97:8000";
 const char* HEARTBEAT_ENDPOINT = "/devices/heartbeat";
 const char* ESP32_CAM_IP = "10.148.246.163";
 const char* CAPTURE_TRIGGER_ENDPOINT = "/capture-trigger";
@@ -56,7 +56,7 @@ bool deviceRegistered = false;
 const unsigned long BUTTON_DEBOUNCE_MS = 75;
 
 String heartbeatUrl() {
-  return String("http://") + API_URL + HEARTBEAT_ENDPOINT;
+  return String(BACKEND_BASE_URL) + "/devices/heartbeat";
 }
 
 String heartbeatPayload() {
@@ -90,12 +90,15 @@ void connectWifi() {
 }
 
 void sendHeartbeat() {
+
   if (WiFi.status() != WL_CONNECTED) {
     connectWifi();
   }
 
   HTTPClient http;
+
   http.begin(heartbeatUrl());
+
   http.addHeader("Content-Type", "application/json");
 
   int statusCode = http.POST(heartbeatPayload());
@@ -104,14 +107,18 @@ void sendHeartbeat() {
   Serial.println(statusCode);
 
   if (statusCode >= 200 && statusCode < 300) {
+
     if (!deviceRegistered) {
       Serial.println("DEVICE REGISTERED");
       deviceRegistered = true;
     }
 
     Serial.println("HEARTBEAT SENT");
+
   } else {
+
     Serial.println("SERVER OFFLINE");
+
   }
 
   http.end();

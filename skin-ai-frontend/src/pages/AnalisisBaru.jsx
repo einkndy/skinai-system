@@ -1222,6 +1222,7 @@ export default function AnalisisBaru() {
     console.log("HARDWARE PREVIEW READY");
     console.log("HARDWARE CAPTURE SUCCESS");
   };
+  
 
   const checkEspConnection = async ({ force = false } = {}) => {
     const startedAt = performance.now();

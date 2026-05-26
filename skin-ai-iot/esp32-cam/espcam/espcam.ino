@@ -34,7 +34,7 @@
 const char* WIFI_SSID = "DIRECTOR ROOM";
 const char* WIFI_PASSWORD = "rahasiaein3211";
 
-const char* API_URL = "10.148.246.97:8000";
+const char* BACKEND_BASE_URL = "http://10.148.246.97:8000";
 const char* HEARTBEAT_ENDPOINT = "/devices/heartbeat";
 const char* UPLOAD_ENDPOINT = "/device-process";
 
@@ -267,7 +267,7 @@ void startCameraServer() {
 }
 
 String heartbeatUrl() {
-  return String("http://") + API_URL + HEARTBEAT_ENDPOINT;
+  return String(BACKEND_BASE_URL) + HEARTBEAT_ENDPOINT;
 }
 
 String heartbeatPayload() {
@@ -286,7 +286,7 @@ String heartbeatPayload() {
 }
 
 String uploadUrl() {
-  return String("http://") + API_URL + UPLOAD_ENDPOINT;
+  return String(BACKEND_BASE_URL) + UPLOAD_ENDPOINT;
 }
 
 void connectWifi() {
@@ -320,6 +320,7 @@ void sendHeartbeat() {
 
   Serial.print("ESP32-CAM IP: ");
   Serial.println(WiFi.localIP());
+
   Serial.print("HEARTBEAT PAYLOAD: ");
   Serial.println(payload);
 
@@ -329,14 +330,18 @@ void sendHeartbeat() {
   Serial.println(statusCode);
 
   if (statusCode >= 200 && statusCode < 300) {
+
     if (!deviceRegistered) {
       Serial.println("DEVICE REGISTERED");
       deviceRegistered = true;
     }
 
     Serial.println("HEARTBEAT SENT");
+
   } else {
+
     Serial.println("SERVER OFFLINE");
+
   }
 
   http.end();

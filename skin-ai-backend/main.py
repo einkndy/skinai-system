@@ -53,17 +53,58 @@ app.add_middleware(
 
 CLASSES = ["berminyak", "kombinasi", "normal", "kering", "sensitif"]
 
-MODEL_DIR = "saved_model"
-MODEL_ZIP = "saved_model.zip"
+MODEL_PATH = os.environ.get("SKINAI_MODEL_PATH", "model/model_fixed.h5")
+MODEL_DIR = os.environ.get("SKINAI_MODEL_DIR", "saved_model")
+MODEL_ZIP = os.environ.get("SKINAI_MODEL_ZIP", "saved_model.zip")
+MODEL_DRIVE_FILE_ID = os.environ.get(
+    "SKINAI_MODEL_DRIVE_FILE_ID",
+    "1rrgKcnFbCHoG_ditGhvb4RBzvlrRfIcQ",
+)
+ACTIVE_MODEL_PATH = None
 
-if not os.path.exists(MODEL_DIR):
 
+def path_size_mb(path: str) -> float | None:
+    if not os.path.exists(path):
+        return None
+
+    if os.path.isfile(path):
+        return round(os.path.getsize(path) / (1024 * 1024), 2)
+
+    total_size = 0
+
+    for root, _, files in os.walk(path):
+        for filename in files:
+            total_size += os.path.getsize(os.path.join(root, filename))
+
+    return round(total_size / (1024 * 1024), 2)
+
+
+def get_existing_model_path() -> str | None:
+    if ACTIVE_MODEL_PATH and os.path.exists(ACTIVE_MODEL_PATH):
+        return ACTIVE_MODEL_PATH
+
+    if os.path.exists(MODEL_PATH):
+        return MODEL_PATH
+
+    if os.path.exists(MODEL_DIR):
+        return MODEL_DIR
+
+    return None
+
+
+def ensure_model_available() -> str:
+    existing_model_path = get_existing_model_path()
+
+    if existing_model_path:
+        return existing_model_path
+
+    print("MODEL FILE NOT FOUND")
     print("DOWNLOADING AI MODEL ZIP...")
 
-    file_id = "1rrgKcnFbCHoG_ditGhvb4RBzvlrRfIcQ"
+    if not MODEL_DRIVE_FILE_ID:
+        raise FileNotFoundError("SKINAI_MODEL_DRIVE_FILE_ID belum diatur")
 
-    url = f"https://drive.google.com/uc?id={file_id}"
-
+    url = f"https://drive.google.com/uc?id={MODEL_DRIVE_FILE_ID}"
     gdown.download(
         url,
         MODEL_ZIP,
@@ -74,6 +115,13 @@ if not os.path.exists(MODEL_DIR):
         zip_ref.extractall(".")
 
     print("MODEL DOWNLOAD COMPLETE")
+
+    existing_model_path = get_existing_model_path()
+
+    if not existing_model_path:
+        raise FileNotFoundError("model tidak ditemukan setelah download")
+
+    return existing_model_path
 
 model = None
 MODEL_READY = False
@@ -87,14 +135,16 @@ AUTH_SECRET = os.environ.get("SKINAI_AUTH_SECRET", "skinai-local-session-secret"
 
 
 def load_ai_model():
-    global model, MODEL_READY, MODEL_ERROR, MODEL_LOADED_AT
+    global model, MODEL_READY, MODEL_ERROR, MODEL_LOADED_AT, ACTIVE_MODEL_PATH
 
     try:
+        active_model_path = ensure_model_available()
         model = tf.keras.models.load_model(
-            MODEL_DIR,
+            active_model_path,
             compile=False
         )
 
+        ACTIVE_MODEL_PATH = active_model_path
         MODEL_READY = True
         MODEL_ERROR = None
         MODEL_LOADED_AT = datetime.now().isoformat(timespec="seconds")
@@ -103,12 +153,14 @@ def load_ai_model():
         print("AI READY")
 
     except Exception as error:
+
         model = None
         MODEL_READY = False
         MODEL_ERROR = str(error)
         MODEL_LOADED_AT = None
 
-        print("MODEL LOAD ERROR:", MODEL_ERROR)
+        print("MODEL LOAD ERROR:")
+        print(MODEL_ERROR)
         print("AI NOT READY")
 
 
@@ -396,31 +448,34 @@ async def device_watchdog_loop():
         await asyncio.sleep(WATCHDOG_INTERVAL_SECONDS)
 
 
-# @app.on_event("startup")
-# async def start_device_watchdog():
-#     if getattr(app.state, "device_watchdog_started", False):
-#         return
+@app.on_event("startup")
+async def start_device_watchdog():
+    if getattr(app.state, "device_watchdog_started", False):
+        return
 
-#     app.state.device_watchdog_started = True
-#     asyncio.create_task(device_watchdog_loop())
+    app.state.device_watchdog_started = True
+    asyncio.create_task(device_watchdog_loop())
 
 
 @app.get("/model-status")
 def get_model_status():
-    model_exists = os.path.exists(MODEL_DIR)
-    model_size_mb = None
-
-    if model_exists:
-        model_size_mb = None
+    model_path = get_existing_model_path()
+    model_exists = model_path is not None
+    model_size_mb = path_size_mb(model_path) if model_path else None
 
     return {
         "ready": MODEL_READY,
         "status": "ready" if MODEL_READY else "offline",
-        "model_path": MODEL_DIR,
+
+        "model_path": model_path or MODEL_PATH,
+        "configured_model_path": MODEL_PATH,
+        "fallback_model_dir": MODEL_DIR,
         "model_exists": model_exists,
         "model_size_mb": model_size_mb,
+
         "classes": CLASSES,
         "input_size": [224, 224],
+
         "loaded_at": MODEL_LOADED_AT,
         "error": MODEL_ERROR,
     }
