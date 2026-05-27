@@ -92,7 +92,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const timer = setTimeout(() => setMinimumLoading(false), 1000);
-    toast.info("ESP32_CAM_01 mencoba reconnect");
+    // toast.info("ESP32_CAM_01 mencoba reconnect");
 
     return () => clearTimeout(timer);
   }, []);
@@ -104,7 +104,7 @@ export default function Dashboard() {
         setDevices(deviceRows);
 
         if (deviceRows.some((device) => getDeviceUxStatus(device) === "reconnecting")) {
-          toast.warning("ESP32_CAM_01 mencoba reconnect");
+          // toast.warning("ESP32_CAM_01 mencoba reconnect");
         }
       } catch (error) {
         console.error("ERROR REFRESH DEVICES:", error);
@@ -246,39 +246,26 @@ export default function Dashboard() {
 
   const latest = useMemo(() => filtered.slice(0, 5), [filtered]);
   const formatRelativeHeartbeat = (device) => {
-    const source =
-      device?.last_heartbeat ||
-      device?.last_seen ||
-      device?.updated_at ||
-      device?.created_at;
 
-    if (!source) return "Heartbeat belum tersedia";
+    if (device?.status === "online") {
+      return "Online sekarang";
+    }
 
-    const seconds = Math.max(0, Math.round((Date.now() - new Date(source).getTime()) / 1000));
-
-    if (Number.isNaN(seconds)) return "Heartbeat belum tersedia";
-    if (seconds < 60) return `Heartbeat ${seconds} detik lalu`;
-    return `Heartbeat ${Math.round(seconds / 60)} menit lalu`;
+    return "Menunggu heartbeat";
   };
 
   const getDeviceUxStatus = (device) => {
+
     if (!device) return "connecting";
 
-    const heartbeatSource =
-      device.last_heartbeat ||
-      device.last_seen ||
-      device.updated_at ||
-      device.created_at;
-    const secondsSinceHeartbeat = heartbeatSource
-      ? (Date.now() - new Date(heartbeatSource).getTime()) / 1000
-      : 0;
-
-    if (device.status === "online" && secondsSinceHeartbeat > 20) {
-      return "reconnecting";
+    if (device.status === "online") {
+      return "online";
     }
 
-    if (device.status === "online") return "camera ready";
-    if (device.status === "offline") return "offline";
+    if (device.status === "offline") {
+      return "offline";
+    }
+
     return "connecting";
   };
 

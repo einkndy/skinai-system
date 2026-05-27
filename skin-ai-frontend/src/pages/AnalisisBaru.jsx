@@ -1197,14 +1197,6 @@ export default function AnalisisBaru() {
       return;
     }
 
-    if (
-      modePasien === "baru" &&
-      !pendingHistoryPayload?.email_pasien
-    ) {
-      showError("Email pasien wajib diisi untuk membuat akun user.");
-      return;
-    }
-
     console.log("HARDWARE IMAGE DETECTED");
 
     lastHardwareCaptureRef.current = captureKey;
@@ -1317,7 +1309,9 @@ export default function AnalisisBaru() {
       if (disposed) return;
 
       detectLatestHardwareCapture().catch((error) => {
-        console.error("HARDWARE CAPTURE POLL ERROR:", error);
+        if (error.name !== "AbortError") {
+          console.error("HARDWARE CAPTURE POLL ERROR:", error);
+        }
       });
     }, 1800);
 
@@ -1732,9 +1726,9 @@ export default function AnalisisBaru() {
             {/* PASIEN BARU */}
             {modePasien === "baru" && (
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-7 min-w-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-7 gap-y-7 min-w-0">
 
-                <div>
+                <div className="min-w-0">
                   <label className="text-sm font-semibold text-slate-600">
                     Nama Pasien
                   </label>
@@ -1748,7 +1742,7 @@ export default function AnalisisBaru() {
                   />
                 </div>
 
-                <div>
+                <div className="min-w-0">
                   <label className="text-sm font-semibold text-slate-600">
                     Email Pasien
                   </label>
@@ -1762,7 +1756,7 @@ export default function AnalisisBaru() {
                   />
                 </div>
 
-                <div>
+                <div className="min-w-0">
                   <label className="text-sm font-semibold text-slate-600">
                     Paket Pemeriksaan
                   </label>
@@ -1780,34 +1774,35 @@ export default function AnalisisBaru() {
                       Paket Tracking
                     </option>
                   </select>
-                  <div>
-                    <label className="text-sm font-semibold text-slate-600">
-                      Tanggal Pemeriksaan
-                    </label>
+                </div>
 
-                    <input
-                      type="date"
-                      value={formData.tanggal}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          tanggal: e.target.value,
-                        }))
-                      }
-                      className="
-                        w-full
-                        mt-2
-                        px-4
-                        py-3
-                        rounded-2xl
-                        border
-                        border-slate-200
-                        focus:outline-none
-                        focus:ring-2
-                        focus:ring-blue-500
-                      "
-                    />
-                  </div>
+                <div className="min-w-0">
+                  <label className="text-sm font-semibold text-slate-600">
+                    Tanggal Pemeriksaan
+                  </label>
+
+                  <input
+                    type="date"
+                    value={formData.tanggal}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        tanggal: e.target.value,
+                      }))
+                    }
+                    className="
+                      w-full
+                      mt-2
+                      px-4
+                      py-3
+                      rounded-2xl
+                      border
+                      border-slate-200
+                      focus:outline-none
+                      focus:ring-2
+                      focus:ring-blue-500
+                    "
+                  />
                 </div>
 
               </div>
@@ -1881,7 +1876,7 @@ export default function AnalisisBaru() {
 
                 </select>
                 {/* INFO PANEL */}
-                <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100">
+                <div className="mt-6 sm:mt-8 bg-slate-50 rounded-3xl p-6 border border-slate-100">
 
                   <h3 className="text-xl font-bold text-slate-800 mb-5">
                     Informasi Pemeriksaan
@@ -2051,7 +2046,6 @@ export default function AnalisisBaru() {
                 {sourceMode === "esp32" && (
                   cameraOnline ? (
                     <>
-                      {console.log("ROTATE FIX ACTIVE")}
                       <div
                         className="
                           relative
@@ -2440,37 +2434,57 @@ export default function AnalisisBaru() {
 
       {step === 3 && (
         <div className="premium-card bg-white rounded-3xl shadow p-4 sm:p-8 lg:p-10 min-w-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-w-0">
+          <div className="grid grid-cols-1 xl:grid-cols-[0.92fr_1.08fr] gap-6 lg:gap-8 items-start min-w-0">
 
             {/* IMAGE SCAN */}
-            <div className="h-[260px] min-[380px]:h-[300px] sm:h-[460px] flex items-center justify-center">
+            <div className="space-y-5 min-w-0">
+              <div className="h-[280px] min-[380px]:h-[330px] sm:h-[430px] lg:h-[460px] rounded-3xl bg-slate-950/5 p-2 flex items-center justify-center">
 
-              {image ? (
-                <div className="scan-container">
-                  <img src={image} alt="preview" className="scan-image image-fade" loading="lazy" decoding="async" />
+                {image ? (
+                  <div className="scan-container">
+                    <img src={image} alt="preview" className="scan-image image-fade" loading="lazy" decoding="async" />
 
-                  {isAnalyzing && (
-                    <div className="scan-overlay">
-                      <div className="scanner-frame ai-pulse"></div>
-                      <div className="scanner-line"></div>
-                      <span className="scan-point point-1"></span>
-                      <span className="scan-point point-2"></span>
-                      <span className="scan-point point-3"></span>
-                      <span className="scan-point point-4"></span>
+                    {isAnalyzing && (
+                      <div className="scan-overlay">
+                        <div className="scanner-frame ai-pulse"></div>
+                        <div className="scanner-line"></div>
+                        <span className="scan-point point-1"></span>
+                        <span className="scan-point point-2"></span>
+                        <span className="scan-point point-3"></span>
+                        <span className="scan-point point-4"></span>
 
-                      {renderAiLiveStatus()}
-                    </div>
-                  )}
+                        {renderAiLiveStatus()}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="text-gray-400 text-lg">
+                    Menunggu gambar...
+                  </div>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                <div className="rounded-3xl border border-blue-100 bg-blue-50 p-4">
+                  <p className="text-sm text-gray-500">Model</p>
+                  <p className="font-bold text-blue-600">
+                    Sistem Pemeriksaan
+                  </p>
                 </div>
-              ) : (
-                <div className="text-gray-400 text-lg">
-                  Menunggu gambar...
+
+                <div className="rounded-3xl border border-green-100 bg-green-50 p-4">
+                  <p className="text-sm text-gray-500">Device</p>
+                  <p className="font-bold text-green-600">
+                    ESP32-CAM Online
+                  </p>
                 </div>
-              )}
+
+              </div>
             </div>
 
             {/* RIGHT SIDE */}
-            <div className="space-y-6">
+            <div className="space-y-5 min-w-0">
 
               <div>
                 <h2 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2">
@@ -2489,33 +2503,22 @@ export default function AnalisisBaru() {
                 estimatedTime={`Estimasi ${estimate} detik`}
               />
 
-              {isAnalyzing && (
-                <LoadingScreen
-                  compact
-                  title="Analisis Berjalan"
-                  subtitle="Model sedang membaca tekstur kulit dan menyiapkan hasil."
-                />
-              )}
+              <div
+                className={`grid grid-cols-1 gap-4 items-start ${
+                  isAnalyzing ? "2xl:grid-cols-[0.72fr_1.28fr]" : ""
+                }`}
+              >
+                {isAnalyzing && (
+                  <div className="rounded-3xl border border-slate-100 bg-slate-50">
+                    <LoadingScreen
+                      compact
+                      title="Analisis Berjalan"
+                      subtitle="Model sedang membaca tekstur kulit dan menyiapkan hasil."
+                    />
+                  </div>
+                )}
 
-              <AnalysisTimeline steps={analysisTimeline} />
-
-              {/* STATUS BOX */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                <div className="bg-blue-50 rounded-2xl p-4">
-                  <p className="text-sm text-gray-500">Model</p>
-                  <p className="font-bold text-blue-600">
-                    Sistem Pemeriksaan
-                  </p>
-                </div>
-
-                <div className="bg-green-50 rounded-2xl p-4">
-                  <p className="text-sm text-gray-500">Device</p>
-                  <p className="font-bold text-green-600">
-                    ESP32-CAM Online
-                  </p>
-                </div>
-
+                <AnalysisTimeline steps={analysisTimeline} />
               </div>
 
             </div>
@@ -2527,9 +2530,9 @@ export default function AnalisisBaru() {
 
       {step === 4 && analysisResult && (
         <div className="min-w-0">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.45fr_1fr] gap-6 lg:gap-8 items-start">
-            <div className="min-w-0">
-              <div className="relative w-full h-[320px] min-[380px]:h-[380px] sm:h-[560px] overflow-hidden rounded-3xl sm:rounded-[32px] bg-black shadow-sm">
+          <div className="grid grid-cols-1 xl:grid-cols-[1.08fr_0.92fr] gap-6 lg:gap-8 items-start">
+            <div className="space-y-6 min-w-0">
+              <div className="relative w-full h-[300px] min-[380px]:h-[360px] sm:h-[500px] xl:h-[460px] overflow-hidden rounded-3xl sm:rounded-[32px] bg-black shadow-sm">
                 {resultImage && (
                   <img
                     src={resultImage}
@@ -2546,9 +2549,73 @@ export default function AnalisisBaru() {
                 )}
               </div>
 
+              <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-5 sm:p-6">
+                <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                  <div>
+                    <h2 className="text-2xl font-bold text-slate-800">
+                      Hasil Pemeriksaan Kulit
+                    </h2>
+
+                    <p className="text-sm text-slate-400 mt-1">
+                      Komposisi hasil pemeriksaan berdasarkan foto yang dianalisis
+                    </p>
+                  </div>
+
+                  <div className="px-4 py-2 rounded-2xl bg-blue-50 text-blue-600 text-sm font-bold capitalize">
+                    {analysisResult?.dominant || "-"}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-1 2xl:grid-cols-3 gap-4">
+                  {skinMetrics.map((metric) => {
+                    const percentage = Math.round(
+                      metric.value <= 1 ? metric.value * 100 : metric.value
+                    );
+
+                    return (
+                      <div
+                        key={metric.label}
+                        className="premium-card rounded-3xl border border-slate-100 bg-slate-50 p-5"
+                      >
+                        <div className="flex items-center justify-between mb-5">
+                          <div>
+                            <p className="text-sm text-slate-400 font-semibold">
+                              Parameter
+                            </p>
+
+                            <h3 className="text-lg font-bold text-slate-800 mt-1">
+                              {metric.label}
+                            </h3>
+                          </div>
+
+                          <div
+                            className={`w-12 h-12 rounded-2xl ${metric.bg} ${metric.text} flex items-center justify-center font-bold`}
+                          >
+                            {percentage}%
+                          </div>
+                        </div>
+
+                        <div className="w-full h-3 rounded-full bg-white overflow-hidden border border-slate-100">
+                          <div
+                            className={`h-full rounded-full bg-gradient-to-r ${metric.color}`}
+                            style={{
+                              width: `${Math.min(percentage, 100)}%`,
+                            }}
+                          />
+                        </div>
+
+                        <p className="text-xs text-slate-400 mt-3">
+                          Dibaca dari sistem klasifikasi kulit wajah.
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
             </div>
 
-            <div className="premium-card bg-white rounded-3xl sm:rounded-[32px] shadow-sm p-4 sm:p-7 min-w-0">
+            <div className="premium-card bg-white rounded-3xl sm:rounded-[32px] shadow-sm p-4 sm:p-7 min-w-0 h-fit">
               <div className="space-y-6">
                 <div>
                   <p className="text-sm font-semibold text-blue-600">
@@ -2685,70 +2752,6 @@ export default function AnalisisBaru() {
                   </button>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="mt-7 bg-white rounded-3xl border border-slate-100 shadow-sm p-5 sm:p-6">
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-              <div>
-                <h2 className="text-2xl font-bold text-slate-800">
-                  Hasil Pemeriksaan Kulit
-                </h2>
-
-                <p className="text-sm text-slate-400 mt-1">
-                  Komposisi hasil pemeriksaan berdasarkan foto yang dianalisis
-                </p>
-              </div>
-
-              <div className="px-4 py-2 rounded-2xl bg-blue-50 text-blue-600 text-sm font-bold capitalize">
-                {analysisResult?.dominant || "-"}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {skinMetrics.map((metric) => {
-                const percentage = Math.round(
-                  metric.value <= 1 ? metric.value * 100 : metric.value
-                );
-
-                return (
-                  <div
-                    key={metric.label}
-                    className="premium-card rounded-3xl border border-slate-100 bg-slate-50 p-5"
-                  >
-                    <div className="flex items-center justify-between mb-5">
-                      <div>
-                        <p className="text-sm text-slate-400 font-semibold">
-                          Parameter
-                        </p>
-
-                        <h3 className="text-xl font-bold text-slate-800 mt-1">
-                          {metric.label}
-                        </h3>
-                      </div>
-
-                      <div
-                        className={`w-12 h-12 rounded-2xl ${metric.bg} ${metric.text} flex items-center justify-center font-bold`}
-                      >
-                        {percentage}%
-                      </div>
-                    </div>
-
-                    <div className="w-full h-3 rounded-full bg-white overflow-hidden border border-slate-100">
-                      <div
-                        className={`h-full rounded-full bg-gradient-to-r ${metric.color}`}
-                        style={{
-                          width: `${Math.min(percentage, 100)}%`,
-                        }}
-                      />
-                    </div>
-
-                    <p className="text-xs text-slate-400 mt-3">
-                      Dibaca dari sistem klasifikasi kulit wajah.
-                    </p>
-                  </div>
-                );
-              })}
             </div>
           </div>
 

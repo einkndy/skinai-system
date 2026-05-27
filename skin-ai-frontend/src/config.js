@@ -12,7 +12,7 @@ const config = {
 
 };
 
-export const API_URL = config.LOCAL_API_URL;
+export const API_URL = import.meta.env.VITE_API_URL || config.LOCAL_API_URL;
 
 export const ESP32_IP = config.ESP32_IP;
 

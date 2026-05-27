@@ -19,6 +19,7 @@ import { AnimatedPage, ButtonSpinner, SkeletonCard } from "../components/ui";
 
 export default function Profile() {
   const { admin, updateAdmin } = useAuth();
+  console.log("ADMIN SESSION:", admin);
   const [records, setRecords] = useState([]);
   const [form, setForm] = useState({
     clinic: "",

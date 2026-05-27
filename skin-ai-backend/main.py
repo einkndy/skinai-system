@@ -127,8 +127,8 @@ model = None
 MODEL_READY = False
 MODEL_ERROR = None
 MODEL_LOADED_AT = None
-DEVICE_TIMEOUT_SECONDS = 30
-WATCHDOG_INTERVAL_SECONDS = 5
+DEVICE_TIMEOUT_SECONDS = 90
+WATCHDOG_INTERVAL_SECONDS = 10
 DEVICE_HTTP_TIMEOUT_SECONDS = 6
 DEFAULT_USER_PASSWORD = "skinai123"
 AUTH_SECRET = os.environ.get("SKINAI_AUTH_SECRET", "skinai-local-session-secret")
@@ -405,8 +405,8 @@ def mark_timed_out_devices_offline():
             SELECT device_id
             FROM devices
             WHERE status <> 'offline'
-            AND last_seen IS NOT NULL
-            AND last_seen < (NOW() - INTERVAL %s SECOND)
+            AND last_heartbeat IS NOT NULL
+            AND last_heartbeat < (NOW() - INTERVAL %s SECOND)
             """,
             (DEVICE_TIMEOUT_SECONDS,),
         )
@@ -421,8 +421,8 @@ def mark_timed_out_devices_offline():
             UPDATE devices
             SET status='offline'
             WHERE status <> 'offline'
-            AND last_seen IS NOT NULL
-            AND last_seen < (NOW() - INTERVAL %s SECOND)
+            AND last_heartbeat IS NOT NULL
+            AND last_heartbeat < (NOW() - INTERVAL %s SECOND)
             """,
             (DEVICE_TIMEOUT_SECONDS,),
         )
@@ -593,7 +593,7 @@ def device_heartbeat(data: dict):
 
     if ip_address:
         if not stream_url:
-            stream_url = f"http://{ip_address}/stream"
+            stream_url = f"http://{ip_address}:81/stream"
 
         if not capture_url:
             capture_url = f"http://{ip_address}/capture"
@@ -619,101 +619,81 @@ def device_heartbeat(data: dict):
 
     existing_device = cursor.fetchone()
 
-    cursor.execute(
-        """
-        INSERT INTO devices (
-            device_id,
-            device_name,
-            device_type,
-            ip_address,
-            stream_url,
-            capture_url,
-            status,
-            firmware_version,
-            last_seen,
-            location
+    if existing_device:
+
+        cursor.execute(
+            """
+            UPDATE devices
+            SET
+                device_name=%s,
+                device_type=%s,
+                ip_address=%s,
+                stream_url=%s,
+                capture_url=%s,
+                firmware_version=%s,
+                location=%s,
+                status=%s,
+                last_heartbeat=NOW(),
+                updated_at=NOW()
+            WHERE device_id=%s
+            """,
+            (
+                device_name,
+                device_type,
+                ip_address,
+                stream_url,
+                capture_url,
+                firmware_version,
+                location,
+                status,
+                device_id,
+            ),
         )
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,NOW(),%s)
-        ON DUPLICATE KEY UPDATE
-            device_name=VALUES(device_name),
-            device_type=VALUES(device_type),
-            ip_address=COALESCE(NULLIF(VALUES(ip_address), ''), ip_address),
-            stream_url=COALESCE(NULLIF(VALUES(stream_url), ''), stream_url),
-            capture_url=COALESCE(NULLIF(VALUES(capture_url), ''), capture_url),
-            status=VALUES(status),
-            firmware_version=VALUES(firmware_version),
-            last_seen=NOW(),
-            location=VALUES(location)
-        """,
-        (
-            device_id,
-            device_name,
-            device_type,
-            ip_address,
-            stream_url,
-            capture_url,
-            status,
-            firmware_version,
-            location,
-        ),
-    )
+
+    else:
+
+        cursor.execute(
+            """
+            INSERT INTO devices
+            (
+                device_id,
+                device_name,
+                device_type,
+                ip_address,
+                stream_url,
+                capture_url,
+                firmware_version,
+                location,
+                status,
+                last_heartbeat,
+                created_at,
+                updated_at
+            )
+            VALUES
+            (%s,%s,%s,%s,%s,%s,%s,%s,%s,NOW(),NOW(),NOW())
+            """,
+            (
+                device_id,
+                device_name,
+                device_type,
+                ip_address,
+                stream_url,
+                capture_url,
+                firmware_version,
+                location,
+                status,
+            ),
+        )
 
     conn.commit()
-
-    cursor.execute(
-        """
-        SELECT *
-        FROM devices
-        WHERE device_id=%s
-        """,
-        (device_id,),
-    )
-
-    device = cursor.fetchone()
 
     cursor.close()
     conn.close()
 
-    if existing_device:
-        if existing_device.get("status") != "online":
-            print(f"DEVICE ONLINE: {device_id}")
-
-        print(
-            "DEVICE HEARTBEAT OK",
-            {
-                "device_id": device_id,
-                "status": status,
-            },
-        )
-    else:
-        print(f"DEVICE ONLINE: {device_id}")
-        print(
-            "DEVICE REGISTERED",
-            {
-                "device_id": device_id,
-                "device_type": device_type,
-                "status": status,
-            },
-        )
-        print(
-            "DEVICE HEARTBEAT OK",
-            {
-                "device_id": device_id,
-                "status": status,
-            },
-        )
-
-    write_activity_log(
-        "device_heartbeat" if existing_device else "device_registered",
-        "DEVICE HEARTBEAT OK" if existing_device else "DEVICE REGISTERED",
-        f"{device_id} ({device_type}) status {status}",
-        "device",
-        device.get("id") if device else None,
-    )
-
     return {
         "success": True,
-        "device": device,
+        "device_id": device_id,
+        "status": "online",
     }
 
 
@@ -1754,7 +1734,6 @@ def get_patients(authorization: str | None = Header(None)):
         ON history_counts.patient_id = patients.id
         WHERE UPPER(COALESCE(patients.nama_pasien, '')) NOT LIKE '%FLOW DEBUG%'
         AND UPPER(COALESCE(patients.nama_pasien, '')) NOT LIKE '%FLOW AUDIT%'
-        AND UPPER(COALESCE(patients.nama_pasien, '')) NOT LIKE '%TEST%'
         ORDER BY patients.created_at DESC
     """)
 

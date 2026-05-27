@@ -153,49 +153,73 @@ static esp_err_t stream_handler(httpd_req_t *req) {
 }
 
 static esp_err_t capture_trigger_handler(httpd_req_t *req) {
+
   Serial.println("CAPTURE TRIGGER RECEIVED");
+
   httpd_resp_set_type(req, "text/plain");
   httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
 
   if (!cameraReady) {
+
     Serial.println("CAPTURE FAILED");
+
     digitalWrite(FLASH_LED_PIN, LOW);
-    Serial.println("FLASH OFF");
+
     httpd_resp_set_status(req, "500 Internal Server Error");
-    httpd_resp_send(req, "capture_failed", HTTPD_RESP_USE_STRLEN);
+
+    httpd_resp_send(req, "camera_not_ready", HTTPD_RESP_USE_STRLEN);
+
     return ESP_FAIL;
   }
 
   Serial.println("FLASH ON");
-  digitalWrite(FLASH_LED_PIN, HIGH);
-  delay(150);
 
-  Serial.println("CAPTURE START");
+  digitalWrite(FLASH_LED_PIN, HIGH);
+
+  delay(300);
+
   camera_fb_t *fb = esp_camera_fb_get();
 
   if (!fb) {
-    digitalWrite(FLASH_LED_PIN, LOW);
+
     Serial.println("CAPTURE FAILED");
-    Serial.println("FLASH OFF");
+
+    digitalWrite(FLASH_LED_PIN, LOW);
+
     httpd_resp_set_status(req, "500 Internal Server Error");
+
     httpd_resp_send(req, "capture_failed", HTTPD_RESP_USE_STRLEN);
+
     return ESP_FAIL;
   }
 
   Serial.println("IMAGE CAPTURED");
+
   bool uploadOk = uploadImage(fb);
+
   esp_camera_fb_return(fb);
 
+  delay(1200);
+
   digitalWrite(FLASH_LED_PIN, LOW);
+
   Serial.println("FLASH OFF");
 
   if (!uploadOk) {
+
+    Serial.println("UPLOAD FAILED");
+
     httpd_resp_set_status(req, "500 Internal Server Error");
-    httpd_resp_send(req, "capture_failed", HTTPD_RESP_USE_STRLEN);
+
+    httpd_resp_send(req, "upload_failed", HTTPD_RESP_USE_STRLEN);
+
     return ESP_FAIL;
   }
 
+  Serial.println("CAPTURE COMPLETE");
+
   httpd_resp_send(req, "capture_upload_ok", HTTPD_RESP_USE_STRLEN);
+
   return ESP_OK;
 }
 

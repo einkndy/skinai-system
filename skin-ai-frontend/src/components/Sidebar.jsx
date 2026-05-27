@@ -3,7 +3,6 @@ import {
   LayoutDashboard,
   ScanFace,
   FileText,
-  Sparkles,
   UserCircle,
   LogOut,
 } from "lucide-react";
@@ -46,8 +45,12 @@ export default function Sidebar({ mobile = false, onClose }) {
         {/* LOGO */}
         <div className="px-4 sm:px-6 py-4 lg:py-6 border-b">
           <div className="flex items-center gap-3">
-            <div className="bg-blue-600 text-white p-2 rounded-xl">
-              <Sparkles size={20} />
+            <div className="relative grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-600 via-cyan-500 to-emerald-400 shadow-[0_18px_42px_rgba(37,99,235,0.28)]">
+              <div className="absolute inset-2 rounded-xl border border-white/35"></div>
+              <div className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-white shadow-sm"></div>
+              <span className="relative text-xl font-black text-white tracking-normal">
+                S
+              </span>
             </div>
 
             <div>
