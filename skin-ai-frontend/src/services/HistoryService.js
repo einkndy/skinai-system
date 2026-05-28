@@ -11,6 +11,17 @@ const api = axios.create({
   },
 });
 
+api.interceptors.request.use((config) => {
+
+  const adminSession = JSON.parse(localStorage.getItem("adminSession"));
+
+  if (adminSession?.token) {
+    config.headers.Authorization = `Bearer ${adminSession.token}`;
+  }
+
+  return config;
+});
+
 const getErrorMessage = (error, fallback) => {
   return (
     error.response?.data?.detail ||
