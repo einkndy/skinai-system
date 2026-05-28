@@ -13,10 +13,6 @@ import { getHistory, saveHistory } from "../services/HistoryService";
 import { markSaveFlow } from "../services/flowAudit";
 import {
   API_URL,
-  ESP_IP,
-  ESP32_IP,
-  STREAM_URL,
-  CAPTURE_URL,
 } from "../config";
 import {
   showAiOffline,
@@ -621,37 +617,6 @@ export default function AnalisisBaru() {
   const [streamError, setStreamError] = useState(false);
   const [liveSrc, setLiveSrc] = useState("");
 
-  const normalizeEspBaseUrl = (value) => {
-    if (!value) return "";
-
-    const rawValue = String(value).trim().replace(/\/+$/, "");
-
-    if (!rawValue) return "";
-
-    return rawValue.startsWith("http://") || rawValue.startsWith("https://")
-      ? rawValue
-      : `http://${rawValue}`;
-  };
-
-  const buildEspUrl = (value, fallbackPath = "") => {
-    if (!value) return "";
-
-    const normalizedValue = normalizeEspBaseUrl(value);
-
-    if (!normalizedValue) return "";
-
-    if (
-      normalizedValue.endsWith("/stream") ||
-      normalizedValue.endsWith("/capture") ||
-      normalizedValue.endsWith("/jpg") ||
-      normalizedValue.endsWith("/capture.jpg")
-    ) {
-      return normalizedValue;
-    }
-
-    return `${normalizedValue}${fallbackPath}`;
-  };
-
   const getDeviceProxyUrl = (device, action) => {
     const deviceId = device?.device_id || "ESP_CAM_01";
 
@@ -1078,10 +1043,7 @@ export default function AnalisisBaru() {
   useEffect(() => {
 
     loadPatients();
-    console.log("ESP32 IP ACTIVE:", ESP32_IP);
-    console.log("STREAM URL:", STREAM_URL);
-    console.log("CAPTURE URL:", CAPTURE_URL);
-    console.log("OLD FLOW REMOVED");
+    console.log("ESP32 PROXY FLOW ACTIVE");
   }, []);
   /* =========================
     ESP32 CONNECTION MANAGER
@@ -1116,59 +1078,21 @@ export default function AnalisisBaru() {
   const getDeviceStreamUrl = (device) => {
     if (!device) return "";
 
-    if (device.stream_url) {
-      return buildEspUrl(device.stream_url, "/stream");
-    }
-
-    if (device.ip_address) {
-      return buildEspUrl(device.ip_address, "/stream");
-    }
-
-    if (ESP_IP) {
-      return STREAM_URL;
-    }
-
     return getDeviceProxyUrl(device, "stream");
   };
 
   const getDeviceCaptureUrl = (device) => {
     if (!device) return "";
 
-    if (device.capture_url) {
-      return buildEspUrl(device.capture_url, "/capture");
-    }
-
-    if (device.ip_address) {
-      return buildEspUrl(device.ip_address, "/capture");
-    }
-
-    if (ESP_IP) {
-      return CAPTURE_URL;
-    }
-
     return getDeviceProxyUrl(device, "capture");
   };
 
   const getDeviceTriggerUrl = (device) => {
-    const getEspBaseUrl = (value) => {
-      const normalizedValue = normalizeEspBaseUrl(value);
+    if (!device) return "";
 
-      if (!normalizedValue) return "";
-
-      return normalizedValue.replace(
-        /\/(?:stream|capture|jpg|capture\.jpg|capture-trigger)$/i,
-        ""
-      );
-    };
-
-    const directBaseUrl =
-      getEspBaseUrl(device?.capture_trigger_url) ||
-      getEspBaseUrl(device?.capture_url) ||
-      getEspBaseUrl(device?.stream_url) ||
-      getEspBaseUrl(device?.ip_address) ||
-      getEspBaseUrl(ESP_IP);
-
-    return directBaseUrl ? `${directBaseUrl}/capture-trigger` : "";
+    return `${API_URL}/devices/${encodeURIComponent(
+      device.device_id
+    )}/capture-trigger`;
   };
 
   const getLatestDeviceCapturePollingUrl = () =>

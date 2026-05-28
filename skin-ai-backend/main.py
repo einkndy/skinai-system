@@ -837,6 +837,34 @@ def proxy_device_capture(device_id: str):
     )
 
 
+@app.get("/devices/{device_id}/capture-trigger")
+def trigger_device_capture(device_id: str):
+    device = get_device_or_404(device_id)
+    trigger_url = normalize_device_url(
+        device.get("ip_address"),
+        "/capture-trigger",
+    )
+
+    if not trigger_url:
+        raise HTTPException(
+            status_code=404,
+            detail="trigger url tidak tersedia",
+        )
+
+    print("DEVICE TRIGGER:", trigger_url)
+
+    with open_device_url(trigger_url) as response:
+        content = response.read()
+
+    return Response(
+        content=content,
+        media_type="text/plain",
+        headers={
+            "Cache-Control": "no-store",
+        },
+    )
+
+
 @app.get("/devices/{device_id}/stream-proxy")
 def proxy_device_stream(device_id: str):
     device = get_device_or_404(device_id)
