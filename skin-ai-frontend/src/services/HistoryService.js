@@ -1,6 +1,16 @@
 import axios from "axios";
 import { API_URL } from "../config";
 
+const api = axios.create({
+  baseURL: API_URL,
+
+  timeout: 15000,
+
+  headers: {
+    "ngrok-skip-browser-warning": "true",
+  },
+});
+
 const getErrorMessage = (error, fallback) => {
   return (
     error.response?.data?.detail ||
@@ -18,7 +28,7 @@ const assertBackendReady = (data, fallback) => {
 
 export const getHistory = async () => {
   try {
-    const response = await axios.get(`${API_URL}/history`);
+    const response = await api.get(`/history`);
 
     assertBackendReady(response.data, "Gagal memuat history");
 
@@ -34,7 +44,7 @@ export const getHistory = async () => {
 
 export const saveHistory = async (payload) => {
   try {
-    const response = await axios.post(`${API_URL}/save-history`, payload);
+    const response = await api.post(`/save-history`, payload);
 
     assertBackendReady(response.data, "Gagal menyimpan history");
 
@@ -48,7 +58,7 @@ export const saveHistory = async (payload) => {
 
 export const getHistoryById = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/history/${id}`);
+    const response = await api.get(`/history/${id}`);
 
     assertBackendReady(response.data, "Gagal memuat hasil");
 
@@ -60,7 +70,7 @@ export const getHistoryById = async (id) => {
 
 export const getPatientById = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/patient/${id}`);
+    const response = await api.get(`/patient/${id}`);
 
     assertBackendReady(response.data, "Gagal memuat pasien");
 
@@ -72,7 +82,7 @@ export const getPatientById = async (id) => {
 
 export const deleteHistory = async (id) => {
   try {
-    const response = await axios.delete(`${API_URL}/delete-history/${id}`);
+    const response = await api.delete(`/delete-history/${id}`);
 
     assertBackendReady(response.data, "Gagal menghapus history");
 
@@ -84,7 +94,7 @@ export const deleteHistory = async (id) => {
 
 export const getUserDashboard = async () => {
   try {
-    const response = await axios.get(`${API_URL}/user/dashboard`);
+    const response = await api.get(`/user/dashboard`);
 
     assertBackendReady(response.data, "Gagal memuat dashboard user");
 
@@ -96,7 +106,7 @@ export const getUserDashboard = async () => {
 
 export const getUserHistory = async () => {
   try {
-    const response = await axios.get(`${API_URL}/user/history`);
+    const response = await api.get(`/user/history`);
 
     assertBackendReady(response.data, "Gagal memuat riwayat user");
 
@@ -112,7 +122,7 @@ export const getUserHistory = async () => {
 
 export const getUserHistoryById = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/user/history/${id}`);
+    const response = await api.get(`/user/history/${id}`);
 
     assertBackendReady(response.data, "Gagal memuat detail riwayat user");
 
@@ -124,7 +134,7 @@ export const getUserHistoryById = async (id) => {
 
 export const getUserProfile = async () => {
   try {
-    const response = await axios.get(`${API_URL}/user/profile`);
+    const response = await api.get(`/user/profile`);
 
     assertBackendReady(response.data, "Gagal memuat profile user");
 
@@ -136,7 +146,7 @@ export const getUserProfile = async () => {
 
 export const updateUserProfile = async (payload) => {
   try {
-    const response = await axios.put(`${API_URL}/user/profile`, payload);
+    const response = await api.put(`/user/profile`, payload);
 
     assertBackendReady(response.data, "Gagal menyimpan profile user");
 
