@@ -1,17 +1,26 @@
 import axios from "axios";
 import { API_URL } from "../config";
 
+const api = axios.create({
+    baseURL: API_URL,
+
+    headers: {
+        "ngrok-skip-browser-warning": "true",
+    },
+});
+
 export const predictSkin = async (imageFile) => {
     try {
         const formData = new FormData();
         formData.append("file", imageFile);
 
-        const response = await fetch(`${API_URL}/predict`, {
-            method: "POST",
-            body: formData,
+        const response = await api.post("/predict", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
         });
 
-        const data = await response.json();
+        const data = response.data;
 
         if (data?.status === "error") {
             const error = new Error(data.message || "Model analisis belum tersedia");
@@ -20,15 +29,10 @@ export const predictSkin = async (imageFile) => {
             throw error;
         }
 
-        if (!response.ok) {
-            const error = new Error(data?.message || "Gagal menjalankan analisis");
-            error.code = "ANALYSIS_OFFLINE";
-            error.payload = data;
-            throw error;
-        }
-
         return data;
+
     } catch (error) {
+
         console.error(error);
 
         if (!error.code) {
@@ -40,7 +44,7 @@ export const predictSkin = async (imageFile) => {
 };
 
 export const getPatients = async () => {
-    const response = await axios.get(`${API_URL}/patients`);
+    const response = await api.get(`/patients`);
 
     if (response.data?.status === "error") {
         throw new Error(response.data.message || "Gagal memuat pasien");
@@ -82,7 +86,7 @@ export const getActivityLogs = async (limit = 8) => {
 };
 
 export const getDevices = async () => {
-    const response = await axios.get(`${API_URL}/devices`);
+    const response = await api.get(`/devices`);
 
     if (response.data?.status === "error") {
         throw new Error(response.data.message || "Gagal memuat status device");
