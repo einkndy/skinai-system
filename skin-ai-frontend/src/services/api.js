@@ -4,6 +4,8 @@ import { API_URL } from "../config";
 const api = axios.create({
     baseURL: API_URL,
 
+    timeout: 15000,
+
     headers: {
         "ngrok-skip-browser-warning": "true",
     },
@@ -58,7 +60,7 @@ export const getPatients = async () => {
 };
 
 export const getModelStatus = async () => {
-    const response = await axios.get(`${API_URL}/model-status`);
+    const response = await api.get(`/model-status`);
 
     if (response.data?.status === "error") {
         throw new Error(response.data.message || "Gagal memuat status model");
@@ -68,7 +70,7 @@ export const getModelStatus = async () => {
 };
 
 export const getActivityLogs = async (limit = 8) => {
-    const response = await axios.get(`${API_URL}/activity-logs`, {
+    const response = await api.get(`/activity-logs`, {
         params: {
             limit,
         },
@@ -100,7 +102,7 @@ export const getDevices = async () => {
 };
 
 export const getDeviceArchitecture = async () => {
-    const response = await axios.get(`${API_URL}/devices/architecture`);
+    const response = await api.get(`/devices/architecture`);
 
     if (response.data?.status === "error") {
         throw new Error(response.data.message || "Gagal memuat arsitektur device");
