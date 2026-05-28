@@ -13,10 +13,10 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
 
-  const adminSession = JSON.parse(localStorage.getItem("adminSession"));
+  const adminData = JSON.parse(localStorage.getItem("admin"));
 
-  if (adminSession?.token) {
-    config.headers.Authorization = `Bearer ${adminSession.token}`;
+  if (adminData?.token) {
+    config.headers.Authorization = `Bearer ${adminData.token}`;
   }
 
   return config;
