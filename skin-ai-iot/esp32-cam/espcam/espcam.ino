@@ -1,40 +1,22 @@
 /*
   SkinAI ESP32-CAM
-  // Sprint B.2 heartbeat firmware
-  // Sprint B.3 device communication preparation
-
   Scope:
   - Connect WiFi otomatis.
   - Auto register device via POST /devices/heartbeat.
   - Kirim heartbeat tiap 10 detik.
   - Berjalan tanpa USB permanen setelah firmware di-upload.
   - Listener Serial2 untuk CAPTURE_REQUEST.
-
-  Not implemented in Sprint B.2:
-  - Camera pin mapping.
-  - Capture endpoint implementation.
-  - Stream endpoint implementation.
-  - Serial antar device.
-
-  Not implemented in Sprint B.3:
-  - Button.
-  - GPIO fisik.
-  - Upload gambar.
-  - Capture kamera.
-  - Stream.
-  - AI predict.
-  - Backend save.
 */
 
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include "esp_camera.h"
 #include "esp_http_server.h"
+#include "config.h"
 
 const char* WIFI_SSID = "DIRECTOR ROOM";
 const char* WIFI_PASSWORD = "rahasiaein3211";
 
-const char* BACKEND_BASE_URL = "https://repost-google-dollhouse.ngrok-free.dev";
 const char* HEARTBEAT_ENDPOINT = "/devices/heartbeat";
 const char* UPLOAD_ENDPOINT = "/device-process";
 

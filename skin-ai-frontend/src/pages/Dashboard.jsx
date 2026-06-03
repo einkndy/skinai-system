@@ -10,7 +10,6 @@ import {
   getDevices,
   getModelStatus,
 } from "../services/api";
-import { ESP_IP } from "../config";
 
 import {
   Users,
@@ -789,6 +788,5 @@ export default function Dashboard() {
     </AnimatedPage>
   );
 }
-
 
 

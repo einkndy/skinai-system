@@ -5,10 +5,6 @@ const api = axios.create({
     baseURL: API_URL,
 
     timeout: 15000,
-
-    headers: {
-        "ngrok-skip-browser-warning": "true",
-    },
 });
 
 api.interceptors.request.use((config) => {
@@ -121,5 +117,4 @@ export const getDeviceArchitecture = async () => {
 
     return response.data;
 };
-
 

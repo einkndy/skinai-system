@@ -26,11 +26,11 @@
 
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include "config.h"
 
 const char* WIFI_SSID = "DIRECTOR ROOM";
 const char* WIFI_PASSWORD = "rahasiaein3211";
 
-const char* BACKEND_BASE_URL ="https://repost-google-dollhouse.ngrok-free.dev";
 const char* HEARTBEAT_ENDPOINT = "/devices/heartbeat";
 const char* ESP32_CAM_IP = "10.148.246.163";
 const char* CAPTURE_TRIGGER_ENDPOINT = "/capture-trigger";

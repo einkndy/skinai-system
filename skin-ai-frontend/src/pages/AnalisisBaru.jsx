@@ -530,7 +530,7 @@ export default function AnalisisBaru() {
     }
   };
 
-  // Function to capture image from ESP32-CAM
+  // Function untuk capture image from ESP32-CAM
   const handleEspCapture = async () => {
     if (captureLoading || manualCaptureInFlightRef.current) return;
 

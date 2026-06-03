@@ -39,6 +39,30 @@ app.mount(
     name="uploads"
 )
 
+
+def safe_delete_file(path: str) -> bool:
+    try:
+        if not path:
+            return False
+
+        target_path = os.path.abspath(path)
+        uploads_root = os.path.abspath("uploads")
+
+        if os.path.commonpath([uploads_root, target_path]) != uploads_root:
+            print("HAPUS FILE DILEWATI: path di luar uploads", path)
+            return False
+
+        if not os.path.isfile(target_path):
+            return False
+
+        os.remove(target_path)
+        print("FILE DIHAPUS:", target_path)
+        return True
+
+    except Exception as error:
+        print("GAGAL HAPUS FILE:", path, str(error))
+        return False
+
 # ===== CORS (WAJIB untuk React) =====
 app.add_middleware(
     CORSMiddleware,
@@ -48,8 +72,8 @@ app.add_middleware(
         "https://skinai-system-amrgqwv1l-ein-s-projects.vercel.app",
     ],
     allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 CLASSES = ["berminyak", "kombinasi", "normal", "kering", "sensitif"]
@@ -124,6 +148,14 @@ def ensure_model_available() -> str:
 
     return existing_model_path
 
+
+def env_int(name: str, default: int) -> int:
+    try:
+        return int(os.environ.get(name, default))
+    except (TypeError, ValueError):
+        return default
+
+
 model = None
 MODEL_READY = False
 MODEL_ERROR = None
@@ -133,6 +165,9 @@ WATCHDOG_INTERVAL_SECONDS = 10
 DEVICE_HTTP_TIMEOUT_SECONDS = 6
 DEFAULT_USER_PASSWORD = "skinai123"
 AUTH_SECRET = os.environ.get("SKINAI_AUTH_SECRET", "skinai-local-session-secret")
+DEVICE_SHARED_SECRET = os.environ.get("DEVICE_SHARED_SECRET", "")
+SESSION_EXPIRE_HOURS = env_int("SESSION_EXPIRE_HOURS", 24)
+# TODO: validasi endpoint perangkat dengan secret ini setelah firmware siap.
 
 
 def load_ai_model():
@@ -191,11 +226,14 @@ def _base64_url_decode(value: str) -> bytes:
 
 
 def create_session_token(user: dict) -> str:
+    issued_at = int(datetime.now().timestamp())
     payload = {
         "user_id": user["id"],
         "role": user["role"],
         "username": user["username"],
         "email": user["email"],
+        "iat": issued_at,
+        "exp": issued_at + (SESSION_EXPIRE_HOURS * 60 * 60),
     }
     encoded_payload = _base64_url_encode(
         json.dumps(payload, separators=(",", ":")).encode("utf-8")
@@ -223,7 +261,16 @@ def decode_session_token(token: str) -> dict | None:
         if not hmac.compare_digest(encoded_signature, expected_signature):
             return None
 
-        return json.loads(_base64_url_decode(encoded_payload).decode("utf-8"))
+        payload = json.loads(_base64_url_decode(encoded_payload).decode("utf-8"))
+        expires_at = payload.get("exp")
+        if expires_at is not None:
+            try:
+                if int(expires_at) < int(datetime.now().timestamp()):
+                    return None
+            except (TypeError, ValueError):
+                return None
+
+        return payload
     except Exception:
         return None
 
@@ -918,6 +965,53 @@ def get_latest_device_capture_path():
     return max(image_files, key=os.path.getmtime)
 
 
+def cleanup_old_device_capture_files(max_age_seconds: int = 3600) -> dict:
+    if max_age_seconds <= 0:
+        return {
+            "deleted": 0,
+            "skipped": 0,
+        }
+
+    capture_root = os.path.abspath(DEVICE_CAPTURE_DIR)
+
+    if not os.path.exists(capture_root):
+        return {
+            "deleted": 0,
+            "skipped": 0,
+        }
+
+    now = datetime.now().timestamp()
+    deleted = 0
+    skipped = 0
+
+    for filename in os.listdir(capture_root):
+        file_path = os.path.abspath(os.path.join(capture_root, filename))
+
+        if os.path.commonpath([capture_root, file_path]) != capture_root:
+            skipped += 1
+            continue
+
+        if not os.path.isfile(file_path):
+            skipped += 1
+            continue
+
+        if now - os.path.getmtime(file_path) < max_age_seconds:
+            skipped += 1
+            continue
+
+        try:
+            os.remove(file_path)
+            deleted += 1
+        except Exception as error:
+            skipped += 1
+            print("GAGAL HAPUS CAPTURE LAMA:", file_path, str(error))
+
+    return {
+        "deleted": deleted,
+        "skipped": skipped,
+    }
+
+
 @app.get("/device-capture/latest-image")
 def latest_device_capture_image(after: float | None = None):
     latest_path = get_latest_device_capture_path()
@@ -1192,7 +1286,11 @@ def login(data: dict):
 
 @app.get("/admin/{admin_id}")
 def get_admin(admin_id: int, authorization: str | None = Header(None)):
-    require_admin(authorization)
+    current_user = require_admin(authorization)
+
+    if int(current_user.get("admin_id") or 0) != int(admin_id):
+        raise HTTPException(status_code=403, detail="akses tidak diizinkan")
+
     conn = open_db_or_error()
 
     if is_db_error(conn):
@@ -1239,7 +1337,11 @@ async def update_admin(
     profile_image: UploadFile | None = File(None),
     authorization: str | None = Header(None),
 ):
-    require_admin(authorization)
+    current_user = require_admin(authorization)
+
+    if int(current_user.get("admin_id") or 0) != int(admin_id):
+        raise HTTPException(status_code=403, detail="akses tidak diizinkan")
+
     clinic_name = clinic_name.strip()
     email = email.strip().lower()
     phone = phone.strip()
@@ -1274,7 +1376,8 @@ async def update_admin(
             detail="admin tidak ditemukan"
         )
 
-    image_filename = existing.get("profile_image")
+    old_image_filename = existing.get("profile_image")
+    image_filename = old_image_filename
 
     if profile_image and profile_image.filename:
         extension = os.path.splitext(profile_image.filename)[1] or ".jpg"
@@ -1329,6 +1432,9 @@ async def update_admin(
     cursor.close()
     conn.close()
 
+    if old_image_filename and old_image_filename != image_filename:
+        safe_delete_file(os.path.join("uploads", old_image_filename))
+
     return {
         "id": admin_id,
         "clinic": clinic_name,
@@ -1373,7 +1479,12 @@ def preprocess_bytes(img_bytes: bytes, size=(224, 224)) -> np.ndarray:
 
 # ===== ENDPOINT =====
 @app.post("/predict")
-async def predict(file: UploadFile = File(...)) -> Dict:
+async def predict(
+    file: UploadFile = File(...),
+    authorization: str | None = Header(None),
+) -> Dict:
+    require_admin(authorization)
+
     if not MODEL_READY or model is None:
         return {
             "status": "error",
@@ -1783,7 +1894,11 @@ def get_patients(authorization: str | None = Header(None)):
     return patients
 
 @app.delete("/maintenance/patients/orphan-debug-test")
-def cleanup_orphan_debug_test_patients(confirm: bool = False):
+def cleanup_orphan_debug_test_patients(
+    confirm: bool = False,
+    authorization: str | None = Header(None),
+):
+    require_admin(authorization)
 
     conn = open_db_or_error()
 
@@ -1866,7 +1981,14 @@ def delete_history(history_id: int, authorization: str | None = Header(None)):
     if is_db_error(conn):
         return conn
 
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT image_path FROM analysis_history WHERE id = %s",
+        (history_id,)
+    )
+    history_row = cursor.fetchone()
+    image_path = history_row.get("image_path") if history_row else None
 
     sql = "DELETE FROM analysis_history WHERE id = %s"
 
@@ -1884,6 +2006,9 @@ def delete_history(history_id: int, authorization: str | None = Header(None)):
 
     cursor.close()
     conn.close()
+
+    if image_path:
+        safe_delete_file(os.path.join("uploads", image_path))
 
     return {
         "success": True,

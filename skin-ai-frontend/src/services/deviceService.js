@@ -3,7 +3,7 @@ import { API_URL } from "../config";
 export const CAMERA_DEVICE_TYPE = "camera";
 export const DEFAULT_CAMERA_DEVICE_ID = "ESP_CAM_01";
 
-const PROXY_ACTIONS = new Set(["stream", "capture"]);
+const PROXY_ACTIONS = new Set(["stream"]);
 
 export const isCameraDevice = (device) =>
   (device?.device_type || "").trim().toLowerCase() === CAMERA_DEVICE_TYPE;
@@ -46,8 +46,6 @@ export const getDeviceProxyUrl = (device, action) => {
 };
 
 export const getDeviceStreamUrl = (device) => getDeviceProxyUrl(device, "stream");
-
-export const getDeviceCaptureUrl = (device) => getDeviceProxyUrl(device, "capture");
 
 export const getDeviceTriggerUrl = (device) => {
   const deviceId = getCameraDeviceId(device);
