@@ -30,7 +30,6 @@ def get_db_connection():
             database=DB_NAME,
             autocommit=False,
             connection_timeout=10,
-            ssl_disabled=False,
         )
 
         connection.ping(

@@ -34,7 +34,7 @@
 const char* WIFI_SSID = "DIRECTOR ROOM";
 const char* WIFI_PASSWORD = "rahasiaein3211";
 
-const char* BACKEND_BASE_URL = "http://10.148.246.97:8000";
+const char* BACKEND_BASE_URL = "https://repost-google-dollhouse.ngrok-free.dev";
 const char* HEARTBEAT_ENDPOINT = "/devices/heartbeat";
 const char* UPLOAD_ENDPOINT = "/device-process";
 

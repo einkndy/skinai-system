@@ -10,10 +10,15 @@ import {
   getDevices
 } from "../services/api";
 import { getHistory, saveHistory } from "../services/HistoryService";
-import { markSaveFlow } from "../services/flowAudit";
 import {
-  API_URL,
-} from "../config";
+  getDeviceStreamUrl,
+  getDeviceTriggerUrl,
+  getLatestDeviceCapturePollingUrl,
+  getLatestDeviceCaptureUrl,
+  isEspDeviceConnected,
+  selectCameraDevice,
+} from "../services/deviceService";
+import { markSaveFlow } from "../services/flowAudit";
 import {
   showAiOffline,
   showError,
@@ -49,6 +54,9 @@ export default function AnalisisBaru() {
   const [espReconnecting, setEspReconnecting] = useState(false);
   const [espChecking, setEspChecking] = useState(false);
   const [lastHeartbeatAt, setLastHeartbeatAt] = useState(null);
+  const [selectedDevice, setSelectedDevice] = useState(null);
+  const [cameraDevice, setCameraDevice] = useState(null);
+  const [activeDevice, setActiveDevice] = useState(null);
   const [previewMode, setPreviewMode] = useState("stream");
   const [selectedImage, setSelectedImage] = useState("");
   const [confirmedImage, setConfirmedImage] = useState("");
@@ -446,9 +454,6 @@ export default function AnalisisBaru() {
 
   const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const getLatestDeviceCaptureUrl = (afterTimestamp) =>
-    `${API_URL}/device-capture/latest-image?after=${afterTimestamp}&t=${Date.now()}`;
-
   const isCaptureBlobTooDark = async (blob) => {
     const objectUrl = URL.createObjectURL(blob);
 
@@ -529,8 +534,8 @@ export default function AnalisisBaru() {
   const handleEspCapture = async () => {
     if (captureLoading || manualCaptureInFlightRef.current) return;
 
-    const activeDevice = await getActiveEspDevice();
-    const triggerUrl = getDeviceTriggerUrl(activeDevice);
+    const activeCameraDevice = await getActiveEspDevice();
+    const triggerUrl = getDeviceTriggerUrl(activeCameraDevice);
     const captureStartedAt = Date.now() / 1000;
 
     if (!triggerUrl) {
@@ -585,7 +590,7 @@ export default function AnalisisBaru() {
       setCaptureLoading(false);
       setCapturing(false);
       manualCaptureInFlightRef.current = false;
-      const streamUrl = getDeviceStreamUrl(activeDevice);
+      const streamUrl = getDeviceStreamUrl(activeCameraDevice);
 
       if (streamUrl) {
         setStableLiveSrc(streamUrl);
@@ -616,12 +621,6 @@ export default function AnalisisBaru() {
 
   const [streamError, setStreamError] = useState(false);
   const [liveSrc, setLiveSrc] = useState("");
-
-  const getDeviceProxyUrl = (device, action) => {
-    const deviceId = device?.device_id || "ESP_CAM_01";
-
-    return `${API_URL}/devices/${encodeURIComponent(deviceId)}/${action}-proxy`;
-  };
 
   const setStableLiveSrc = (streamUrl) => {
     if (!streamUrl) return;
@@ -1048,55 +1047,29 @@ export default function AnalisisBaru() {
   /* =========================
     ESP32 CONNECTION MANAGER
   ========================= */
-  const isEspDeviceConnected = (device) =>
-    device?.status === "online" ||
-    device?.connected === true ||
-    device?.online === true ||
-    device?.is_online === true ||
-    device?.active === true;
+  const setActiveCameraDeviceState = (device) => {
+    setSelectedDevice(device);
+    setCameraDevice(device);
+    setActiveDevice(device);
+  };
 
   const getActiveEspDevice = async () => {
     const data = await getDevices();
     console.log("ESP RAW RESPONSE:", data);
 
-    return (
-      data.find(
-        (item) =>
-          item.device_id === "ESP_CAM_01" &&
-          isEspDeviceConnected(item)
-      ) ||
-      data.find(
-        (item) =>
-          item.status === "online" &&
-          item.device_type?.toLowerCase().includes("cam")
-      ) ||
-      data.find((item) => item.status === "online") ||
-      null
-    );
+    const selectedCamera = selectCameraDevice(data);
+    setActiveCameraDeviceState(selectedCamera);
+
+    if (!selectedCamera) {
+      const ignoredDevice = data.find(isEspDeviceConnected);
+
+      if (ignoredDevice) {
+        console.warn("ESP NON-CAMERA DEVICE IGNORED:", ignoredDevice);
+      }
+    }
+
+    return selectedCamera;
   };
-
-  const getDeviceStreamUrl = (device) => {
-    if (!device) return "";
-
-    return getDeviceProxyUrl(device, "stream");
-  };
-
-  const getDeviceCaptureUrl = (device) => {
-    if (!device) return "";
-
-    return getDeviceProxyUrl(device, "capture");
-  };
-
-  const getDeviceTriggerUrl = (device) => {
-    if (!device) return "";
-
-    return `${API_URL}/devices/${encodeURIComponent(
-      device.device_id
-    )}/capture-trigger`;
-  };
-
-  const getLatestDeviceCapturePollingUrl = () =>
-    `${API_URL}/device-capture/latest-image?t=${Date.now()}`;
 
   const createHardwareCaptureKey = async (blob) => {
     const sample = await blob.slice(0, Math.min(blob.size, 512)).arrayBuffer();
@@ -1186,6 +1159,7 @@ export default function AnalisisBaru() {
 
       return isConnected;
     } catch (error) {
+      setActiveCameraDeviceState(null);
       setCameraOnline(false);
       setEspReconnecting(true);
       setStreamError(true);
@@ -1498,6 +1472,11 @@ export default function AnalisisBaru() {
     : streamError
     ? "offline"
     : "connecting";
+  const espDeviceLabel =
+    activeDevice?.device_id ||
+    cameraDevice?.device_id ||
+    selectedDevice?.device_id ||
+    "ESP32-CAM";
 
   const skinMetrics = [
     {
@@ -2199,10 +2178,10 @@ export default function AnalisisBaru() {
                         <div className="flex flex-wrap items-center gap-2">
                           <p className="font-bold">
                             {espReconnecting
-                              ? "ESP32 Reconnecting"
+                              ? `${espDeviceLabel} Reconnecting`
                               : cameraOnline
-                              ? "ESP32 Online"
-                              : "ESP32 Tidak Terhubung"}
+                              ? `${espDeviceLabel} Online`
+                              : `${espDeviceLabel} Tidak Terhubung`}
                           </p>
                           <StatusBadge status={espStatus} />
                         </div>
@@ -2400,7 +2379,7 @@ export default function AnalisisBaru() {
                 <div className="rounded-3xl border border-green-100 bg-green-50 p-4">
                   <p className="text-sm text-gray-500">Device</p>
                   <p className="font-bold text-green-600">
-                    ESP32-CAM Online
+                    {sourceMode === "esp32" ? `${espDeviceLabel} Online` : "Kamera Internal"}
                   </p>
                 </div>
 

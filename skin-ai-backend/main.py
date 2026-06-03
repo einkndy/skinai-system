@@ -833,6 +833,7 @@ def proxy_device_capture(device_id: str):
         media_type=media_type,
         headers={
             "Cache-Control": "no-store",
+            "Access-Control-Allow-Origin": "*",
         },
     )
 
@@ -896,6 +897,7 @@ def proxy_device_stream(device_id: str):
         media_type="multipart/x-mixed-replace; boundary=frame",
         headers={
             "Cache-Control": "no-store",
+            "Access-Control-Allow-Origin": "*",
         },
     )
 
@@ -942,6 +944,11 @@ def latest_device_capture_image(after: float | None = None):
         media_type="image/jpeg",
         headers={
             "Cache-Control": "no-store",
+
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "*",
+            "Access-Control-Allow-Headers": "*",
+
             "X-Device-Capture-Filename": os.path.basename(latest_path),
             "X-Device-Capture-Time": str(latest_mtime),
         },
