@@ -32,7 +32,7 @@ const char* WIFI_SSID = "DIRECTOR ROOM";
 const char* WIFI_PASSWORD = "rahasiaein3211";
 
 const char* HEARTBEAT_ENDPOINT = "/devices/heartbeat";
-const char* ESP32_CAM_IP = "10.148.246.163";
+const char* ESP32_CAM_DEVICE_ID = "ESP_CAM_01";
 const char* CAPTURE_TRIGGER_ENDPOINT = "/capture-trigger";
 
 const char* DEVICE_ID = "ESP_CTRL_01";
@@ -69,7 +69,7 @@ String heartbeatPayload() {
 }
 
 String captureTriggerUrl() {
-  return String("http://") + ESP32_CAM_IP + CAPTURE_TRIGGER_ENDPOINT;
+  return String(BACKEND_BASE_URL) + "/devices/" + ESP32_CAM_DEVICE_ID + CAPTURE_TRIGGER_ENDPOINT;
 }
 
 void connectWifi() {
@@ -133,14 +133,21 @@ void sendTrigger() {
   String url = captureTriggerUrl();
 
   Serial.println("TRIGGER REQUEST SENT");
+  Serial.print("TRIGGER URL: ");
   Serial.println(url);
 
   http.begin(url);
+  http.setTimeout(15000);
   int statusCode = http.GET();
+  String responseBody = http.getString();
+
+  Serial.print("HTTP STATUS: ");
+  Serial.println(statusCode);
+  Serial.print("RESPONSE BODY: ");
+  Serial.println(responseBody);
 
   if (statusCode >= 200 && statusCode < 300) {
     Serial.println("ESP32-CAM RESPONSE OK");
-    Serial.println(http.getString());
   } else {
     Serial.println("TRIGGER FAILED");
   }

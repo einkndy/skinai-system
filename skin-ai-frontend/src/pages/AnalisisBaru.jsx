@@ -647,6 +647,28 @@ export default function AnalisisBaru() {
     }, delay);
   };
 
+  const resetEspCapturePreview = () => {
+    if (streamRefreshTimerRef.current) {
+      clearTimeout(streamRefreshTimerRef.current);
+      streamRefreshTimerRef.current = null;
+    }
+
+    revokeImageObjectUrl();
+    setCapturedImage("");
+    setImage(null);
+    setImageFile(null);
+    setSelectedImage("");
+    setConfirmedImage("");
+    setResultImage("");
+    setConfirmedFile(null);
+    setIsPhotoConfirmed(false);
+    setShowCapturePreview(false);
+    setPreviewMode("stream");
+    setCapturing(false);
+    streamBaseUrlRef.current = "";
+    setLiveSrc("");
+  };
+
   useEffect(() => {
     const setupStream = async () => {
       const device = await getActiveEspDevice();
@@ -1211,7 +1233,7 @@ export default function AnalisisBaru() {
           console.error("HARDWARE CAPTURE POLL ERROR:", error);
         }
       });
-    }, 1800);
+    }, 3000);
 
     return () => {
       disposed = true;
@@ -1980,7 +2002,7 @@ export default function AnalisisBaru() {
                           <>
                           <img
                             ref={espStreamRef}
-                            key="esp-stream"
+                            key={liveSrc}
                             src={liveSrc}
                             alt="esp stream"
                             className="
@@ -2243,26 +2265,10 @@ export default function AnalisisBaru() {
 
                       <button
                         onClick={() => {
-                          setPreviewMode(
-                            "stream"
-                          );
-
-                          revokeImageObjectUrl();
-                          setCapturedImage("");
-                          setImage(null);
-                          setImageFile(null);
-                          setSelectedImage("");
-                          setConfirmedImage("");
-                          setResultImage("");
-                          setConfirmedFile(null);
-                          setIsPhotoConfirmed(false);
-                          setShowCapturePreview(
-                            false
-                          );
-                          setCapturing(false);
+                          resetEspCapturePreview();
                           setProgress(0);
                           setActiveStep(0);
-      checkEspConnection({ force: true });
+                          checkEspConnection({ force: true });
                         }}
                         className="btn-premium h-14 rounded-2xl bg-orange-500 text-white font-bold w-full"
                       >
@@ -2752,23 +2758,8 @@ export default function AnalisisBaru() {
               <button
                 type="button"
                 onClick={() => {
-                  setPreviewMode(
-                    "stream"
-                  );
-
-                  revokeImageObjectUrl();
-                  setCapturedImage("");
-
-                  setImage(null);
-                  setImageFile(null);
-                  setConfirmedFile(null);
-
-                  setSelectedImage("");
-                  setConfirmedImage("");
-
-                  setShowCapturePreview(false);
-
-                  setCapturing(false);
+                  resetEspCapturePreview();
+                  checkEspConnection({ force: true });
                 }}
                 className="h-12 rounded-2xl bg-orange-500 text-white font-bold"
               >

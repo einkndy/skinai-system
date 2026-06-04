@@ -162,7 +162,7 @@ MODEL_ERROR = None
 MODEL_LOADED_AT = None
 DEVICE_TIMEOUT_SECONDS = 90
 WATCHDOG_INTERVAL_SECONDS = 10
-DEVICE_HTTP_TIMEOUT_SECONDS = 6
+DEVICE_HTTP_TIMEOUT_SECONDS = 30
 DEFAULT_USER_PASSWORD = "skinai123"
 AUTH_SECRET = os.environ.get("SKINAI_AUTH_SECRET", "skinai-local-session-secret")
 DEVICE_SHARED_SECRET = os.environ.get("DEVICE_SHARED_SECRET", "")
@@ -930,14 +930,17 @@ def proxy_device_stream(device_id: str):
     print("DEVICE STREAM PROXY:", stream_url)
 
     def stream_generator():
-        with open_device_url(stream_url) as response:
-            while True:
-                chunk = response.read(4096)
+        try:
+            with open_device_url(stream_url) as response:
+                while True:
+                    chunk = response.read(4096)
 
-                if not chunk:
-                    break
+                    if not chunk:
+                        break
 
-                yield chunk
+                    yield chunk
+        except Exception as error:
+            print("STREAM DISCONNECTED", str(error))
 
     return StreamingResponse(
         stream_generator(),

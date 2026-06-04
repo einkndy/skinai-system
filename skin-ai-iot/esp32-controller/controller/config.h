@@ -2,6 +2,6 @@
 #define SKINAI_CONTROLLER_CONFIG_H
 
 // URL backend lokal
-const char* BACKEND_BASE_URL = "http://192.168.x.x:8000";
+const char* BACKEND_BASE_URL = "http://10.121.76.97:8000";
 
 #endif
