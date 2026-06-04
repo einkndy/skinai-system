@@ -5,32 +5,72 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# =========================
 # DATABASE CONFIG
-# =========================
 
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = int(os.getenv("DB_PORT", 3306))
 DB_USER = os.getenv("DB_USER", "root")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "")
 DB_NAME = os.getenv("DB_NAME", "skinanalyzer_db")
+DB_SSL_MODE = os.getenv("DB_SSL_MODE", "REQUIRED").strip().upper()
+DB_SSL_CA = os.getenv("DB_SSL_CA", "").strip()
+DB_SSL_VERIFY_CERT = os.getenv("DB_SSL_VERIFY_CERT", "false").strip().lower() == "true"
+DB_CONNECTION_TIMEOUT = int(os.getenv("DB_CONNECTION_TIMEOUT", 30))
+DB_DEBUG_PRINTED = False
 
-# =========================
 # DATABASE CONNECTION
-# =========================
+
+
+def print_database_config_debug():
+    global DB_DEBUG_PRINTED
+
+    if DB_DEBUG_PRINTED:
+        return
+
+    DB_DEBUG_PRINTED = True
+
+    print(
+        "DB CONFIG:",
+        {
+            "host": DB_HOST,
+            "port": DB_PORT,
+            "user": DB_USER,
+            "database": DB_NAME,
+            "password_set": bool(DB_PASSWORD),
+            "ssl_mode": DB_SSL_MODE,
+            "ssl_ca_set": bool(DB_SSL_CA),
+            "ssl_verify_cert": DB_SSL_VERIFY_CERT,
+            "connection_timeout": DB_CONNECTION_TIMEOUT,
+        },
+    )
+
+
+def get_connection_options():
+    options = {
+        "host": DB_HOST,
+        "port": DB_PORT,
+        "user": DB_USER,
+        "password": DB_PASSWORD,
+        "database": DB_NAME,
+        "autocommit": False,
+        "connection_timeout": DB_CONNECTION_TIMEOUT,
+    }
+
+    if DB_SSL_MODE != "DISABLED":
+        options["ssl_disabled"] = False
+        options["ssl_verify_cert"] = DB_SSL_VERIFY_CERT
+
+        if DB_SSL_CA:
+            options["ssl_ca"] = DB_SSL_CA
+
+    return options
 
 
 def get_db_connection():
     try:
-        connection = mysql.connector.connect(
-            host=DB_HOST,
-            port=DB_PORT,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            database=DB_NAME,
-            autocommit=False,
-            connection_timeout=10,
-        )
+        print_database_config_debug()
+
+        connection = mysql.connector.connect(**get_connection_options())
 
         connection.ping(
             reconnect=True,
@@ -105,9 +145,7 @@ def ensure_unique_index(cursor, table_name, index_name, columns):
     except Error as error:
         print(f"INDEX WARNING {index_name}:", error)
 
-# =========================
-# DATABASE INITIALIZATION
-# =========================
+# DATABASE INISIALISASI
 
 
 def init_database():
@@ -126,9 +164,7 @@ def init_database():
     print(f"MYSQL USER: {DB_USER}")
     print(f"MYSQL DATABASE: {DB_NAME}")
 
-    # =========================
     # ADMINS
-    # =========================
 
     cursor.execute(
         """
