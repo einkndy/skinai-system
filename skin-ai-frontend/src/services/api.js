@@ -4,7 +4,7 @@ import { API_URL } from "../config";
 const api = axios.create({
     baseURL: API_URL,
 
-    timeout: 15000,
+    timeout: 60000,
 });
 
 api.interceptors.request.use((config) => {
@@ -19,7 +19,11 @@ api.interceptors.request.use((config) => {
 });
 
 export const predictSkin = async (imageFile) => {
+    const startedAt = performance.now();
+
     try {
+        console.log("ANALYSIS REQUEST START");
+
         const formData = new FormData();
         formData.append("file", imageFile);
 
@@ -38,9 +42,14 @@ export const predictSkin = async (imageFile) => {
             throw error;
         }
 
+        console.log("ANALYSIS REQUEST END");
+        console.log("ANALYSIS DURATION", Math.round(performance.now() - startedAt));
+
         return data;
 
     } catch (error) {
+        console.log("ANALYSIS REQUEST END");
+        console.log("ANALYSIS DURATION", Math.round(performance.now() - startedAt));
 
         console.error(error);
 
@@ -117,4 +126,3 @@ export const getDeviceArchitecture = async () => {
 
     return response.data;
 };
-

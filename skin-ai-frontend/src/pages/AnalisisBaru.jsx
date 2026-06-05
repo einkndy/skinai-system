@@ -70,6 +70,8 @@ export default function AnalisisBaru() {
   const [estimate, setEstimate] = useState(5);
   const [analysisComplete, setAnalysisComplete] = useState(false);
   const [analysisResult, setAnalysisResult] = useState(null);
+  const [analysisError, setAnalysisError] = useState(null);
+  const [lastAnalysisFile, setLastAnalysisFile] = useState(null);
   const [pendingHistoryPayload, setPendingHistoryPayload] = useState(null);
   const [showSavePopup, setShowSavePopup] = useState(false);
   const [savedHistoryId, setSavedHistoryId] = useState(null);
@@ -783,6 +785,8 @@ export default function AnalisisBaru() {
     try {
       console.log("ANALYSIS START");
       setResultImage(finalImage);
+      setLastAnalysisFile(analysisFile);
+      setAnalysisError(null);
 
       setIsAnalyzing(true);
       setProgress(0);
@@ -832,9 +836,16 @@ export default function AnalisisBaru() {
 
         oily: aiResult.predictions.berminyak || 0,
 
+        oily_percentage: aiResult.predictions.berminyak || 0,
+
         dry_skin: aiResult.predictions.kering || 0,
 
+        dry_percentage: aiResult.predictions.kering || 0,
+
         combination_skin:
+          aiResult.predictions.kombinasi || 0,
+
+        combination_percentage:
           aiResult.predictions.kombinasi || 0,
 
         normal_skin:
@@ -842,6 +853,18 @@ export default function AnalisisBaru() {
 
         sensitive_skin:
           aiResult.predictions.sensitif || 0,
+
+        acne_percentage:
+          aiResult.acne_percentage ?? aiResult.skin_condition_metrics?.acne_percentage ?? null,
+
+        blackhead_percentage:
+          aiResult.blackhead_percentage ?? aiResult.skin_condition_metrics?.blackhead_percentage ?? null,
+
+        normal_percentage:
+          aiResult.normal_percentage || aiResult.skin_condition_metrics?.normal_percentage || aiResult.predictions.normal || 0,
+
+        sensitive_percentage:
+          aiResult.sensitive_percentage || aiResult.skin_condition_metrics?.sensitive_percentage || aiResult.predictions.sensitif || 0,
 
         ingredients: aiResult.ingredients || [],
 
@@ -874,6 +897,11 @@ export default function AnalisisBaru() {
         showError("Analisis gagal");
       }
 
+      setAnalysisError({
+        title: "Analisis gagal",
+        message: "Koneksi backend timeout atau proses AI gagal",
+      });
+
       if (progressIntervalRef.current) {
         clearInterval(progressIntervalRef.current);
         progressIntervalRef.current = null;
@@ -895,6 +923,7 @@ export default function AnalisisBaru() {
 
   const resetAiState = () => {
     setAnalysisResult(null);
+    setAnalysisError(null);
     setPendingHistoryPayload(null);
     setResultImage("");
     setSavedHistoryId(null);
@@ -1001,6 +1030,18 @@ export default function AnalisisBaru() {
     setStep(2);
   };
 
+  const handleRetryAnalysis = () => {
+    const retryFile = lastAnalysisFile || confirmedFile || imageFile;
+
+    if (!retryFile) {
+      showWarning("Foto terakhir belum tersedia untuk dianalisis ulang.");
+      setStep(2);
+      return;
+    }
+
+    handleAnalyze(retryFile);
+  };
+
   const handleDeleteResult = () => {
     resetAiState();
     revokeImageObjectUrl();
@@ -1017,6 +1058,7 @@ export default function AnalisisBaru() {
   };
 
   const handleBackToCapture = () => {
+    setAnalysisError(null);
     setStep(2);
   };
 
@@ -1404,6 +1446,12 @@ export default function AnalisisBaru() {
       : confidencePercent >= 60
       ? "Sedang"
       : "Perlu Review";
+  const confidenceReviewMessage =
+    confidencePercent < 40
+      ? "Foto kurang jelas, disarankan analisis ulang"
+      : confidencePercent < 60
+      ? "Hasil perlu ditinjau ulang"
+      : "";
 
   const skinDescriptionMap = {
     berminyak:
@@ -1476,6 +1524,17 @@ export default function AnalisisBaru() {
     return value;
   };
 
+  const getMetricPercentageValue = (key, fallback = 0) => {
+    const direct = analysisResult?.[key];
+    const nested = analysisResult?.skin_condition_metrics?.[key];
+    const rawValue = direct ?? nested ?? fallback;
+    const value = Number(rawValue);
+
+    if (!Number.isFinite(value)) return 0;
+
+    return value;
+  };
+
   const formatHeartbeatText = () => {
     if (!lastHeartbeatAt) return "Heartbeat belum tersedia";
 
@@ -1504,6 +1563,7 @@ export default function AnalisisBaru() {
     {
       label: "Berminyak",
       value: getPredictionValue("berminyak"),
+      description: "Menunjukkan estimasi produksi sebum pada wajah.",
       color: "from-blue-500 to-cyan-400",
       bg: "bg-blue-50",
       text: "text-blue-600",
@@ -1511,6 +1571,7 @@ export default function AnalisisBaru() {
     {
       label: "Kering",
       value: getPredictionValue("kering"),
+      description: "Menggambarkan tingkat kelembapan alami kulit.",
       color: "from-orange-400 to-amber-300",
       bg: "bg-orange-50",
       text: "text-orange-600",
@@ -1518,9 +1579,44 @@ export default function AnalisisBaru() {
     {
       label: "Kombinasi",
       value: getPredictionValue("kombinasi"),
+      description: "Menilai keseimbangan area kering dan berminyak.",
       color: "from-purple-500 to-fuchsia-400",
       bg: "bg-purple-50",
       text: "text-purple-600",
+    },
+    {
+      label: "Normal",
+      value: getMetricPercentageValue("normal_percentage", getPredictionValue("normal")),
+      description: "Menunjukkan kestabilan kondisi kulit wajah.",
+      color: "from-emerald-500 to-teal-400",
+      bg: "bg-emerald-50",
+      text: "text-emerald-600",
+    },
+    {
+      label: "Sensitif",
+      value: getMetricPercentageValue("sensitive_percentage", getPredictionValue("sensitif")),
+      description: "Mengindikasikan potensi reaktivitas kulit terhadap lingkungan.",
+      color: "from-rose-500 to-pink-400",
+      bg: "bg-rose-50",
+      text: "text-rose-600",
+    },
+    {
+      label: "Jerawat",
+      value: null,
+      description: "Belum didukung model deteksi jerawat.",
+      supported: false,
+      color: "from-red-500 to-orange-400",
+      bg: "bg-red-50",
+      text: "text-red-600",
+    },
+    {
+      label: "Komedo",
+      value: null,
+      description: "Belum didukung model deteksi komedo.",
+      supported: false,
+      color: "from-slate-600 to-slate-400",
+      bg: "bg-slate-100",
+      text: "text-slate-700",
     },
   ];
 
@@ -2336,11 +2432,6 @@ export default function AnalisisBaru() {
       {/* ===================================
             STEP 3
         =================================== */}
-      {/* ===================================================
-    STEP 3 = PROSES ANALISIS PREMIUM LOADING SCAN
-    GANTI seluruh bagian STEP 3 lama dengan ini
-  =================================================== */}
-
       {step === 3 && (
         <div className="premium-card bg-white rounded-3xl shadow p-4 sm:p-8 lg:p-10 min-w-0">
           <div className="grid grid-cols-1 xl:grid-cols-[0.92fr_1.08fr] gap-6 lg:gap-8 items-start min-w-0">
@@ -2349,9 +2440,9 @@ export default function AnalisisBaru() {
             <div className="space-y-5 min-w-0">
               <div className="h-[280px] min-[380px]:h-[330px] sm:h-[430px] lg:h-[460px] rounded-3xl bg-slate-950/5 p-2 flex items-center justify-center">
 
-                {image ? (
+                {(resultImage || image) ? (
                   <div className="scan-container">
-                    <img src={image} alt="preview" className="scan-image image-fade" loading="lazy" decoding="async" />
+                    <img src={resultImage || image} alt="preview" className="scan-image image-fade" loading="lazy" decoding="async" />
 
                     {isAnalyzing && (
                       <div className="scan-overlay">
@@ -2397,20 +2488,60 @@ export default function AnalisisBaru() {
 
               <div>
                 <h2 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2">
-                  Menganalisis Wajah...
+                  {analysisError ? "Analisis gagal" : "Menganalisis Wajah..."}
                 </h2>
 
                 <p className="text-gray-500 text-base sm:text-lg">
-                  Sistem sedang memproses data kulit menggunakan
-                  Sistem Analisis Kulit Berbasis Monitoring Digital.
+                  {analysisError
+                    ? "Koneksi backend timeout atau proses AI gagal"
+                    : "Sistem sedang memproses data kulit menggunakan Sistem Analisis Kulit Berbasis Monitoring Digital."}
                 </p>
               </div>
 
-              <ProgressAI
-                progress={progress}
-                currentStep={aiMessage}
-                estimatedTime={`Estimasi ${estimate} detik`}
-              />
+              {analysisError ? (
+                <div className="rounded-3xl border border-red-100 bg-red-50 p-5 sm:p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="h-11 w-11 shrink-0 rounded-2xl bg-red-600 text-white flex items-center justify-center">
+                      <WifiOff size={20} />
+                    </div>
+
+                    <div className="min-w-0">
+                      <h3 className="text-lg font-bold text-red-700">
+                        {analysisError.title}
+                      </h3>
+                      <p className="mt-1 text-sm sm:text-base text-red-600">
+                        {analysisError.message}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={handleRetryAnalysis}
+                      className="btn-premium h-12 rounded-2xl bg-purple-600 text-white font-bold inline-flex items-center justify-center gap-2"
+                    >
+                      <RefreshCw size={18} />
+                      Coba Lagi
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleBackToCapture}
+                      className="btn-premium h-12 rounded-2xl bg-slate-700 text-white font-bold inline-flex items-center justify-center gap-2"
+                    >
+                      <Camera size={18} />
+                      Kembali ke Capture
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <ProgressAI
+                  progress={progress}
+                  currentStep={aiMessage}
+                  estimatedTime={`Estimasi ${estimate} detik`}
+                />
+              )}
 
               <div
                 className={`grid grid-cols-1 gap-4 items-start ${
@@ -2468,6 +2599,10 @@ export default function AnalisisBaru() {
                     <p className="text-sm text-slate-400 mt-1">
                       Komposisi hasil pemeriksaan berdasarkan foto yang dianalisis
                     </p>
+
+                    <p className="text-xs font-semibold text-slate-400 mt-2">
+                      Analisis saat ini mendukung 5 klasifikasi jenis kulit: Berminyak, Kering, Kombinasi, Normal, dan Sensitif.
+                    </p>
                   </div>
 
                   <div className="px-4 py-2 rounded-2xl bg-blue-50 text-blue-600 text-sm font-bold capitalize">
@@ -2477,6 +2612,7 @@ export default function AnalisisBaru() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-1 2xl:grid-cols-3 gap-4">
                   {skinMetrics.map((metric) => {
+                    const isSupported = metric.supported !== false;
                     const percentage = Math.round(
                       metric.value <= 1 ? metric.value * 100 : metric.value
                     );
@@ -2500,21 +2636,27 @@ export default function AnalisisBaru() {
                           <div
                             className={`w-12 h-12 rounded-2xl ${metric.bg} ${metric.text} flex items-center justify-center font-bold`}
                           >
-                            {percentage}%
+                            {isSupported ? `${percentage}%` : "N/A"}
                           </div>
                         </div>
 
-                        <div className="w-full h-3 rounded-full bg-white overflow-hidden border border-slate-100">
-                          <div
-                            className={`h-full rounded-full bg-gradient-to-r ${metric.color}`}
-                            style={{
-                              width: `${Math.min(percentage, 100)}%`,
-                            }}
-                          />
-                        </div>
+                        {isSupported ? (
+                          <div className="w-full h-3 rounded-full bg-white overflow-hidden border border-slate-100">
+                            <div
+                              className={`h-full rounded-full bg-gradient-to-r ${metric.color}`}
+                              style={{
+                                width: `${Math.min(percentage, 100)}%`,
+                              }}
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-full h-3 rounded-full bg-white overflow-hidden border border-slate-100">
+                            <div className="h-full w-full rounded-full bg-slate-200" />
+                          </div>
+                        )}
 
                         <p className="text-xs text-slate-400 mt-3">
-                          Dibaca dari sistem klasifikasi kulit wajah.
+                          {metric.description}
                         </p>
                       </div>
                     );
@@ -2543,6 +2685,12 @@ export default function AnalisisBaru() {
                       {accuracyLevel}
                     </span>
                   </div>
+
+                  {confidenceReviewMessage && (
+                    <div className="mt-4 rounded-2xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-700">
+                      {confidenceReviewMessage}
+                    </div>
+                  )}
                 </div>
 
                 <div className="rounded-3xl bg-slate-50 p-4 border border-slate-100">
