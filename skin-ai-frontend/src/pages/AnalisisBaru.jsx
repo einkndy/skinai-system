@@ -81,7 +81,7 @@ export default function AnalisisBaru() {
   const analysisSteps = [
     "Deteksi Area Wajah",
     "Analisis Tekstur Kulit",
-    "Identifikasi Pori & Jerawat",
+    "Evaluasi Pola Kulit",
     "Klasifikasi Jenis Kulit",
     "Menyusun Rekomendasi Perawatan",
   ];
@@ -89,7 +89,7 @@ export default function AnalisisBaru() {
   const aiMessages = [
     "Mendeteksi struktur wajah...",
     "Menganalisis tekstur kulit...",
-    "Mengidentifikasi pori dan jerawat...",
+    "Mengevaluasi pola kulit wajah...",
     "Mengklasifikasi jenis kulit...",
     "Menyusun rekomendasi perawatan...",
   ];
@@ -854,12 +854,6 @@ export default function AnalisisBaru() {
         sensitive_skin:
           aiResult.predictions.sensitif || 0,
 
-        acne_percentage:
-          aiResult.acne_percentage ?? aiResult.skin_condition_metrics?.acne_percentage ?? null,
-
-        blackhead_percentage:
-          aiResult.blackhead_percentage ?? aiResult.skin_condition_metrics?.blackhead_percentage ?? null,
-
         normal_percentage:
           aiResult.normal_percentage || aiResult.skin_condition_metrics?.normal_percentage || aiResult.predictions.normal || 0,
 
@@ -1599,24 +1593,6 @@ export default function AnalisisBaru() {
       color: "from-rose-500 to-pink-400",
       bg: "bg-rose-50",
       text: "text-rose-600",
-    },
-    {
-      label: "Jerawat",
-      value: null,
-      description: "Belum didukung model deteksi jerawat.",
-      supported: false,
-      color: "from-red-500 to-orange-400",
-      bg: "bg-red-50",
-      text: "text-red-600",
-    },
-    {
-      label: "Komedo",
-      value: null,
-      description: "Belum didukung model deteksi komedo.",
-      supported: false,
-      color: "from-slate-600 to-slate-400",
-      bg: "bg-slate-100",
-      text: "text-slate-700",
     },
   ];
 
