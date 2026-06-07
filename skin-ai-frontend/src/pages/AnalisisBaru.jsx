@@ -1168,8 +1168,7 @@ export default function AnalisisBaru() {
       setSavedPatientId(response.patient_id);
       savedResponse = response;
 
-      toast.success("Hasil tersimpan ke rekam medis");
-
+      let accountPopupOpened = false;
       if (response.account_info) {
         await Swal.fire({
           icon: "success",
@@ -1185,8 +1184,21 @@ export default function AnalisisBaru() {
           confirmButtonText: "Saya sudah simpan",
           confirmButtonColor: "#2563eb",
           allowOutsideClick: false,
+          didOpen: () => {
+            accountPopupOpened = true;
+          },
         });
       }
+
+      savedResponse = {
+        ...response,
+        pendingAccountInfo:
+          response.account_info && !accountPopupOpened
+            ? response.account_info
+            : null,
+      };
+
+      toast.success("Hasil tersimpan ke rekam medis");
     } catch (error) {
       console.error(error);
       showError("Gagal menyimpan rekam medis");
@@ -1201,6 +1213,7 @@ export default function AnalisisBaru() {
         state: {
           historyId: savedResponse.history_id,
           sessionNumber: savedResponse.session_number,
+          accountInfo: savedResponse.pendingAccountInfo,
         },
       });
     }

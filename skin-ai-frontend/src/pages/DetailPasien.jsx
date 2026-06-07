@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   Activity,
   ArrowLeft,
@@ -29,11 +29,13 @@ import {
 } from "../utils/conditionAnalysis";
 import { AnimatedPage, ButtonSpinner, EmptyState, OptimizedImage, SkeletonCard } from "../components/ui";
 import { toast } from "sonner";
+import Swal from "sweetalert2";
 
 export default function DetailPasien() {
   const { id } = useParams();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [patient, setPatient] = useState(null);
   const [sessions, setSessions] = useState([]);
@@ -41,6 +43,15 @@ export default function DetailPasien() {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [exportingPdf, setExportingPdf] = useState(false);
+  const accountPopupShownRef = useRef(false);
+
+  const escapePopupText = (value) =>
+    String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 
   const handleNewSession = useCallback(() => {
     navigate("/analisis", {
@@ -76,6 +87,39 @@ export default function DetailPasien() {
   useEffect(() => {
     loadPatient();
   }, []);
+
+  useEffect(() => {
+    const accountInfo = location.state?.accountInfo;
+
+    if (!accountInfo || accountPopupShownRef.current) return;
+
+    accountPopupShownRef.current = true;
+
+    Swal.fire({
+      icon: "success",
+      title: "AKUN PASIEN BERHASIL DIBUAT",
+      html: `
+        <div style="text-align:left;line-height:1.8">
+          <p><b>Username:</b> ${escapePopupText(accountInfo.username)}</p>
+          <p><b>Email:</b> ${escapePopupText(accountInfo.email)}</p>
+          <p><b>Password default:</b> ${escapePopupText(accountInfo.password)}</p>
+          <p style="margin-top:12px">Simpan informasi login ini dan berikan kepada pasien.</p>
+        </div>
+      `,
+      confirmButtonText: "Saya sudah simpan",
+      confirmButtonColor: "#2563eb",
+      allowOutsideClick: false,
+    }).finally(() => {
+      navigate(location.pathname, {
+        replace: true,
+        state: {
+          ...location.state,
+          accountInfo: null,
+        },
+      });
+    });
+  }, [location.pathname, location.state, navigate]);
+
   const loadPatient = async () => {
     try {
       setLoading(true);
