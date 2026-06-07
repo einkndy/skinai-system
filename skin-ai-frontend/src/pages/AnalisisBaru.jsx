@@ -138,6 +138,51 @@ export default function AnalisisBaru() {
     }
   };
 
+  const normalizeEspCaptureBlob = async (blob) => {
+    const objectUrl = URL.createObjectURL(blob);
+
+    try {
+      const img = new Image();
+
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+        img.src = objectUrl;
+      });
+
+      const sourceWidth = img.naturalWidth || img.width;
+      const sourceHeight = img.naturalHeight || img.height;
+
+      if (!sourceWidth || !sourceHeight) {
+        return blob;
+      }
+
+      const canvas = document.createElement("canvas");
+      canvas.width = sourceHeight;
+      canvas.height = sourceWidth;
+
+      const ctx = canvas.getContext("2d");
+      ctx.translate(0, canvas.height);
+      ctx.rotate(-Math.PI / 2);
+      ctx.drawImage(img, 0, 0, sourceWidth, sourceHeight);
+
+      return await new Promise((resolve) => {
+        canvas.toBlob(
+          (normalizedBlob) => {
+            resolve(normalizedBlob?.size ? normalizedBlob : blob);
+          },
+          blob.type || "image/jpeg",
+          0.92
+        );
+      });
+    } catch (error) {
+      console.warn("ESP32 CAPTURE NORMALIZE SKIPPED:", error);
+      return blob;
+    } finally {
+      URL.revokeObjectURL(objectUrl);
+    }
+  };
+
   const stopInternalCamera = () => {
     const stream = videoRef.current?.srcObject;
 
@@ -271,7 +316,7 @@ export default function AnalisisBaru() {
     setSourceMode("upload");
   };
 
-  const createEspCaptureFromBlob = (
+  const createEspCaptureFromBlob = async (
     blob,
     sourceLabel = "ESP32",
     successMessage = "Foto ESP32 berhasil diambil",
@@ -286,12 +331,14 @@ export default function AnalisisBaru() {
       syncPreviewImage = false,
     } = options;
 
+    const normalizedBlob = await normalizeEspCaptureBlob(blob);
+
     revokeImageObjectUrl();
-    const objectUrl = URL.createObjectURL(blob);
+    const objectUrl = URL.createObjectURL(normalizedBlob);
     imageObjectUrlRef.current = objectUrl;
 
-    const file = new File([blob], fileName, {
-      type: blob.type || "image/jpeg",
+    const file = new File([normalizedBlob], fileName, {
+      type: normalizedBlob.type || blob.type || "image/jpeg",
     });
 
     setConfirmedFile(file);
@@ -311,8 +358,8 @@ export default function AnalisisBaru() {
     console.log(
       "CAPTURE SUCCESS",
       sourceLabel,
-      blob.type,
-      blob.size
+      normalizedBlob.type,
+      normalizedBlob.size
     );
     toast.success(successMessage);
   };
@@ -577,7 +624,7 @@ export default function AnalisisBaru() {
       }
 
       lastHardwareCaptureRef.current = await createHardwareCaptureKey(latestCapture.blob);
-      createEspCaptureFromBlob(
+      await createEspCaptureFromBlob(
         latestCapture.blob,
         "manual-capture-trigger",
         "Foto baru berhasil ditangkap",
@@ -1204,7 +1251,7 @@ export default function AnalisisBaru() {
     console.log("HARDWARE IMAGE DETECTED");
 
     lastHardwareCaptureRef.current = captureKey;
-    createEspCaptureFromBlob(
+    await createEspCaptureFromBlob(
       blob,
       "hardware-button",
       "Foto baru berhasil ditangkap",
