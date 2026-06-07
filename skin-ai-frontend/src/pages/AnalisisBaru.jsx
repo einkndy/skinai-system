@@ -54,6 +54,7 @@ export default function AnalisisBaru() {
   const [captureFlash, setCaptureFlash] = useState(false);
   const [captureSuccess, setCaptureSuccess] = useState(false);
   const [confirmingPhoto, setConfirmingPhoto] = useState(false);
+  const [rotatingCapture, setRotatingCapture] = useState(false);
   const [espReconnecting, setEspReconnecting] = useState(false);
   const [espChecking, setEspChecking] = useState(false);
   const [lastHeartbeatAt, setLastHeartbeatAt] = useState(null);
@@ -138,7 +139,7 @@ export default function AnalisisBaru() {
     }
   };
 
-  const normalizeEspCaptureBlob = async (blob) => {
+  const rotateImageBlob = async (blob, degrees = -90) => {
     const objectUrl = URL.createObjectURL(blob);
 
     try {
@@ -158,12 +159,24 @@ export default function AnalisisBaru() {
       }
 
       const canvas = document.createElement("canvas");
-      canvas.width = sourceHeight;
-      canvas.height = sourceWidth;
+      const normalizedDegrees = ((degrees % 360) + 360) % 360;
+      const quarterTurn = normalizedDegrees === 90 || normalizedDegrees === 270;
+      canvas.width = quarterTurn ? sourceHeight : sourceWidth;
+      canvas.height = quarterTurn ? sourceWidth : sourceHeight;
 
       const ctx = canvas.getContext("2d");
-      ctx.translate(0, canvas.height);
-      ctx.rotate(-Math.PI / 2);
+
+      if (normalizedDegrees === 90) {
+        ctx.translate(canvas.width, 0);
+        ctx.rotate(Math.PI / 2);
+      } else if (normalizedDegrees === 180) {
+        ctx.translate(canvas.width, canvas.height);
+        ctx.rotate(Math.PI);
+      } else if (normalizedDegrees === 270) {
+        ctx.translate(0, canvas.height);
+        ctx.rotate(-Math.PI / 2);
+      }
+
       ctx.drawImage(img, 0, 0, sourceWidth, sourceHeight);
 
       return await new Promise((resolve) => {
@@ -176,11 +189,43 @@ export default function AnalisisBaru() {
         );
       });
     } catch (error) {
-      console.warn("ESP32 CAPTURE NORMALIZE SKIPPED:", error);
+      console.warn("ESP32 CAPTURE ROTATE SKIPPED:", error);
       return blob;
     } finally {
       URL.revokeObjectURL(objectUrl);
     }
+  };
+
+  const shouldAutoRotateEspCapture = async (blob) => {
+    const objectUrl = URL.createObjectURL(blob);
+
+    try {
+      const img = new Image();
+
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+        img.src = objectUrl;
+      });
+
+      const sourceWidth = img.naturalWidth || img.width;
+      const sourceHeight = img.naturalHeight || img.height;
+
+      return Boolean(sourceWidth && sourceHeight && sourceWidth > sourceHeight);
+    } catch (error) {
+      console.warn("ESP32 CAPTURE ORIENTATION CHECK SKIPPED:", error);
+      return false;
+    } finally {
+      URL.revokeObjectURL(objectUrl);
+    }
+  };
+
+  const normalizeEspCaptureBlob = async (blob) => {
+    if (!(await shouldAutoRotateEspCapture(blob))) {
+      return blob;
+    }
+
+    return rotateImageBlob(blob, -90);
   };
 
   const stopInternalCamera = () => {
@@ -382,6 +427,42 @@ export default function AnalisisBaru() {
     return file;
   };
 
+  const rotateEspCapturePreview = async () => {
+    if (!capturedImage) return;
+
+    try {
+      setRotatingCapture(true);
+      const sourceBlob = confirmedFile || imageFile
+        ? (confirmedFile || imageFile)
+        : await fetchCaptureBlob(capturedImage);
+      const rotatedBlob = await rotateImageBlob(sourceBlob, 90);
+      const rotatedFile = new File(
+        [rotatedBlob],
+        confirmedFile?.name || imageFile?.name || "esp32-capture-rotated.jpg",
+        {
+          type: rotatedBlob.type || sourceBlob.type || "image/jpeg",
+        }
+      );
+
+      revokeImageObjectUrl();
+      const objectUrl = URL.createObjectURL(rotatedBlob);
+      imageObjectUrlRef.current = objectUrl;
+
+      setConfirmedFile(rotatedFile);
+      setImageFile(rotatedFile);
+      setCapturedImage(objectUrl);
+      setSelectedImage(objectUrl);
+      setConfirmedImage(objectUrl);
+      setImage(objectUrl);
+      setResultImage("");
+    } catch (error) {
+      console.error("ROTATE ESP CAPTURE ERROR:", error);
+      toast.error("Foto gagal diputar, coba ambil ulang");
+    } finally {
+      setRotatingCapture(false);
+    }
+  };
+
   const triggerCaptureFlash = () => {
     setCaptureFlash(true);
 
@@ -407,6 +488,14 @@ export default function AnalisisBaru() {
       captureSuccessTimerRef.current = null;
     }, 1100);
   };
+
+  const escapePopupText = (value) =>
+    String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 
   const playShutterSound = () => {
     try {
@@ -1021,6 +1110,14 @@ export default function AnalisisBaru() {
       return;
     }
 
+    if (
+      modePasien === "baru" &&
+      !pendingHistoryPayload?.email_pasien
+    ) {
+      showError("Email pasien wajib diisi agar akun pasien bisa dibuat.");
+      return;
+    }
+
     if (!analysisResult || !pendingHistoryPayload) {
       showError("Belum ada hasil pemeriksaan untuk disimpan.");
       return;
@@ -1073,13 +1170,21 @@ export default function AnalisisBaru() {
 
       toast.success("Hasil tersimpan ke rekam medis");
 
-      if (response.account_created && response.account_info) {
+      if (response.account_info) {
         await Swal.fire({
           icon: "success",
           title: "AKUN PASIEN BERHASIL DIBUAT",
-          text: `Username: ${response.account_info.username}\nEmail: ${response.account_info.email}\nPassword default: ${response.account_info.password}\n\nSimpan informasi login ini.`,
+          html: `
+            <div style="text-align:left;line-height:1.8">
+              <p><b>Username:</b> ${escapePopupText(response.account_info.username)}</p>
+              <p><b>Email:</b> ${escapePopupText(response.account_info.email)}</p>
+              <p><b>Password default:</b> ${escapePopupText(response.account_info.password)}</p>
+              <p style="margin-top:12px">Simpan informasi login ini dan berikan kepada pasien.</p>
+            </div>
+          `,
           confirmButtonText: "Saya sudah simpan",
           confirmButtonColor: "#2563eb",
+          allowOutsideClick: false,
         });
       }
     } catch (error) {
@@ -3137,7 +3242,7 @@ export default function AnalisisBaru() {
               )}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
               <button
                 type="button"
                 onClick={() => {
@@ -3147,6 +3252,16 @@ export default function AnalisisBaru() {
                 className="h-12 rounded-2xl bg-orange-500 text-white font-bold"
               >
                 Ambil Ulang
+              </button>
+
+              <button
+                type="button"
+                onClick={rotateEspCapturePreview}
+                disabled={!capturedImage || rotatingCapture || confirmingPhoto}
+                className="h-12 rounded-2xl bg-slate-800 text-white font-bold disabled:opacity-60 inline-flex items-center justify-center gap-2"
+              >
+                {rotatingCapture && <ButtonSpinner />}
+                {rotatingCapture ? "Memutar..." : "Putar Foto"}
               </button>
 
               <button

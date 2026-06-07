@@ -3,11 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   Activity,
   ArrowLeft,
+  CalendarDays,
   CheckCircle2,
   FileDown,
   ImageOff,
+  Mail,
   PlusCircle,
   Sparkles,
+  UserRound,
 } from "lucide-react";
 
 import { getPatientById } from "../services/HistoryService";
@@ -491,6 +494,72 @@ export default function DetailPasien() {
           </button>
         </div>
       </div>
+
+      {/* INFORMASI PASIEN */}
+      <section className="bg-white rounded-3xl border border-slate-100 shadow-sm p-5 sm:p-6">
+        <div className="flex flex-col gap-1 mb-5">
+          <h2 className="text-2xl font-bold text-slate-800">
+            Informasi Pasien
+          </h2>
+
+          <p className="text-sm text-slate-400">
+            Identitas pasien dan tanggal pemeriksaan sesi yang dipilih
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="rounded-3xl border border-slate-100 bg-slate-50 p-4">
+            <div className="flex items-center gap-3">
+              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-blue-100 text-blue-600">
+                <UserRound size={20} />
+              </div>
+
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase text-slate-400">
+                  Nama Pasien
+                </p>
+                <p className="mt-1 truncate text-base font-bold text-slate-800">
+                  {patient?.nama_pasien || selectedSession?.nama_pasien || "-"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-slate-100 bg-slate-50 p-4">
+            <div className="flex items-center gap-3">
+              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-emerald-100 text-emerald-600">
+                <Mail size={20} />
+              </div>
+
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase text-slate-400">
+                  Email
+                </p>
+                <p className="mt-1 truncate text-base font-bold text-slate-800">
+                  {patient?.email || selectedSession?.patient_email || "-"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-slate-100 bg-slate-50 p-4">
+            <div className="flex items-center gap-3">
+              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-violet-100 text-violet-600">
+                <CalendarDays size={20} />
+              </div>
+
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase text-slate-400">
+                  Tanggal Pemeriksaan
+                </p>
+                <p className="mt-1 truncate text-base font-bold text-slate-800">
+                  {formatDate(selectedSession?.exam_date || selectedSession?.created_at)}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* HASIL PEMERIKSAAN JENIS KULIT */}
       <section className="bg-white rounded-3xl border border-slate-100 shadow-sm p-5 sm:p-6">
