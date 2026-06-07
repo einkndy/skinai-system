@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { markRekamMedisFlow } from "../services/flowAudit";
 import { AnimatedCard, AnimatedPage, ButtonSpinner, EmptyState, SkeletonCard } from "../components/ui";
 import { getConditionStatus } from "../utils/monitoring";
+import { buildFaceCondition, formatConditionLabel } from "../utils/conditionAnalysis";
 
 export default function RekamMedis() {
 
@@ -185,6 +186,7 @@ export default function RekamMedis() {
       ${item.nama_pasien || ""}
       ${item.paket_type || ""}
       ${item.hasil_prediksi || item.dominant_skin_type || ""}
+      ${formatConditionLabel(buildFaceCondition(item)?.dominant_condition)}
     `
       .toLowerCase()
       .includes(keyword);
@@ -284,8 +286,8 @@ export default function RekamMedis() {
               "
             >
               <option value="all">Semua Paket</option>
-              <option value="basic">Basic</option>
-              <option value="tracking">Tracking</option>
+              <option value="basic">Dasar</option>
+              <option value="tracking">Pelacakan</option>
             </select>
           </div>
 
@@ -367,9 +369,9 @@ export default function RekamMedis() {
               hidden
               md:grid
               grid
-              grid-cols-8
+              grid-cols-9
               gap-4
-              min-w-[1120px]
+              min-w-[1240px]
               px-6
               py-4
               bg-slate-50
@@ -383,6 +385,7 @@ export default function RekamMedis() {
               <p>Nama Pasien</p>
               <p>Paket</p>
               <p>Jenis Kulit</p>
+              <p>Kondisi Wajah</p>
               <p>Tingkat Akurasi</p>
               <p>Status</p>
               <p>Tanggal</p>
@@ -410,6 +413,8 @@ export default function RekamMedis() {
                 const conditionStatus = getConditionStatus(item.session_history || [item]);
                 const conditionTone =
                   conditionToneClass[conditionStatus.tone] || conditionToneClass.blue;
+                const faceCondition = buildFaceCondition(item);
+                const displayFaceCondition = formatConditionLabel(faceCondition?.dominant_condition);
 
                 return (
                 <Fragment key={item.id}>
@@ -443,7 +448,7 @@ export default function RekamMedis() {
                             }
                           `}
                         >
-                          {item.paket_type || "basic"}
+                          {item.paket_type === "tracking" ? "Pelacakan" : "Dasar"}
                         </span>
                       </div>
 
@@ -459,6 +464,13 @@ export default function RekamMedis() {
                           <p className="text-slate-400 font-semibold">Jenis Kulit</p>
                           <p className="font-bold text-blue-600 capitalize">
                             {displaySkin}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="text-slate-400 font-semibold">Kondisi Wajah</p>
+                          <p className="font-bold text-violet-600 capitalize">
+                            {displayFaceCondition}
                           </p>
                         </div>
 
@@ -508,9 +520,9 @@ export default function RekamMedis() {
                   className="
                     hidden
                     md:grid
-                    grid-cols-8
+                    grid-cols-9
                     gap-4
-                    min-w-[1120px]
+                    min-w-[1240px]
                     items-center
                     px-6
                     py-4
@@ -555,7 +567,7 @@ export default function RekamMedis() {
                     }
                   `}
                 >
-                  {item.paket_type || "basic"}
+                  {item.paket_type === "tracking" ? "Pelacakan" : "Dasar"}
                 </span>
 
               </div>
@@ -573,6 +585,22 @@ export default function RekamMedis() {
                   capitalize
                 ">
                   {displaySkin}
+                </span>
+              </div>
+
+              {/* KONDISI WAJAH */}
+              <div>
+                <span className="
+                  px-3
+                  py-1
+                  rounded-full
+                  text-xs
+                  font-semibold
+                  bg-violet-100
+                  text-violet-700
+                  capitalize
+                ">
+                  {displayFaceCondition}
                 </span>
               </div>
 

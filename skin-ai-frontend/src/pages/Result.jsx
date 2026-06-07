@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { Activity, ArrowLeft, CheckCircle2, FileDown, PlusCircle, Sparkles, UserRound } from "lucide-react";
@@ -8,41 +8,18 @@ import { getHistoryById } from "../services/HistoryService";
 import { API_URL } from "../config";
 import { markResultFlow } from "../services/flowAudit";
 import { AnimatedCard, AnimatedPage, ButtonSpinner, EmptyState, OptimizedImage, SkeletonCard } from "../components/ui";
-import { generateSmartRecommendations, getConditionStatus } from "../utils/monitoring";
-
-function CountUp({ value, suffix = "" }) {
-  const [displayValue, setDisplayValue] = useState(0);
-
-  useEffect(() => {
-    const target = Number(value) || 0;
-    const duration = 650;
-    const startedAt = performance.now();
-    let frameId;
-
-    const tick = (now) => {
-      const progress = Math.min((now - startedAt) / duration, 1);
-      setDisplayValue(Math.round(target * progress));
-
-      if (progress < 1) {
-        frameId = requestAnimationFrame(tick);
-      }
-    };
-
-    frameId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frameId);
-  }, [value]);
-
-  return (
-    <>
-      {displayValue}
-      {suffix}
-    </>
-  );
-}
+import { generateSmartRecommendations } from "../utils/monitoring";
+import {
+  buildFaceCondition,
+  CONDITION_PROBABILITY_ITEMS,
+  formatConditionLabel,
+  getConditionPercentValue,
+} from "../utils/conditionAnalysis";
 
 export default function Result() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { admin, logout } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -64,9 +41,25 @@ export default function Result() {
         return;
       }
 
-      setData(result);
+      if (admin?.role === "admin" && result.patient_id) {
+        navigate(`/detail/${result.patient_id}`, {
+          replace: true,
+          state: {
+            historyId: result.id,
+            sessionNumber: result.session_number,
+          },
+        });
+        return;
+      }
+
+      const storedCondition = buildFaceCondition(result);
+
+      setData({
+        ...result,
+        condition: location.state?.condition || storedCondition,
+      });
       markResultFlow(result);
-      toast.success("Analisis kulit berhasil diselesaikan");
+      toast.success("Analisis kondisi wajah berhasil diselesaikan");
     } catch (error) {
       console.error("ERROR LOAD RESULT:", error);
       toast.warning("Data hasil tidak tersedia");
@@ -110,10 +103,18 @@ export default function Result() {
     () => (data ? generateSmartRecommendations([data], data) : []),
     [data]
   );
-  const conditionStatus = useMemo(
-    () => (data ? getConditionStatus([data]) : null),
-    [data]
-  );
+  const conditionData = data?.condition || buildFaceCondition(data) || null;
+  const hasConditionPredictions = Object.keys(conditionData?.predictions || {}).length > 0;
+  const conditionRankings = hasConditionPredictions
+    ? CONDITION_PROBABILITY_ITEMS
+        .map((item) => ({
+          ...item,
+          percentage: getConditionPercentValue(conditionData.predictions?.[item.key]),
+        }))
+        .sort((a, b) => b.percentage - a.percentage)
+    : [];
+  const dominantConditionMetric = conditionRankings[0];
+  const secondaryConditionMetric = conditionRankings[1];
 
   const recommendationToneClass = useMemo(
     () => ({
@@ -144,7 +145,6 @@ export default function Result() {
     }),
     []
   );
-
   const renderRecommendationIcon = useCallback((priority) => {
     if (priority === "utama") return <Sparkles size={20} />;
     if (priority === "tambahan") return <PlusCircle size={20} />;
@@ -193,10 +193,10 @@ export default function Result() {
         </div>
 
         <div className="mx-auto mb-5 grid w-full max-w-4xl grid-cols-4 gap-2 rounded-[24px] bg-white/90 p-2 shadow-[0_18px_48px_rgba(15,23,42,0.08)] ring-1 ring-white/80">
-          <button type="button" onClick={() => navigate("/user/dashboard")} className="min-h-11 rounded-2xl px-2 text-xs font-black text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 sm:text-sm">Dashboard</button>
+          <button type="button" onClick={() => navigate("/user/dashboard")} className="min-h-11 rounded-2xl px-2 text-xs font-black text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 sm:text-sm">Beranda</button>
           <button type="button" onClick={() => navigate("/user/history")} className="min-h-11 rounded-2xl bg-blue-600 px-2 text-xs font-black text-white shadow-lg shadow-blue-200 sm:text-sm">Riwayat</button>
-          <button type="button" onClick={() => navigate("/user/profile")} className="min-h-11 rounded-2xl px-2 text-xs font-black text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 sm:text-sm">Profile</button>
-          <button type="button" onClick={logout} className="min-h-11 rounded-2xl bg-red-600 px-2 text-xs font-black text-white shadow-lg shadow-red-200 transition hover:bg-red-700 sm:text-sm">Logout</button>
+          <button type="button" onClick={() => navigate("/user/profile")} className="min-h-11 rounded-2xl px-2 text-xs font-black text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 sm:text-sm">Profil</button>
+          <button type="button" onClick={logout} className="min-h-11 rounded-2xl bg-red-600 px-2 text-xs font-black text-white shadow-lg shadow-red-200 transition hover:bg-red-700 sm:text-sm">Keluar</button>
         </div>
       </>
     )}
@@ -243,12 +243,21 @@ export default function Result() {
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
             <div className="min-w-0">
               <p className="text-sm text-slate-400 font-semibold">
-                Hasil Pemeriksaan Kulit
+                Hasil Pemeriksaan
               </p>
 
               <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 mt-1 break-words">
                 {data.nama_pasien || "Tanpa Nama"}
               </h1>
+
+              <div className="mt-3 inline-flex flex-col rounded-2xl bg-blue-50 px-4 py-3 text-blue-700 sm:flex-row sm:items-center sm:gap-2">
+                <span className="text-xs font-black uppercase text-blue-400">
+                  Tanggal Pemeriksaan
+                </span>
+                <span className="text-sm font-black">
+                  {formatDate(data.exam_date || data.created_at)}
+                </span>
+              </div>
 
               <p className="text-slate-500 mt-1 break-words">
                 {data.kode_pasien || "-"} • {formatDate(data.exam_date || data.created_at)}
@@ -256,11 +265,11 @@ export default function Result() {
             </div>
 
             <span className="w-fit px-4 py-2 rounded-2xl bg-purple-50 text-purple-700 text-sm font-bold capitalize">
-              {data.paket_type || "basic"}
+              {data.paket_type === "tracking" ? "Pelacakan" : "Dasar"}
             </span>
           </div>
 
-          <div className={`grid grid-cols-1 gap-4 mt-6 ${isPatientUser ? "sm:grid-cols-1" : "sm:grid-cols-2"}`}>
+          <div className="grid grid-cols-1 gap-4 mt-6">
             <div className="rounded-3xl bg-blue-50 p-5 border border-blue-100 shadow-sm">
               <p className="text-sm text-blue-500 font-semibold">
                 Jenis Kulit
@@ -270,38 +279,72 @@ export default function Result() {
                 {data.dominant_skin_type || "-"}
               </h2>
             </div>
+          </div>
 
-            <div className="rounded-3xl bg-emerald-50 p-5 border border-emerald-100 shadow-sm">
-              <p className="text-sm text-emerald-500 font-semibold">
-                Tingkat Akurasi
+          <div className="mt-6 rounded-3xl border border-violet-100 bg-violet-50 p-5 shadow-sm">
+            <div className="flex flex-col gap-1">
+              <p className="text-sm font-semibold text-violet-500">
+                KONDISI WAJAH
               </p>
-
-              <h2 className="text-3xl font-bold text-emerald-700 mt-2">
-                <CountUp value={Math.round((data.confidence || 0) * 100)} suffix="%" />
+              <h2 className="text-2xl font-black text-violet-800">
+                Analisis Kondisi Wajah
               </h2>
-
-              <div className="mt-4 h-2.5 rounded-full bg-emerald-100 overflow-hidden">
-                <motion.div
-                  className="h-full rounded-full bg-emerald-500"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${Math.round((data.confidence || 0) * 100)}%` }}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
-                />
-              </div>
+              <p className="text-sm text-violet-700/80">
+                Analisis kondisi wajah berdasarkan model deteksi kondisi
+              </p>
             </div>
 
-            {isPatientUser && conditionStatus && (
-              <div className="rounded-3xl bg-violet-50 p-5 border border-violet-100 shadow-sm">
-                <p className="text-sm text-violet-500 font-semibold">
-                  Kondisi Kulit
-                </p>
+            {conditionData ? (
+              <div className="mt-5 space-y-4">
+                <div className="grid grid-cols-1 gap-3">
+                  <div className="rounded-2xl border border-violet-100 bg-white/80 p-4">
+                    <p className="text-xs font-semibold uppercase text-violet-400">
+                      Kondisi Dominan
+                    </p>
+                    <p className="mt-1 text-xl font-black capitalize text-violet-800">
+                      {formatConditionLabel(conditionData.dominant_condition)}
+                    </p>
+                  </div>
+                </div>
 
-                <h2 className="text-2xl font-black text-violet-700 mt-2">
-                  {conditionStatus.label}
-                </h2>
+                <div className="rounded-2xl border border-violet-100 bg-white/80 p-4 text-sm leading-relaxed text-violet-800">
+                  <h3 className="mb-2 text-sm font-black text-violet-900">
+                    Interpretasi Kondisi Wajah
+                  </h3>
+                  {dominantConditionMetric ? (
+                    <>
+                      <p>
+                        Kondisi dominan yang terdeteksi adalah{" "}
+                        <span className="font-bold">{dominantConditionMetric.label}</span>.
+                      </p>
+                      {secondaryConditionMetric && (
+                        <p className="mt-2">
+                          Kondisi sekunder adalah{" "}
+                          <span className="font-bold">{secondaryConditionMetric.label}</span>.
+                        </p>
+                      )}
+                    </>
+                  ) : (
+                    <p>Probabilitas kondisi wajah belum tersedia pada sesi ini.</p>
+                  )}
+                </div>
 
-                <p className="mt-2 text-sm leading-relaxed text-violet-700/80">
-                  {conditionStatus.description}
+                <div className="rounded-2xl border border-violet-100 bg-white/80 p-4">
+                  <p className="text-xs font-semibold uppercase text-violet-400">
+                    Kondisi Sekunder
+                  </p>
+                  <p className="mt-1 text-lg font-black text-violet-800">
+                    {secondaryConditionMetric ? secondaryConditionMetric.label : "-"}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="mt-4 rounded-2xl border border-violet-100 bg-white/80 p-4 text-sm text-violet-800">
+                <h3 className="font-black text-violet-900">
+                  Interpretasi Kondisi Wajah
+                </h3>
+                <p className="mt-2 font-semibold">
+                  Kondisi wajah belum tersedia pada sesi ini.
                 </p>
               </div>
             )}
@@ -324,7 +367,7 @@ export default function Result() {
               className="btn-premium inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-slate-800 text-white font-semibold w-full sm:w-auto"
             >
               {exporting ? <ButtonSpinner /> : <FileDown size={18} />}
-              {exporting ? "Membuat PDF..." : "Export PDF"}
+              {exporting ? "Membuat PDF..." : "Ekspor PDF"}
             </button>
 
             {!isPatientUser && (
@@ -342,9 +385,9 @@ export default function Result() {
 
       <div>
         <div className="mb-4">
-          <h2 className="text-2xl font-bold text-slate-800">Rekomendasi Personal</h2>
+          <h2 className="text-2xl font-bold text-slate-800">Rekomendasi Perawatan</h2>
           <p className="mt-1 text-sm text-slate-400">
-            Disusun dari jenis kulit, confidence pemeriksaan, dan kebutuhan monitoring lanjutan.
+            Rekomendasi berdasarkan hasil analisis jenis kulit dan kondisi wajah.
           </p>
         </div>
 
@@ -398,5 +441,3 @@ export default function Result() {
     </AnimatedPage>
   );
 }
-
-

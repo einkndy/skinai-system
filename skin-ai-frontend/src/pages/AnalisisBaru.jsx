@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Camera, CheckCircle2, RefreshCw, WifiOff } from "lucide-react";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
 import { AnimatedPage, AnalysisTimeline, ButtonSpinner, EmptyState, LoadingScreen, ProgressAI, StatusBadge } from "../components/ui";
 import {
   predictSkin,
+  predictSkinCondition,
   getPatients,
   getDevices
 } from "../services/api";
@@ -19,6 +20,7 @@ import {
   selectCameraDevice,
 } from "../services/deviceService";
 import { markSaveFlow } from "../services/flowAudit";
+import { getSessionQualityStatus } from "../utils/monitoring";
 import {
   showAiOffline,
   showError,
@@ -31,6 +33,7 @@ export default function AnalisisBaru() {
   const [espLatency, setEspLatency] = useState(null);
   const [espRetryCount, setEspRetryCount] = useState(0);
   const location = useLocation();
+  const navigate = useNavigate();
 
 
   const [liveMode, setLiveMode] = useState(true);
@@ -66,7 +69,7 @@ export default function AnalisisBaru() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
-  const [aiMessage, setAiMessage] = useState("Mendeteksi struktur wajah...");
+  const [aiMessage, setAiMessage] = useState("Sedang menganalisis area wajah...");
   const [estimate, setEstimate] = useState(5);
   const [analysisComplete, setAnalysisComplete] = useState(false);
   const [analysisResult, setAnalysisResult] = useState(null);
@@ -75,23 +78,28 @@ export default function AnalisisBaru() {
   const [pendingHistoryPayload, setPendingHistoryPayload] = useState(null);
   const [showSavePopup, setShowSavePopup] = useState(false);
   const [savedHistoryId, setSavedHistoryId] = useState(null);
+  const [savedPatientId, setSavedPatientId] = useState(null);
   const [savingResult, setSavingResult] = useState(false);
   const [emailPasien, setEmailPasien] = useState("");
 
   const analysisSteps = [
     "Deteksi Area Wajah",
     "Analisis Tekstur Kulit",
-    "Evaluasi Pola Kulit",
     "Klasifikasi Jenis Kulit",
-    "Menyusun Rekomendasi Perawatan",
+    "Analisis Kondisi Wajah",
+    "Validasi Hasil Analisis",
+    "Penyusunan Rekomendasi",
+    "Penyimpanan Rekam Medis",
   ];
 
   const aiMessages = [
-    "Mendeteksi struktur wajah...",
+    "Sedang menganalisis area wajah...",
     "Menganalisis tekstur kulit...",
-    "Mengevaluasi pola kulit wajah...",
     "Mengklasifikasi jenis kulit...",
-    "Menyusun rekomendasi perawatan...",
+    "Menganalisis kondisi wajah...",
+    "Menghitung tingkat keyakinan...",
+    "Menyusun hasil dan rekomendasi...",
+    "Menyimpan data pemeriksaan...",
   ];
 
   const [modePasien, setModePasien] = useState("baru");
@@ -266,11 +274,11 @@ export default function AnalisisBaru() {
   const createEspCaptureFromBlob = (
     blob,
     sourceLabel = "ESP32",
-    successMessage = "Capture ESP32 berhasil",
+    successMessage = "Foto ESP32 berhasil diambil",
     options = {}
   ) => {
     if (!blob?.size) {
-      throw new Error("Capture blob kosong");
+      throw new Error("Data foto kosong");
     }
 
     const {
@@ -314,7 +322,7 @@ export default function AnalisisBaru() {
     if (imageFile) return imageFile;
 
     if (!capturedImage) {
-      throw new Error("Preview capture belum tersedia");
+      throw new Error("Pratinjau foto belum tersedia");
     }
 
     const blob = await fetchCaptureBlob(capturedImage);
@@ -405,7 +413,7 @@ export default function AnalisisBaru() {
             return;
           }
 
-          reject(new Error("Canvas capture kosong"));
+          reject(new Error("Canvas foto kosong"));
         }, "image/jpeg", 0.92);
       } catch (error) {
         reject(error);
@@ -418,7 +426,7 @@ export default function AnalisisBaru() {
       const timeoutId = setTimeout(() => {
         img.onload = null;
         img.onerror = null;
-        reject(new Error("Capture image timeout"));
+        reject(new Error("Waktu memuat foto habis"));
       }, 7000);
 
       img.onload = () => {
@@ -428,7 +436,7 @@ export default function AnalisisBaru() {
 
       img.onerror = () => {
         clearTimeout(timeoutId);
-        reject(new Error("Capture image gagal dimuat"));
+        reject(new Error("Foto gagal dimuat"));
       };
 
       img.src = url;
@@ -445,7 +453,7 @@ export default function AnalisisBaru() {
       });
 
       if (!response.ok) {
-        throw new Error(`Capture HTTP ${response.status}`);
+        throw new Error(`Foto HTTP ${response.status}`);
       }
 
       return await response.blob();
@@ -509,7 +517,7 @@ export default function AnalisisBaru() {
       }
     }
 
-    throw lastError || new Error("Capture baru belum tersedia");
+    throw lastError || new Error("Foto baru belum tersedia");
   };
 
   const callCaptureTrigger = async (triggerUrl) => {
@@ -565,7 +573,7 @@ export default function AnalisisBaru() {
       const latestCapture = await fetchFreshDeviceCaptureBlob(captureStartedAt);
 
       if (await isCaptureBlobTooDark(latestCapture.blob)) {
-        throw new Error("Capture terbaru terlalu gelap");
+        throw new Error("Foto terbaru terlalu gelap");
       }
 
       lastHardwareCaptureRef.current = await createHardwareCaptureKey(latestCapture.blob);
@@ -704,7 +712,7 @@ export default function AnalisisBaru() {
       modePasien === "tracking" &&
       !selectedPatient
     ) {
-      showWarning("Pilih pasien tracking");
+      showWarning("Pilih pasien pelacakan");
       return;
     }
 
@@ -741,7 +749,7 @@ export default function AnalisisBaru() {
   };
 
   const runAnalysisProgress = async () => {
-    const progressPoints = [10, 25, 40, 60, 80, 100];
+    const progressPoints = [8, 22, 36, 50, 64, 80, 100];
 
     for (let index = 0; index < progressPoints.length; index += 1) {
       await wait(650);
@@ -757,7 +765,7 @@ export default function AnalisisBaru() {
     }
 
     setAnalysisComplete(true);
-    setAiMessage("Pemeriksaan selesai");
+    setAiMessage("Analisis Selesai");
     await wait(500);
   };
 
@@ -796,14 +804,24 @@ export default function AnalisisBaru() {
       setAnalysisComplete(false);
       setStep(3);
 
-      const [aiResult] = await Promise.all([
+      const [aiResult, conditionResult] = await Promise.all([
         predictSkin(analysisFile),
+        predictSkinCondition(analysisFile).catch((conditionError) => {
+          console.error("PREDICT CONDITION ERROR:", conditionError);
+          return null;
+        }),
         runAnalysisProgress(),
       ]);
 
       console.log("PREDICT RESPONSE:", aiResult);
+      console.log("PREDICT CONDITION RESPONSE:", conditionResult);
       console.log("PREDICT SUCCESS", aiResult);
       console.log("HASIL PEMERIKSAAN:", aiResult);
+
+      const analysisResultWithCondition = {
+        ...aiResult,
+        condition: conditionResult || null,
+      };
 
       const payload = {
         nama_pasien:
@@ -860,6 +878,14 @@ export default function AnalisisBaru() {
         sensitive_percentage:
           aiResult.sensitive_percentage || aiResult.skin_condition_metrics?.sensitive_percentage || aiResult.predictions.sensitif || 0,
 
+        dominant_condition: conditionResult?.dominant_condition || null,
+
+        condition_confidence: conditionResult?.confidence ?? null,
+
+        condition_predictions: conditionResult?.predictions
+          ? JSON.stringify(conditionResult.predictions)
+          : null,
+
         ingredients: aiResult.ingredients || [],
 
         products: aiResult.products || [],
@@ -867,17 +893,13 @@ export default function AnalisisBaru() {
         tips: aiResult.tips || [],
       };
 
-      setAnalysisResult(aiResult);
+      setAnalysisResult(analysisResultWithCondition);
       setPendingHistoryPayload(payload);
       setResultImage(finalImage);
       setSavedHistoryId(null);
       setIsAnalyzing(false);
       setProgress(100);
       setEstimate(1);
-
-      if (Number(aiResult.confidence || 0) < 0.6) {
-        toast.warning("Tingkat akurasi pemeriksaan rendah");
-      }
 
       toast.success("Pemeriksaan wajah selesai");
       setStep(4);
@@ -921,6 +943,7 @@ export default function AnalisisBaru() {
     setPendingHistoryPayload(null);
     setResultImage("");
     setSavedHistoryId(null);
+    setSavedPatientId(null);
     setIsAnalyzing(false);
     setProgress(0);
     setActiveStep(0);
@@ -933,6 +956,7 @@ export default function AnalisisBaru() {
     if (savingResult) return;
 
     const confidenceValue = Number(analysisResult?.confidence);
+    let savedResponse = null;
 
     if (
       modePasien === "tracking" &&
@@ -997,6 +1021,8 @@ export default function AnalisisBaru() {
       });
 
       setSavedHistoryId(response.history_id);
+      setSavedPatientId(response.patient_id);
+      savedResponse = response;
 
       toast.success("Hasil tersimpan ke rekam medis");
 
@@ -1016,6 +1042,29 @@ export default function AnalisisBaru() {
       setShowSavePopup(false);
       setSavingResult(false);
     }
+
+    if (savedResponse?.patient_id) {
+      navigate(`/detail/${savedResponse.patient_id}`, {
+        replace: true,
+        state: {
+          historyId: savedResponse.history_id,
+          sessionNumber: savedResponse.session_number,
+        },
+      });
+    }
+  };
+
+  const handleViewSavedResult = () => {
+    if (!savedHistoryId || !savedPatientId) {
+      showWarning("Simpan hasil terlebih dahulu.");
+      return;
+    }
+
+    navigate(`/detail/${savedPatientId}`, {
+      state: {
+        historyId: savedHistoryId,
+      },
+    });
   };
 
   const handleAnalyzeAgain = () => {
@@ -1434,19 +1483,9 @@ export default function AnalisisBaru() {
 
   const skinType = normalizeSkinType(analysisResult?.dominant);
   const confidencePercent = Math.round((analysisResult?.confidence || 0) * 100);
-  const accuracyLevel =
-    confidencePercent >= 80
-      ? "Tinggi"
-      : confidencePercent >= 60
-      ? "Sedang"
-      : "Perlu Review";
-  const confidenceReviewMessage =
-    confidencePercent < 40
-      ? "Foto kurang jelas, disarankan analisis ulang"
-      : confidencePercent < 60
-      ? "Hasil perlu ditinjau ulang"
-      : "";
-
+  const examinationQuality = getSessionQualityStatus({
+    confidence: analysisResult?.confidence,
+  });
   const skinDescriptionMap = {
     berminyak:
       "Kulit wajah terdeteksi cenderung berminyak dengan produksi sebum yang lebih aktif pada area wajah.",
@@ -1502,13 +1541,22 @@ export default function AnalisisBaru() {
         ? "processing"
         : "waiting",
   }));
+  const analysisProcessStatus =
+    analysisComplete || progress >= 100
+      ? "Analisis Selesai"
+      : progress >= 80
+      ? "Menyimpan Data..."
+      : progress >= 64
+      ? "Menyusun Hasil..."
+      : "Sedang Menganalisis...";
 
-  const confidenceBadgeClass =
-    confidencePercent >= 80
-      ? "bg-emerald-100 text-emerald-700"
-      : confidencePercent >= 60
-      ? "bg-amber-100 text-amber-700"
-      : "bg-red-100 text-red-700";
+  const qualityToneClass = {
+    red: "border-red-100 bg-red-50 text-red-700",
+    yellow: "border-amber-100 bg-amber-50 text-amber-700",
+    green: "border-emerald-100 bg-emerald-50 text-emerald-700",
+    blue: "border-blue-100 bg-blue-50 text-blue-700",
+  };
+  const qualityCardClass = qualityToneClass[examinationQuality.tone] || qualityToneClass.blue;
 
   const getPredictionValue = (key) => {
     const value = Number(analysisResult?.predictions?.[key] || 0);
@@ -1530,12 +1578,12 @@ export default function AnalisisBaru() {
   };
 
   const formatHeartbeatText = () => {
-    if (!lastHeartbeatAt) return "Heartbeat belum tersedia";
+    if (!lastHeartbeatAt) return "Sinyal perangkat belum tersedia";
 
     const seconds = Math.max(0, Math.round((Date.now() - lastHeartbeatAt) / 1000));
 
-    if (seconds < 60) return `Heartbeat ${seconds} detik lalu`;
-    return `Heartbeat ${Math.round(seconds / 60)} menit lalu`;
+    if (seconds < 60) return `Sinyal perangkat ${seconds} detik lalu`;
+    return `Sinyal perangkat ${Math.round(seconds / 60)} menit lalu`;
   };
 
   const espStatus = espReconnecting
@@ -1557,7 +1605,7 @@ export default function AnalisisBaru() {
     {
       label: "Berminyak",
       value: getPredictionValue("berminyak"),
-      description: "Menunjukkan estimasi produksi sebum pada wajah.",
+      description: "Hasil pemeriksaan menunjukkan produksi sebum relatif tinggi pada area wajah.",
       color: "from-blue-500 to-cyan-400",
       bg: "bg-blue-50",
       text: "text-blue-600",
@@ -1565,7 +1613,7 @@ export default function AnalisisBaru() {
     {
       label: "Kering",
       value: getPredictionValue("kering"),
-      description: "Menggambarkan tingkat kelembapan alami kulit.",
+      description: "Kelembapan alami kulit terdeteksi lebih rendah dibanding kategori lainnya.",
       color: "from-orange-400 to-amber-300",
       bg: "bg-orange-50",
       text: "text-orange-600",
@@ -1573,7 +1621,7 @@ export default function AnalisisBaru() {
     {
       label: "Kombinasi",
       value: getPredictionValue("kombinasi"),
-      description: "Menilai keseimbangan area kering dan berminyak.",
+      description: "Terdapat campuran area berminyak dan area kering pada wajah.",
       color: "from-purple-500 to-fuchsia-400",
       bg: "bg-purple-50",
       text: "text-purple-600",
@@ -1581,7 +1629,7 @@ export default function AnalisisBaru() {
     {
       label: "Normal",
       value: getMetricPercentageValue("normal_percentage", getPredictionValue("normal")),
-      description: "Menunjukkan kestabilan kondisi kulit wajah.",
+      description: "Keseimbangan kadar minyak dan kelembapan kulit relatif stabil.",
       color: "from-emerald-500 to-teal-400",
       bg: "bg-emerald-50",
       text: "text-emerald-600",
@@ -1589,12 +1637,27 @@ export default function AnalisisBaru() {
     {
       label: "Sensitif",
       value: getMetricPercentageValue("sensitive_percentage", getPredictionValue("sensitif")),
-      description: "Mengindikasikan potensi reaktivitas kulit terhadap lingkungan.",
+      description: "Kulit menunjukkan potensi reaktivitas terhadap faktor lingkungan tertentu.",
       color: "from-rose-500 to-pink-400",
       bg: "bg-rose-50",
       text: "text-rose-600",
     },
   ];
+  const getSkinMetricPercentValue = (value) => {
+    const number = Number(value || 0);
+
+    if (!Number.isFinite(number)) return 0;
+
+    return Math.max(0, Math.min(Math.round(number <= 1 ? number * 100 : number), 100));
+  };
+  const skinRankings = skinMetrics
+    .map((metric) => ({
+      ...metric,
+      percentage: getSkinMetricPercentValue(metric.value),
+    }))
+    .sort((a, b) => b.percentage - a.percentage);
+  const dominantSkinMetric = skinRankings[0];
+  const secondarySkinMetric = skinRankings[1];
 
   const normalizeList = (value, fallback = []) => {
     if (Array.isArray(value)) return value.filter(Boolean);
@@ -1608,7 +1671,7 @@ export default function AnalisisBaru() {
 
   const recommendationGroups = [
     {
-      title: "Ingredients",
+      title: "Kandungan Aktif",
       description: "Kandungan aktif yang direkomendasikan",
       value: normalizeList(analysisResult?.ingredients),
       chip: "bg-blue-100 text-blue-700",
@@ -1630,6 +1693,55 @@ export default function AnalisisBaru() {
     },
   ];
 
+  const getConditionPercentValue = (value) => {
+    const number = Number(value || 0);
+
+    if (!Number.isFinite(number)) return 0;
+
+    const percent = number <= 1 ? number * 100 : number;
+
+    return Math.max(0, Math.min(Math.round(percent), 100));
+  };
+
+  const formatConditionPercent = (value) => {
+    return `${getConditionPercentValue(value)}%`;
+  };
+
+  const conditionAnalysis = analysisResult?.condition || null;
+  const conditionProbabilityItems = [
+    { key: "jerawat", label: "Jerawat" },
+    { key: "komedo", label: "Komedo" },
+    { key: "kerutan", label: "Kerutan" },
+    { key: "flek_hitam", label: "Flek Hitam" },
+    { key: "pori_pori_besar", label: "Pori Besar" },
+  ];
+  const conditionDescriptionMap = {
+    jerawat:
+      "Menunjukkan adanya indikasi peradangan kulit atau jerawat aktif yang dapat dipengaruhi oleh produksi minyak berlebih dan penyumbatan pori.",
+    komedo:
+      "Menunjukkan kemungkinan penyumbatan pori-pori akibat penumpukan minyak dan sel kulit mati.",
+    kerutan:
+      "Menunjukkan adanya garis halus atau penurunan elastisitas kulit yang umumnya berkaitan dengan proses penuaan dan kondisi hidrasi kulit.",
+    flek_hitam:
+      "Menunjukkan adanya area hiperpigmentasi yang dapat muncul akibat paparan sinar matahari atau bekas peradangan kulit.",
+    pori_pori_besar:
+      "Menunjukkan visibilitas pori yang lebih besar dibanding area normal yang sering berkaitan dengan produksi minyak berlebih.",
+  };
+  const formatConditionLabelText = (value) =>
+    String(value || "-").replace(/_/g, " ");
+  const hasConditionPredictions = Object.keys(conditionAnalysis?.predictions || {}).length > 0;
+  const conditionRankings = hasConditionPredictions
+    ? conditionProbabilityItems
+        .map((item) => ({
+          ...item,
+          value: conditionAnalysis.predictions?.[item.key],
+          percentage: getConditionPercentValue(conditionAnalysis.predictions?.[item.key]),
+        }))
+        .sort((a, b) => b.percentage - a.percentage)
+    : [];
+  const dominantConditionMetric = conditionRankings[0];
+  const secondaryConditionMetric = conditionRankings[1];
+
   return (
     <AnimatedPage>
     <div className="page-enter min-h-full min-w-0">
@@ -1639,7 +1751,7 @@ export default function AnalisisBaru() {
 
           {[
             "Identitas",
-            "Capture",
+            "Ambil Foto",
             "Proses Analisis",
             "Hasil Pemeriksaan",
           ].map((item, index) => {
@@ -1656,7 +1768,7 @@ export default function AnalisisBaru() {
                       : "bg-gray-100 text-gray-400"
                   }`}
               >
-                {step > current ? "✓ " : ""}
+                {step > current ? "Selesai - " : ""}
                 {item}
               </div>
             );
@@ -1715,7 +1827,7 @@ export default function AnalisisBaru() {
                     : "bg-slate-100 text-slate-600"
                   }`}
               >
-                Tracking Existing
+                Pasien Pelacakan
               </button>
 
             </div>
@@ -1764,11 +1876,11 @@ export default function AnalisisBaru() {
                     className="w-full mt-2 px-4 py-3 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="basic">
-                      Basic (1x Analisis)
+                      Dasar (1x Analisis)
                     </option>
 
                     <option value="tracking">
-                      Paket Tracking
+                      Paket Pelacakan
                     </option>
                   </select>
                 </div>
@@ -1890,8 +2002,8 @@ export default function AnalisisBaru() {
 
                         <p className="font-bold text-slate-800 mt-1">
                           {paketType === "tracking"
-                            ? "Paket Tracking"
-                            : "Basic Package"}
+                            ? "Paket Pelacakan"
+                            : "Paket Dasar"}
                         </p>
                       </div>
 
@@ -1902,7 +2014,7 @@ export default function AnalisisBaru() {
 
                         <p className="font-bold text-slate-800 mt-1">
                           {paketType === "tracking"
-                            ? "Multi Session"
+                            ? "Multi Sesi"
                             : "1x Pemeriksaan"}
                         </p>
                       </div>
@@ -1913,7 +2025,7 @@ export default function AnalisisBaru() {
                         </p>
 
                         <p className="font-bold text-slate-800 mt-1">
-                          Skin Tracking + History
+                          Pelacakan Kulit + Riwayat
                         </p>
                       </div>
 
@@ -1925,7 +2037,7 @@ export default function AnalisisBaru() {
 
                       <div className="bg-white rounded-2xl p-4">
                         <p className="text-slate-400">
-                          Pasien Tracking
+                          Pasien Pelacakan
                         </p>
 
                         <p className="font-bold text-slate-800 mt-1">
@@ -1949,7 +2061,7 @@ export default function AnalisisBaru() {
                         </p>
 
                         <p className="font-bold text-slate-800 mt-1">
-                          {selectedPatient?.paket_type || "-"}
+                          {selectedPatient?.paket_type === "tracking" ? "Pelacakan" : selectedPatient?.paket_type === "basic" ? "Dasar" : "-"}
                         </p>
                       </div>
 
@@ -2021,7 +2133,7 @@ export default function AnalisisBaru() {
                 : "bg-white"
                 }`}
             >
-              💻 Kamera Internal
+              Kamera Internal
             </button>
 
 
@@ -2034,7 +2146,7 @@ export default function AnalisisBaru() {
             <div className="premium-card bg-white rounded-3xl shadow p-4 sm:p-5 min-w-0">
 
               <h2 className="text-2xl sm:text-3xl font-bold mb-5">
-                Preview Kamera
+                Pratinjau Kamera
               </h2>
 
               <div className="h-[300px] min-[380px]:h-[360px] sm:h-[460px] rounded-3xl overflow-hidden border bg-slate-50 flex items-center justify-center min-w-0">
@@ -2059,7 +2171,7 @@ export default function AnalisisBaru() {
                         {previewMode === "capture" && image ? (
                           <img
                             src={image}
-                            alt="captured"
+                            alt="hasil foto"
                             className="
                               image-fade
                               w-full
@@ -2119,8 +2231,8 @@ export default function AnalisisBaru() {
                             <div className="camera-loading-ring" />
                             <div className="text-sm font-semibold text-slate-300">
                               {captureLoading
-                                ? "Menyiapkan capture..."
-                                : "Preview stream dijeda"}
+                                ? "Menyiapkan foto..."
+                                : "Pratinjau kamera dijeda"}
                             </div>
                           </div>
                         )}
@@ -2145,7 +2257,7 @@ export default function AnalisisBaru() {
                         <LoadingScreen
                           compact
                           title="Menghubungkan Kamera"
-                          subtitle="Koneksi ESP32 sedang dipulihkan. Preview akan muncul lagi setelah perangkat stabil."
+                          subtitle="Koneksi ESP32 sedang dipulihkan. Pratinjau akan muncul lagi setelah perangkat stabil."
                         />
                       </div>
                     </div>
@@ -2272,9 +2384,9 @@ export default function AnalisisBaru() {
                         <div className="flex flex-wrap items-center gap-2">
                           <p className="font-bold">
                             {espReconnecting
-                              ? `${espDeviceLabel} Reconnecting`
+                              ? `${espDeviceLabel} Menghubungkan Ulang`
                               : cameraOnline
-                              ? `${espDeviceLabel} Online`
+                              ? `${espDeviceLabel} Daring`
                               : `${espDeviceLabel} Tidak Terhubung`}
                           </p>
                           <StatusBadge status={espStatus} />
@@ -2282,13 +2394,13 @@ export default function AnalisisBaru() {
 
                         <p className="text-xs opacity-80 mt-1">
                           {cameraOnline
-                            ? `${formatHeartbeatText()} - Latency ${espLatency ?? "-"} ms`
+                            ? `${formatHeartbeatText()} - Latensi ${espLatency ?? "-"} ms`
                             : "Periksa WiFi dan IP"}
                         </p>
                       </div>
 
                       <div className="text-xs font-semibold">
-                        Retry: {espRetryCount}
+                        Percobaan: {espRetryCount}
                       </div>
                     </div>
                   </div>
@@ -2309,7 +2421,7 @@ export default function AnalisisBaru() {
                         ? "Mengambil Foto..."
                         : espChecking
                           ? "Mengecek Kamera..."
-                        : "Capture Manual"}
+                        : "Ambil Foto Manual"}
                     </button>
                     <p className="mt-2 text-center text-xs font-medium text-slate-400">
                       Atau gunakan tombol fisik perangkat
@@ -2356,7 +2468,7 @@ export default function AnalisisBaru() {
                       className="btn-premium mt-4 h-12 rounded-2xl bg-slate-800 text-white font-bold w-full inline-flex items-center justify-center gap-2 touch-manipulation"
                     >
                       {espChecking ? <ButtonSpinner /> : <RefreshCw size={18} />}
-                      {espChecking ? "Menghubungkan..." : "Retry Koneksi"}
+                      {espChecking ? "Menghubungkan..." : "Coba Sambungkan"}
                     </button>
                   )}
                 </>
@@ -2371,7 +2483,7 @@ export default function AnalisisBaru() {
                     }}
                     className="btn-premium h-14 rounded-2xl bg-orange-500 text-white font-bold inline-flex items-center justify-center gap-2 touch-manipulation"
                   >
-                    🔄 Capture Lagi
+                    Ambil Foto Lagi
                   </button>
                 ) : (
                   <button
@@ -2380,7 +2492,7 @@ export default function AnalisisBaru() {
                     className="btn-premium h-14 rounded-2xl bg-slate-900 text-white font-bold inline-flex items-center justify-center gap-2 disabled:opacity-60 touch-manipulation"
                   >
                     {captureLoading && <ButtonSpinner />}
-                    {captureLoading ? "Mengambil Foto..." : "📷 Capture Webcam"}
+                    {captureLoading ? "Mengambil Foto..." : "Ambil Foto Webcam"}
                   </button>
                 )
               )}
@@ -2394,7 +2506,7 @@ export default function AnalisisBaru() {
                   className="btn-premium mt-4 h-14 rounded-2xl bg-purple-600 text-white font-bold inline-flex items-center justify-center gap-2 disabled:opacity-60"
                 >
                   {isAnalyzing && <ButtonSpinner />}
-                  {isAnalyzing ? "Menganalisis..." : "🤖 Analisis Sekarang"}
+                  {isAnalyzing ? "Menganalisis..." : "Analisis Sekarang"}
                 </button>
               )}
 
@@ -2450,9 +2562,9 @@ export default function AnalisisBaru() {
                 </div>
 
                 <div className="rounded-3xl border border-green-100 bg-green-50 p-4">
-                  <p className="text-sm text-gray-500">Device</p>
+                  <p className="text-sm text-gray-500">Perangkat</p>
                   <p className="font-bold text-green-600">
-                    {sourceMode === "esp32" ? `${espDeviceLabel} Online` : "Kamera Internal"}
+                    {sourceMode === "esp32" ? `${espDeviceLabel} Daring` : "Kamera Internal"}
                   </p>
                 </div>
 
@@ -2470,7 +2582,7 @@ export default function AnalisisBaru() {
                 <p className="text-gray-500 text-base sm:text-lg">
                   {analysisError
                     ? "Koneksi backend timeout atau proses AI gagal"
-                    : "Sistem sedang memproses data kulit menggunakan Sistem Analisis Kulit Berbasis Monitoring Digital."}
+                    : "Sistem sedang memproses data kulit menggunakan Sistem Analisis Kulit Berbasis Pemantauan Digital."}
                 </p>
               </div>
 
@@ -2507,14 +2619,14 @@ export default function AnalisisBaru() {
                       className="btn-premium h-12 rounded-2xl bg-slate-700 text-white font-bold inline-flex items-center justify-center gap-2"
                     >
                       <Camera size={18} />
-                      Kembali ke Capture
+                      Kembali ke Pengambilan Foto
                     </button>
                   </div>
                 </div>
               ) : (
                 <ProgressAI
                   progress={progress}
-                  currentStep={aiMessage}
+                  currentStep={analysisProcessStatus}
                   estimatedTime={`Estimasi ${estimate} detik`}
                 />
               )}
@@ -2528,8 +2640,12 @@ export default function AnalisisBaru() {
                   <div className="rounded-3xl border border-slate-100 bg-slate-50">
                     <LoadingScreen
                       compact
-                      title="Analisis Berjalan"
-                      subtitle="Model sedang membaca tekstur kulit dan menyiapkan hasil."
+                      title={analysisComplete || progress >= 100 ? "Analisis Selesai" : "Analisis Berjalan"}
+                      subtitle={
+                        analysisComplete || progress >= 100
+                          ? "Hasil pemeriksaan sudah siap ditinjau."
+                          : "Model sedang membaca wajah dan menyiapkan hasil."
+                      }
                     />
                   </div>
                 )}
@@ -2545,146 +2661,43 @@ export default function AnalisisBaru() {
       )}
 
       {step === 4 && analysisResult && (
-        <div className="min-w-0">
-          <div className="grid grid-cols-1 xl:grid-cols-[1.08fr_0.92fr] gap-6 lg:gap-8 items-start">
-            <div className="space-y-6 min-w-0">
-              <div className="relative w-full h-[300px] min-[380px]:h-[360px] sm:h-[500px] xl:h-[460px] overflow-hidden rounded-3xl sm:rounded-[32px] bg-black shadow-sm">
-                {resultImage && (
-                  <img
-                    src={resultImage}
-                    alt="hasil pemeriksaan"
-                    className="
-                      image-fade
-                      w-full
-                      h-full
-                      object-cover
-                    "
-                    loading="lazy"
-                    decoding="async"
-                  />
-                )}
-              </div>
-
-              <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-5 sm:p-6">
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                  <div>
-                    <h2 className="text-2xl font-bold text-slate-800">
-                      Hasil Pemeriksaan Kulit
-                    </h2>
-
-                    <p className="text-sm text-slate-400 mt-1">
-                      Komposisi hasil pemeriksaan berdasarkan foto yang dianalisis
-                    </p>
-
-                    <p className="text-xs font-semibold text-slate-400 mt-2">
-                      Analisis saat ini mendukung 5 klasifikasi jenis kulit: Berminyak, Kering, Kombinasi, Normal, dan Sensitif.
-                    </p>
-                  </div>
-
-                  <div className="px-4 py-2 rounded-2xl bg-blue-50 text-blue-600 text-sm font-bold capitalize">
-                    {analysisResult?.dominant || "-"}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-1 2xl:grid-cols-3 gap-4">
-                  {skinMetrics.map((metric) => {
-                    const isSupported = metric.supported !== false;
-                    const percentage = Math.round(
-                      metric.value <= 1 ? metric.value * 100 : metric.value
-                    );
-
-                    return (
-                      <div
-                        key={metric.label}
-                        className="premium-card rounded-3xl border border-slate-100 bg-slate-50 p-5"
-                      >
-                        <div className="flex items-center justify-between mb-5">
-                          <div>
-                            <p className="text-sm text-slate-400 font-semibold">
-                              Parameter
-                            </p>
-
-                            <h3 className="text-lg font-bold text-slate-800 mt-1">
-                              {metric.label}
-                            </h3>
-                          </div>
-
-                          <div
-                            className={`w-12 h-12 rounded-2xl ${metric.bg} ${metric.text} flex items-center justify-center font-bold`}
-                          >
-                            {isSupported ? `${percentage}%` : "N/A"}
-                          </div>
-                        </div>
-
-                        {isSupported ? (
-                          <div className="w-full h-3 rounded-full bg-white overflow-hidden border border-slate-100">
-                            <div
-                              className={`h-full rounded-full bg-gradient-to-r ${metric.color}`}
-                              style={{
-                                width: `${Math.min(percentage, 100)}%`,
-                              }}
-                            />
-                          </div>
-                        ) : (
-                          <div className="w-full h-3 rounded-full bg-white overflow-hidden border border-slate-100">
-                            <div className="h-full w-full rounded-full bg-slate-200" />
-                          </div>
-                        )}
-
-                        <p className="text-xs text-slate-400 mt-3">
-                          {metric.description}
-                        </p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
+        <div className="min-w-0 space-y-7">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,1.05fr)] gap-6 lg:gap-8 items-stretch">
+            <div className="relative w-full min-h-[300px] h-[300px] min-[380px]:h-[360px] sm:h-[460px] lg:h-auto overflow-hidden rounded-3xl sm:rounded-[32px] bg-black shadow-sm">
+              {resultImage && (
+                <img
+                  src={resultImage}
+                  alt="hasil pemeriksaan"
+                  className="
+                    image-fade
+                    w-full
+                    h-full
+                    object-cover
+                  "
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
             </div>
 
-            <div className="premium-card bg-white rounded-3xl sm:rounded-[32px] shadow-sm p-4 sm:p-7 min-w-0 h-fit">
-              <div className="space-y-6">
-                <div>
-                  <p className="text-sm font-semibold text-blue-600">
-                    Hasil Pemeriksaan
-                  </p>
-                  <h2 className="mt-2 text-3xl sm:text-5xl font-bold text-slate-900 capitalize leading-tight break-words">
-                    {analysisResult.dominant || "-"}
-                  </h2>
-
-                  <div className="mt-4 flex flex-wrap items-center gap-3">
-                    <span className={`px-3 sm:px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold ${confidenceBadgeClass}`}>
-                      Tingkat Akurasi {confidencePercent}%
-                    </span>
-
-                    <span className="px-3 sm:px-4 py-2 rounded-2xl bg-slate-100 text-xs sm:text-sm font-bold text-slate-700">
-                      {accuracyLevel}
-                    </span>
+            <div className="premium-card bg-white rounded-3xl sm:rounded-[32px] shadow-sm p-5 sm:p-7 min-w-0">
+              <div className="flex h-full flex-col gap-6">
+                <div className="rounded-3xl bg-slate-50 p-4 border border-slate-100">
+                  <div className="mb-4">
+                    <p className="text-sm font-semibold text-blue-600">
+                      Informasi Pasien
+                    </p>
+                    <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 break-words">
+                      {pendingHistoryPayload?.nama_pasien || "-"}
+                    </h2>
                   </div>
 
-                  {confidenceReviewMessage && (
-                    <div className="mt-4 rounded-2xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-700">
-                      {confidenceReviewMessage}
-                    </div>
-                  )}
-                </div>
-
-                <div className="rounded-3xl bg-slate-50 p-4 border border-slate-100">
-                  <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-4">
-                    <div className="col-span-2">
-                      <p className="text-xs font-semibold uppercase text-slate-400">
-                        Nama Pasien
-                      </p>
-                      <p className="mt-1 font-bold text-slate-800">
-                        {pendingHistoryPayload?.nama_pasien || "-"}
-                      </p>
-                    </div>
-
+                  <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-4">
                     <div>
                       <p className="text-xs font-semibold uppercase text-slate-400">
                         Kode
                       </p>
-                      <p className="mt-1 font-bold text-slate-800">
+                      <p className="mt-1 font-bold text-slate-800 break-words">
                         {pendingHistoryPayload?.kode_pasien || "-"}
                       </p>
                     </div>
@@ -2709,14 +2722,23 @@ export default function AnalisisBaru() {
                   </div>
                 </div>
 
+                <div className={`rounded-2xl border px-4 py-3 text-sm ${qualityCardClass}`}>
+                  <p className="font-bold">
+                    Kualitas Pemeriksaan: {examinationQuality.label}
+                  </p>
+                  <p className="mt-1 leading-relaxed">
+                    {examinationQuality.description}
+                  </p>
+                </div>
+
                 <div className="rounded-3xl border border-blue-100 bg-blue-50/60 p-5">
                   <div className="flex items-center gap-3">
                     <div className="h-10 w-10 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold">
-                      SK
+                      JK
                     </div>
 
                     <h3 className="text-lg font-bold text-slate-900">
-                      Kondisi Kulit
+                      Ringkasan Jenis Kulit
                     </h3>
                   </div>
 
@@ -2725,45 +2747,49 @@ export default function AnalisisBaru() {
                   </p>
                 </div>
 
-                <div className="rounded-3xl border border-emerald-100 bg-emerald-50/60 p-5">
+                <div className="rounded-3xl border border-violet-100 bg-violet-50/60 p-5">
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold">
-                      Rx
+                    <div className="h-10 w-10 rounded-2xl bg-violet-600 text-white flex items-center justify-center font-bold">
+                      KW
                     </div>
 
                     <h3 className="text-lg font-bold text-slate-900">
-                      Rekomendasi
+                      Ringkasan Kondisi Wajah
                     </h3>
                   </div>
 
-                  <ul className="mt-3 space-y-2.5">
-                    {resultRecommendations.map((item) => (
-                      <li
-                        key={item}
-                        className="flex gap-3 text-slate-700"
-                      >
-                        <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-emerald-500"></span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <p className="mt-3 text-slate-600 leading-relaxed">
+                    {dominantConditionMetric
+                      ? `Kondisi wajah dominan yang terdeteksi adalah ${dominantConditionMetric.label}.`
+                      : "Hasil kondisi wajah belum tersedia pada pemeriksaan ini."}
+                  </p>
                 </div>
 
-                <div className="grid grid-cols-1 min-[420px]:grid-cols-2 lg:flex lg:flex-wrap gap-3 lg:justify-end pt-2">
+                <div className="grid grid-cols-1 min-[420px]:grid-cols-2 xl:flex xl:flex-wrap gap-3 xl:justify-end pt-1">
                   <button
                     type="button"
                     onClick={handleSaveResult}
                     disabled={Boolean(savedHistoryId) || savingResult}
-                    className="btn-premium w-full lg:w-auto px-5 py-3 rounded-2xl bg-green-600 hover:bg-green-700 text-white font-bold disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
+                    className="btn-premium w-full xl:w-auto px-5 py-3 rounded-2xl bg-green-600 hover:bg-green-700 text-white font-bold disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
                   >
                     {savingResult && <ButtonSpinner />}
                     {savingResult ? "Menyimpan..." : savedHistoryId ? "Tersimpan" : "Simpan Rekam Medis"}
                   </button>
 
+                  {savedHistoryId && (
+                    <button
+                      type="button"
+                      onClick={handleViewSavedResult}
+                      className="btn-premium w-full xl:w-auto px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold"
+                    >
+                      Lihat Detail Pasien
+                    </button>
+                  )}
+
                   <button
                     type="button"
                     onClick={handleAnalyzeAgain}
-                    className="btn-premium w-full lg:w-auto px-5 py-3 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-bold"
+                    className="btn-premium w-full xl:w-auto px-5 py-3 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-bold"
                   >
                     Analisis Ulang
                   </button>
@@ -2771,7 +2797,7 @@ export default function AnalisisBaru() {
                   <button
                     type="button"
                     onClick={handleDeleteResult}
-                    className="btn-premium w-full lg:w-auto px-5 py-3 rounded-2xl bg-red-500 hover:bg-red-600 text-white font-bold"
+                    className="btn-premium w-full xl:w-auto px-5 py-3 rounded-2xl bg-red-500 hover:bg-red-600 text-white font-bold"
                   >
                     Hapus
                   </button>
@@ -2779,7 +2805,7 @@ export default function AnalisisBaru() {
                   <button
                     type="button"
                     onClick={handleBackToCapture}
-                    className="btn-premium w-full lg:w-auto px-5 py-3 rounded-2xl bg-slate-600 hover:bg-slate-700 text-white font-bold"
+                    className="btn-premium w-full xl:w-auto px-5 py-3 rounded-2xl bg-slate-600 hover:bg-slate-700 text-white font-bold"
                   >
                     Kembali
                   </button>
@@ -2788,22 +2814,208 @@ export default function AnalisisBaru() {
             </div>
           </div>
 
-          <div className="mt-7 bg-white rounded-3xl border border-slate-100 shadow-sm p-5 sm:p-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
+            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-5 sm:p-6 h-full">
+              <div className="mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-slate-800">
+                    JENIS KULIT
+                  </h2>
+
+                  <p className="text-sm text-slate-500 mt-1">
+                    Analisis jenis kulit berdasarkan foto yang diperiksa
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="rounded-3xl bg-blue-50 border border-blue-100 p-5">
+                    <p className="text-xs font-semibold uppercase text-blue-400">
+                      Jenis Kulit Dominan
+                    </p>
+                    <p className="mt-2 text-2xl font-bold capitalize text-blue-800 break-words">
+                      {analysisResult?.dominant || "-"}
+                    </p>
+                  </div>
+
+                  <div className="rounded-3xl bg-blue-50 border border-blue-100 p-5">
+                    <p className="text-xs font-semibold uppercase text-blue-400">
+                      Tingkat Akurasi
+                    </p>
+                    <p className="mt-2 text-2xl font-bold text-blue-800">
+                      {confidencePercent}%
+                    </p>
+                  </div>
+                </div>
+
+                {dominantSkinMetric && (
+                  <div className="rounded-3xl border border-blue-100 bg-white/80 p-4 text-sm leading-relaxed text-blue-800">
+                    <p>
+                      Jenis kulit dominan yang terdeteksi adalah{" "}
+                      <span className="font-bold">{dominantSkinMetric.label}</span>{" "}
+                      dengan tingkat akurasi {dominantSkinMetric.percentage}%.
+                    </p>
+                    {secondarySkinMetric && (
+                      <p className="mt-2">
+                        Jenis kulit sekunder adalah{" "}
+                        <span className="font-bold">{secondarySkinMetric.label}</span>{" "}
+                        sebesar {secondarySkinMetric.percentage}%.
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {skinMetrics.map((metric) => {
+                  const isSupported = metric.supported !== false;
+                  const percentage = getSkinMetricPercentValue(metric.value);
+
+                  return (
+                    <div
+                      key={metric.label}
+                      className="rounded-3xl border border-slate-100 bg-slate-50 p-4 sm:p-5"
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="min-w-0">
+                          <h3 className="text-base sm:text-lg font-bold text-slate-800">
+                            {metric.label}
+                          </h3>
+
+                          <p className="mt-1 text-xs sm:text-sm text-slate-500 leading-relaxed">
+                            {metric.description} Hasil pemeriksaan menunjukkan kondisi wajah saat ini {metric.label.toLowerCase()} sebesar {percentage}%.
+                          </p>
+                        </div>
+
+                        <div
+                          className={`h-12 min-w-[3rem] px-3 rounded-2xl ${metric.bg} ${metric.text} flex items-center justify-center font-bold`}
+                        >
+                          {isSupported ? `${percentage}%` : "N/A"}
+                        </div>
+                      </div>
+
+                      <div className="mt-4 w-full h-3 rounded-full bg-white overflow-hidden border border-slate-100">
+                        <div
+                          className={`h-full rounded-full ${isSupported ? `bg-gradient-to-r ${metric.color}` : "bg-slate-200"}`}
+                          style={{
+                            width: `${isSupported ? Math.min(Math.max(percentage, 0), 100) : 100}%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="bg-white rounded-3xl border border-violet-100 shadow-sm p-5 sm:p-6 h-full">
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold text-slate-800">
+                  KONDISI WAJAH
+                </h2>
+
+                <p className="text-sm text-slate-500 mt-1">
+                  Analisis kondisi wajah berdasarkan model deteksi kondisi
+                </p>
+              </div>
+
+              {conditionAnalysis ? (
+                <div className="space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="rounded-3xl bg-violet-50 border border-violet-100 p-5">
+                      <p className="text-xs font-semibold uppercase text-violet-400">
+                        Kondisi Dominan
+                      </p>
+                      <p className="mt-2 text-2xl font-bold capitalize text-violet-800 break-words">
+                        {formatConditionLabelText(conditionAnalysis.dominant_condition)}
+                      </p>
+                    </div>
+
+                    <div className="rounded-3xl bg-violet-50 border border-violet-100 p-5">
+                      <p className="text-xs font-semibold uppercase text-violet-400">
+                        Tingkat Akurasi Kondisi
+                      </p>
+                      <p className="mt-2 text-2xl font-bold text-violet-800">
+                        {formatConditionPercent(conditionAnalysis.confidence)}
+                      </p>
+                    </div>
+                  </div>
+
+                  {dominantConditionMetric && (
+                    <div className="rounded-3xl border border-violet-100 bg-white/80 p-4 text-sm leading-relaxed text-violet-800">
+                      <p>
+                        Kondisi dominan yang terdeteksi adalah{" "}
+                        <span className="font-bold">{dominantConditionMetric.label}</span>{" "}
+                        dengan tingkat keyakinan {dominantConditionMetric.percentage}%.
+                      </p>
+                      {secondaryConditionMetric && (
+                        <p className="mt-2">
+                          Kondisi sekunder adalah{" "}
+                          <span className="font-bold">{secondaryConditionMetric.label}</span>{" "}
+                          sebesar {secondaryConditionMetric.percentage}%.
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="space-y-3">
+                    {conditionProbabilityItems.map((item) => {
+                      const percentage = getConditionPercentValue(
+                        conditionAnalysis.predictions?.[item.key]
+                      );
+
+                      return (
+                        <div
+                          key={item.key}
+                          className="rounded-3xl border border-violet-100 bg-violet-50/60 p-4"
+                        >
+                          <div className="flex items-center justify-between gap-3">
+                            <span className="text-sm font-bold text-slate-700">
+                              {item.label}
+                            </span>
+                            <span className="text-sm font-bold text-violet-700">
+                              {formatConditionPercent(conditionAnalysis.predictions?.[item.key])}
+                            </span>
+                          </div>
+
+                          <p className="mt-2 text-xs leading-relaxed text-slate-500">
+                            {conditionDescriptionMap[item.key]}
+                          </p>
+
+                          <div className="mt-3 h-3 rounded-full bg-white border border-violet-100 overflow-hidden">
+                            <div
+                              className="h-full rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-400"
+                              style={{ width: `${percentage}%` }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                <div className="rounded-3xl border border-violet-100 bg-violet-50/60 p-5 text-sm font-semibold text-violet-700">
+                  Kondisi wajah belum tersedia.
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-5 sm:p-6">
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-slate-800">
                 Rekomendasi Perawatan
               </h2>
 
-              <p className="text-sm text-slate-400 mt-1">
-                Rekomendasi hybrid berdasarkan jenis kulit dominan dan tingkat akurasi
+              <p className="text-sm text-slate-500 mt-1">
+                Rekomendasi berdasarkan hasil analisis jenis kulit dan kondisi wajah
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {recommendationGroups.map((group) => (
                 <div
                   key={group.title}
-                  className="premium-card relative overflow-hidden bg-slate-50 rounded-3xl p-5 border border-slate-100"
+                  className="premium-card relative overflow-hidden bg-slate-50 rounded-3xl p-5 border border-slate-100 min-h-[170px]"
                 >
                   <div className={`absolute top-0 left-0 right-0 h-1 ${group.accent}`} />
 
@@ -2811,7 +3023,7 @@ export default function AnalisisBaru() {
                     {group.title}
                   </h3>
 
-                  <p className="text-sm text-slate-400 mt-1 mb-4">
+                  <p className="text-sm text-slate-500 mt-1 mb-4">
                     {group.description}
                   </p>
 
@@ -2842,14 +3054,14 @@ export default function AnalisisBaru() {
         <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
           <div className="w-full max-w-lg rounded-3xl bg-white p-5 sm:p-6 shadow-2xl">
             <h2 className="text-2xl font-bold text-slate-800">
-              Preview Hasil Capture
+              Pratinjau Hasil Foto
             </h2>
 
             <div className="mt-5 h-64 rounded-2xl overflow-hidden bg-black flex items-center justify-center">
               {capturedImage ? (
                 <img
                   src={capturedImage}
-                  alt="preview hasil capture"
+                  alt="pratinjau hasil foto"
                   className="
                     image-fade
                     w-full
@@ -2873,7 +3085,7 @@ export default function AnalisisBaru() {
                 />
               ) : (
                 <div className="text-sm font-semibold text-slate-300">
-                  Menyiapkan preview...
+                  Menyiapkan pratinjau...
                 </div>
               )}
             </div>

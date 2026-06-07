@@ -26,6 +26,7 @@ import {
   Radio,
   ServerCog,
 } from "lucide-react";
+import { buildFaceCondition, formatConditionLabel } from "../utils/conditionAnalysis";
 
 const CountUp = memo(function CountUp({ value }) {
   const [displayValue, setDisplayValue] = useState(0);
@@ -205,6 +206,8 @@ export default function Dashboard() {
     );
     const today = new Date().toDateString();
 
+    const latestFaceCondition = buildFaceCondition(records[0]);
+
     return {
       totalPatients: uniquePatients.size,
       trackingPatients: records.filter((record) => record.paket_type === "tracking").length,
@@ -223,6 +226,7 @@ export default function Dashboard() {
             )
           : 0,
       latestPrediction: records[0]?.dominant_skin_type || "-",
+      latestFaceCondition: formatConditionLabel(latestFaceCondition?.dominant_condition),
     };
   }, [records]);
 
@@ -237,7 +241,7 @@ export default function Dashboard() {
     const keyword = search.toLowerCase();
 
     return records.filter((record) =>
-      `${record.nama_pasien || ""} ${record.kode_pasien || ""} ${record.paket_type || ""} ${record.dominant_skin_type || ""}`
+      `${record.nama_pasien || ""} ${record.kode_pasien || ""} ${record.paket_type || ""} ${record.dominant_skin_type || ""} ${formatConditionLabel(buildFaceCondition(record)?.dominant_condition)}`
         .toLowerCase()
         .includes(keyword)
     );
@@ -250,7 +254,7 @@ export default function Dashboard() {
       return "Online sekarang";
     }
 
-    return "Menunggu heartbeat";
+    return "Menunggu sinyal perangkat";
   };
 
   const getDeviceUxStatus = (device) => {
@@ -332,7 +336,7 @@ export default function Dashboard() {
         />
 
         <StatCard
-          title="Paket Tracking"
+          title="Paket Pelacakan"
           value={dashboardStats.trackingPatients}
           icon={<Activity className="text-white" />}
           color="bg-emerald-500"
@@ -467,7 +471,7 @@ export default function Dashboard() {
                           }
                         `}
                       >
-                        {patient.paket_type || "basic"}
+                        {patient.paket_type === "tracking" ? "Pelacakan" : "Dasar"}
                       </span>
                     </div>
 
@@ -480,6 +484,10 @@ export default function Dashboard() {
                   <div className="text-left sm:text-right shrink-0">
                     <p className="text-sm font-bold text-blue-600 capitalize">
                       {patient.dominant_skin_type || "-"}
+                    </p>
+
+                    <p className="text-xs font-semibold text-violet-600 capitalize">
+                      {formatConditionLabel(buildFaceCondition(patient)?.dominant_condition)}
                     </p>
 
                     <p className="text-xs font-semibold text-slate-500">
@@ -503,7 +511,7 @@ export default function Dashboard() {
 
             <div>
               <div className="flex justify-between mb-2">
-                <span>Tracking</span>
+                <span>Pelacakan</span>
                 <span>{dashboardStats.trackingPatients}</span>
               </div>
 
@@ -558,6 +566,7 @@ export default function Dashboard() {
             <p>Sistem: {modelReady ? "Siap" : "Perlu dicek"}</p>
             <p>Rata-rata Akurasi: {dashboardStats.averageAccuracy}%</p>
             <p>Prediksi Terbaru: {dashboardStats.latestPrediction}</p>
+            <p>Kondisi Wajah Terbaru: {dashboardStats.latestFaceCondition}</p>
             <p>Dataset Tersimpan: {records.length}</p>
           </div>
         </div>
@@ -575,7 +584,7 @@ export default function Dashboard() {
           <div className="space-y-3">
             {devices.length === 0 ? (
               <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-500">
-                Menunggu heartbeat ESP32.
+                Menunggu sinyal perangkat ESP32.
               </div>
             ) : (
               devices.map((device) => (
@@ -664,12 +673,12 @@ export default function Dashboard() {
             <div className="rounded-2xl bg-slate-50 p-4">
               <p className="text-slate-400">Status</p>
               <p className={`font-bold mt-1 ${modelReady ? "text-emerald-600" : "text-orange-600"}`}>
-                {modelStatus?.status || "unknown"}
+                {modelStatus?.status || "tidak diketahui"}
               </p>
             </div>
 
             <div className="rounded-2xl bg-slate-50 p-4">
-              <p className="text-slate-400">Input</p>
+              <p className="text-slate-400">Ukuran Input</p>
               <p className="font-bold text-slate-700 mt-1">
                 {modelStatus?.input_size?.join("x") || "224x224"}
               </p>
@@ -778,7 +787,7 @@ export default function Dashboard() {
               <p className="text-sm text-slate-500 mt-2">
                 {latestDevice
                   ? `${latestDevice.device_id} - ${formatRelativeHeartbeat(latestDevice)}`
-                  : "ESP32 heartbeat belum diterima"}
+                  : "Sinyal ESP32 belum diterima"}
               </p>
             </div>
           </div>
@@ -788,5 +797,3 @@ export default function Dashboard() {
     </AnimatedPage>
   );
 }
-
-

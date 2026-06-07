@@ -13,3 +13,5 @@ python-dotenv
 mysql-connector-python
 tensorflow==2.15.0
 gdown
+scikit-learn
+matplotlib

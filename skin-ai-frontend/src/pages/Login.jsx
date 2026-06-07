@@ -93,7 +93,7 @@ export default function Login() {
           </h1>
 
           <p className="text-gray-500 text-sm mt-1">
-            Sistem Monitoring Kulit Klinik
+            Sistem Pemantauan Kulit Klinik
           </p>
         </div>
 
@@ -237,5 +237,4 @@ export default function Login() {
     </AnimatedPage>
   );
 }
-
 

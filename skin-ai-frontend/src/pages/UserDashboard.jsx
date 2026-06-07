@@ -7,6 +7,7 @@ import { getUserDashboard } from "../services/HistoryService";
 import { API_URL } from "../config";
 import { ButtonSpinner } from "../components/ui";
 import UserPortalShell from "../components/UserPortalShell";
+import { buildFaceCondition, formatConditionLabel } from "../utils/conditionAnalysis";
 
 const formatDate = (value) => {
   if (!value) return "-";
@@ -32,7 +33,7 @@ export default function UserDashboard() {
         const response = await getUserDashboard();
         setData(response);
       } catch (error) {
-        toast.error(error.message || "Dashboard user gagal dimuat");
+        toast.error(error.message || "Dasbor pasien gagal dimuat");
       } finally {
         setLoading(false);
       }
@@ -42,6 +43,7 @@ export default function UserDashboard() {
   }, []);
 
   const latest = data?.latest;
+  const latestCondition = buildFaceCondition(latest);
 
   const handleDownloadPdf = async () => {
     if (!latest || exportingPdf) return;
@@ -82,7 +84,7 @@ export default function UserDashboard() {
               onClick={() => navigate("/user/profile")}
               className="flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-2.5 text-sm font-black text-white shadow-lg shadow-slate-200 transition hover:bg-slate-800 active:scale-[0.99] sm:w-auto"
             >
-              <Pencil size={16} /> Edit Profile
+              <Pencil size={16} /> Edit Profil
             </button>
           </div>
         </section>
@@ -125,12 +127,21 @@ export default function UserDashboard() {
               <img
                 src={`${API_URL}/uploads/${latest.image_path}`}
                 alt={latest.nama_pasien || "Hasil pemeriksaan"}
-                className="aspect-[4/3] w-full rounded-[24px] object-cover shadow-inner"
+                className="h-[210px] w-full rounded-[24px] object-cover shadow-inner sm:h-[280px]"
               />
               <div>
                 <p className="text-sm text-slate-500">Status kulit</p>
                 <p className="text-3xl font-black capitalize text-slate-900">
                   {latest.dominant_skin_type || "-"}
+                </p>
+                <p className="mt-2 inline-flex rounded-full bg-blue-50 px-3 py-1 text-sm font-black text-blue-700">
+                  {formatDate(latest.exam_date || latest.created_at)}
+                </p>
+              </div>
+              <div className="rounded-2xl bg-violet-50 p-4">
+                <p className="text-sm font-bold text-violet-500">Kondisi wajah</p>
+                <p className="mt-1 text-xl font-black capitalize text-violet-800">
+                  {formatConditionLabel(latestCondition?.dominant_condition)}
                 </p>
               </div>
             </div>
@@ -153,7 +164,7 @@ export default function UserDashboard() {
             disabled={!latest || exportingPdf}
             className="flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 font-bold text-white shadow-lg shadow-slate-200 transition hover:bg-slate-800 active:scale-[0.99] disabled:opacity-50"
           >
-            {exportingPdf ? <ButtonSpinner /> : <Download size={18} />} Download PDF
+            {exportingPdf ? <ButtonSpinner /> : <Download size={18} />} Unduh PDF
           </button>
         </section>
     </UserPortalShell>

@@ -3,9 +3,9 @@ import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const navItems = [
-  { to: "/user/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/user/dashboard", label: "Beranda", icon: LayoutDashboard },
   { to: "/user/history", label: "Riwayat", icon: ClipboardList },
-  { to: "/user/profile", label: "Profile", icon: UserRound },
+  { to: "/user/profile", label: "Profil", icon: UserRound },
 ];
 
 export default function UserPortalShell({ children, compact = false, wide = false }) {
@@ -44,7 +44,7 @@ export default function UserPortalShell({ children, compact = false, wide = fals
               className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-2xl bg-red-600 px-2 py-2 text-[11px] font-black text-white shadow-lg shadow-red-200 transition hover:bg-red-700 active:scale-[0.99] sm:flex-row sm:text-sm"
             >
               <LogOut size={17} />
-              Logout
+              Keluar
             </button>
           </div>
         </nav>

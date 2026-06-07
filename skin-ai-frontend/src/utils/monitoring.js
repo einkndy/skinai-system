@@ -54,7 +54,7 @@ export const getConditionStatus = (sessions = []) => {
 
   if (!latest) {
     return {
-      label: "Perlu Monitoring",
+      label: "Perlu Pemantauan",
       tone: "blue",
       trend: "stable",
       description: "Belum ada data pemeriksaan yang cukup untuk membaca perkembangan.",
@@ -63,13 +63,13 @@ export const getConditionStatus = (sessions = []) => {
 
   if (orderedSessions.length < 2 || latestConfidence < 0.6 || intervalDays > 45) {
     return {
-      label: "Perlu Monitoring",
+      label: "Perlu Pemantauan",
       tone: "blue",
       trend: "stable",
       description:
         latestConfidence < 0.6
           ? "Kualitas pemeriksaan terakhir perlu diperkuat dengan scan ulang."
-          : "Data monitoring perlu dilengkapi dengan pemeriksaan berkala.",
+          : "Data pemantauan perlu dilengkapi dengan pemeriksaan berkala.",
     };
   }
 
@@ -87,7 +87,7 @@ export const getConditionStatus = (sessions = []) => {
       label: "Meningkat",
       tone: "green",
       trend: "up",
-      description: "Kondisi monitoring menunjukkan arah perkembangan yang lebih baik.",
+      description: "Kondisi pemantauan menunjukkan arah perkembangan yang lebih baik.",
     };
   }
 
@@ -101,36 +101,44 @@ export const getConditionStatus = (sessions = []) => {
   }
 
   return {
-    label: "Perlu Monitoring",
+    label: "Perlu Pemantauan",
     tone: "blue",
     trend: "stable",
-    description: "Ada perubahan hasil yang perlu dipantau pada session berikutnya.",
+    description: "Ada perubahan hasil yang perlu dipantau pada sesi berikutnya.",
   };
 };
 
 export const getSessionQualityStatus = (session = {}) => {
   const confidence = toConfidence(session.confidence);
 
-  if (confidence >= 0.8) {
+  if (confidence >= 0.71) {
     return {
-      label: "Valid",
-      tone: "green",
-      description: "Data scan kuat",
+      label: "Sangat Baik",
+      tone: "blue",
+      description: "Foto dan pembacaan model sangat kuat untuk mendukung evaluasi.",
     };
   }
 
-  if (confidence >= 0.6) {
+  if (confidence >= 0.51) {
     return {
-      label: "Low Confidence",
+      label: "Baik",
+      tone: "green",
+      description: "Hasil cukup kuat untuk digunakan sebagai acuan pemeriksaan.",
+    };
+  }
+
+  if (confidence >= 0.31) {
+    return {
+      label: "Cukup",
       tone: "yellow",
-      description: "Perlu validasi ringan",
+      description: "Hasil masih dapat digunakan sebagai indikasi awal, namun kualitas foto dapat ditingkatkan agar hasil analisis lebih optimal.",
     };
   }
 
   return {
-    label: "Scan Ulang",
+    label: "Rendah",
     tone: "red",
-    description: "Kualitas scan rendah",
+    description: "Kualitas foto perlu ditingkatkan. Disarankan melakukan scan ulang dengan pencahayaan dan posisi wajah yang lebih stabil.",
   };
 };
 
@@ -141,57 +149,65 @@ export const generateMonitoringInsight = (sessions = []) => {
   const previous = orderedSessions[orderedSessions.length - 2] || first;
 
   if (!latest) {
-    return ["Belum ada data pemeriksaan yang cukup untuk membuat insight monitoring."];
+    return ["Belum ada data pemeriksaan yang cukup untuk membuat wawasan pemantauan."];
   }
 
   if (orderedSessions.length < 2) {
     return [
-      "Session awal sudah tersimpan. Pemeriksaan berikutnya akan membantu membaca pola perkembangan kulit pasien dengan lebih akurat.",
+      "Sesi awal sudah tersimpan. Pemeriksaan berikutnya akan membantu membaca pola perkembangan kulit pasien dengan lebih jelas.",
     ];
   }
 
-  const latestConfidence = toConfidence(latest.confidence);
-  const previousConfidence = toConfidence(previous.confidence);
-  const confidenceDelta = latestConfidence - previousConfidence;
   const oilyDelta = Number(latest.oily || 0) - Number(previous.oily || 0);
   const dryDelta = Number(latest.dry_skin || 0) - Number(previous.dry_skin || 0);
+  const oilyDeltaFromFirst = Number(latest.oily || 0) - Number(first.oily || 0);
+  const dryDeltaFromFirst = Number(latest.dry_skin || 0) - Number(first.dry_skin || 0);
   const intervalDays = getDaysBetween(getSessionDate(previous), getSessionDate(latest));
   const insights = [];
+  const formatDelta = (value) => `${Math.abs(Math.round(value * 100))}%`;
 
-  if (confidenceDelta >= 0.08) {
+  if (oilyDeltaFromFirst <= -0.05) {
     insights.push(
-      "Kualitas pemeriksaan menunjukkan peningkatan dibanding session sebelumnya, sehingga pembacaan kondisi kulit lebih dapat diandalkan."
+      `Produksi minyak menurun ${formatDelta(oilyDeltaFromFirst)} dibanding sesi awal.`
     );
   }
 
-  if (confidenceDelta <= -0.08) {
+  if (oilyDeltaFromFirst >= 0.05) {
     insights.push(
-      "Kualitas pemeriksaan menurun dibanding session sebelumnya. Pencahayaan dan posisi wajah sebaiknya distabilkan sebelum scan berikutnya."
+      `Produksi minyak meningkat ${formatDelta(oilyDeltaFromFirst)} dibanding sesi awal.`
     );
   }
 
-  if (dryDelta <= -0.05) {
+  if (dryDeltaFromFirst <= -0.05) {
     insights.push(
-      "Tingkat hidrasi terlihat lebih baik dibanding session sebelumnya, terutama dari penurunan indikator kekeringan."
+      `Kondisi kulit menunjukkan tingkat kekeringan ${formatDelta(dryDeltaFromFirst)} lebih rendah dibanding sesi awal.`
     );
   }
 
-  if (oilyDelta <= -0.05) {
+  if (dryDeltaFromFirst >= 0.05) {
     insights.push(
-      "Produksi minyak tampak lebih terkendali, sehingga rutinitas perawatan saat ini dapat dipertahankan sambil tetap dipantau."
+      `Kondisi kulit menunjukkan tingkat kekeringan ${formatDelta(dryDeltaFromFirst)} lebih tinggi dibanding sesi awal.`
     );
   }
 
   if (previous.dominant_skin_type !== latest.dominant_skin_type) {
     insights.push(
-      `Jenis kulit dominan berubah dari ${previous.dominant_skin_type} menjadi ${latest.dominant_skin_type}. Perubahan ini perlu dikonfirmasi pada session berikutnya.`
+      `Jenis kulit dominan berubah dari ${previous.dominant_skin_type} menjadi ${latest.dominant_skin_type}. Perubahan ini perlu dikonfirmasi pada sesi berikutnya.`
     );
   }
 
   if (intervalDays !== null && intervalDays > 30) {
     insights.push(
-      "Interval pemeriksaan cukup panjang. Monitoring akan lebih konsisten bila session dilakukan dalam jadwal yang lebih teratur."
+      "Interval pemeriksaan cukup panjang. Pemantauan akan lebih konsisten bila sesi dilakukan dalam jadwal yang lebih teratur."
     );
+  }
+
+  if (insights.length === 0 && oilyDelta <= -0.03) {
+    insights.push("Produksi minyak menurun dibanding sesi sebelumnya.");
+  }
+
+  if (insights.length === 0 && dryDelta <= -0.03) {
+    insights.push("Tingkat kekeringan kulit menurun dibanding sesi sebelumnya.");
   }
 
   if (insights.length === 0) {
@@ -212,7 +228,7 @@ export const calculateHealthScore = (sessions = []) => {
   if (!latest) {
     return {
       score: 0,
-      label: "Monitoring Needed",
+      label: "Perlu Pemantauan",
       tone: "blue",
     };
   }
@@ -237,10 +253,10 @@ export const calculateHealthScore = (sessions = []) => {
     Math.max(0, Math.min(100, confidenceScore + trendScore + stabilityScore + consistencyScore))
   );
 
-  if (score >= 85) return { score, label: "Excellent", tone: "green" };
-  if (score >= 70) return { score, label: "Good", tone: "blue" };
-  if (score >= 55) return { score, label: "Moderate", tone: "yellow" };
-  return { score, label: "Monitoring Needed", tone: "red" };
+  if (score >= 85) return { score, label: "Sangat Baik", tone: "green" };
+  if (score >= 70) return { score, label: "Baik", tone: "blue" };
+  if (score >= 55) return { score, label: "Sedang", tone: "yellow" };
+  return { score, label: "Perlu Pemantauan", tone: "red" };
 };
 
 const splitCareValue = (value) =>
@@ -259,7 +275,6 @@ export const generateSmartRecommendations = (sessions = [], currentSession = nul
     orderedSessions
       .filter((session) => session?.id !== latest?.id)
       .slice(-1)[0] || orderedSessions[orderedSessions.length - 2];
-  const confidence = toConfidence(latest.confidence);
   const conditionStatus = getConditionStatus(orderedSessions.length ? orderedSessions : [latest]);
   const skinType = getSkinTypeText(latest);
   const baseIngredients = splitCareValue(latest.ingredients);
@@ -301,27 +316,23 @@ export const generateSmartRecommendations = (sessions = [], currentSession = nul
     ],
   });
 
-  const confidenceCopy =
-    confidence < 0.6
-      ? "Confidence pemeriksaan rendah, jadi rekomendasi sebaiknya dikonfirmasi ulang dengan scan yang lebih stabil."
-      : confidence < 0.8
-      ? "Confidence cukup baik, namun hasil monitoring berikutnya tetap penting untuk memastikan konsistensi."
-      : "Confidence pemeriksaan baik, rekomendasi dapat digunakan sebagai acuan rutinitas sampai session berikutnya.";
+  const monitoringCopy =
+    "Gunakan hasil pemeriksaan sebagai acuan awal dan lakukan sesi berikutnya untuk melihat konsistensi perubahan kulit.";
 
-  const trendCopy =
+  const statusCopy =
     conditionStatus.label === "Menurun"
-      ? "Karena tren menurun, hindari eksperimen produk agresif dan prioritaskan rutinitas yang menenangkan."
-      : conditionStatus.label === "Meningkat"
-      ? "Karena tren membaik, pertahankan rutinitas yang berjalan dan evaluasi kembali pada jadwal berikutnya."
-      : conditionStatus.label === "Stabil"
-      ? "Karena kondisi stabil, perubahan produk besar belum diperlukan kecuali ada keluhan baru."
-      : "Pantau respons kulit pada session berikutnya sebelum mengambil keputusan perawatan yang lebih intens.";
+      ? "Jika hasil pemantauan menurun, hindari eksperimen produk agresif dan prioritaskan rutinitas yang menenangkan."
+    : conditionStatus.label === "Meningkat"
+      ? "Jika hasil pemantauan membaik, pertahankan rutinitas yang berjalan dan evaluasi kembali pada jadwal berikutnya."
+    : conditionStatus.label === "Stabil"
+      ? "Saat kondisi stabil, perubahan produk besar belum diperlukan kecuali ada keluhan baru."
+      : "Pantau respons kulit pada sesi berikutnya sebelum mengambil keputusan perawatan yang lebih intens.";
 
   recommendations.push({
-    priority: "monitoring",
-    title: "Arahan Monitoring",
+    priority: "pemantauan",
+    title: "Arahan Pemantauan",
     tone: conditionStatus.tone,
-    items: [confidenceCopy, trendCopy],
+    items: [monitoringCopy, statusCopy],
   });
 
   if (previous?.dominant_skin_type && latest?.dominant_skin_type && previous.dominant_skin_type !== latest.dominant_skin_type) {
@@ -350,14 +361,14 @@ export const generateMonitoringReminder = (sessions = []) => {
     };
   }
 
-  if (confidence < 0.8 || status.label === "Perlu Monitoring") {
+  if (confidence < 0.8 || status.label === "Perlu Pemantauan") {
     return {
       days: 14,
       urgency: "penting",
       tone: "yellow",
       title: "Pemeriksaan ulang dalam 14 hari",
       message:
-        "Monitoring lanjutan dalam 14 hari membantu memastikan hasil tetap konsisten dan tidak dipengaruhi kondisi scan.",
+        "Pemantauan lanjutan dalam 14 hari membantu memastikan hasil tetap konsisten dan tidak dipengaruhi kondisi scan.",
     };
   }
 
@@ -367,7 +378,7 @@ export const generateMonitoringReminder = (sessions = []) => {
     tone: "blue",
     title: "Pemeriksaan ulang dalam 30 hari",
     message:
-      "Kondisi monitoring cukup baik. Pemeriksaan rutin dalam 30 hari sudah memadai untuk menjaga kontinuitas data.",
+      "Kondisi pemantauan cukup baik. Pemeriksaan rutin dalam 30 hari sudah memadai untuk menjaga kontinuitas data.",
   };
 };
 
@@ -383,14 +394,14 @@ export const generatePatientActivityFeed = (sessions = []) => {
     type: "scan",
     tone: "blue",
     title: "Pemeriksaan baru selesai",
-    description: `Session ${latest.session_number || orderedSessions.length} tersimpan dengan hasil ${latest.dominant_skin_type || "-"}.`,
+    description: `Sesi ${latest.session_number || orderedSessions.length} tersimpan dengan hasil ${latest.dominant_skin_type || "-"}.`,
     date: latest.exam_date || latest.created_at,
   });
 
   feed.push({
     type: "status",
     tone: status.tone,
-    title: "Hasil monitoring diperbarui",
+    title: "Hasil pemantauan diperbarui",
     description: `Status kondisi saat ini: ${status.label}.`,
     date: latest.exam_date || latest.created_at,
   });
@@ -399,7 +410,7 @@ export const generatePatientActivityFeed = (sessions = []) => {
     feed.push({
       type: "warning",
       tone: "red",
-      title: "Confidence rendah terdeteksi",
+      title: "Pemeriksaan ulang disarankan",
       description: "Disarankan scan ulang dengan pencahayaan dan posisi wajah yang lebih stabil.",
       date: latest.exam_date || latest.created_at,
     });
@@ -409,8 +420,8 @@ export const generatePatientActivityFeed = (sessions = []) => {
     feed.push({
       type: "session",
       tone: "green",
-      title: "Session baru ditambahkan",
-      description: `Total monitoring pasien kini berisi ${orderedSessions.length} session pemeriksaan.`,
+      title: "Sesi baru ditambahkan",
+      description: `Total pemantauan pasien kini berisi ${orderedSessions.length} sesi pemeriksaan.`,
       date: latest.exam_date || latest.created_at,
     });
   }

@@ -11,11 +11,11 @@ const statusStyles = {
 const statusLabels = {
   online: "Online",
   offline: "Offline",
-  warning: "Warning",
-  processing: "Processing",
-  connecting: "Connecting",
-  reconnecting: "Reconnecting",
-  "camera ready": "Camera Ready",
+  warning: "Peringatan",
+  processing: "Memproses",
+  connecting: "Menghubungkan",
+  reconnecting: "Menghubungkan Ulang",
+  "camera ready": "Kamera Siap",
 };
 
 export default function StatusBadge({ status = "online" }) {

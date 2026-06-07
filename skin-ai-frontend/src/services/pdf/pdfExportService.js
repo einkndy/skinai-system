@@ -7,6 +7,14 @@ import {
   generateSmartRecommendations,
   getConditionStatus,
 } from "../../utils/monitoring";
+import {
+  buildFaceCondition,
+  CONDITION_PROBABILITY_ITEMS,
+  formatConditionLabel,
+  formatConditionPercent,
+  getFaceConditionStatus,
+  getConditionPercentValue,
+} from "../../utils/conditionAnalysis";
 
 const formatDate = (dateString, withTime = false) => {
   if (!dateString) return "-";
@@ -64,6 +72,52 @@ const imageUrl = (path) => {
   }
 
   return `${API_URL}/uploads/${path}`;
+};
+
+const getSessionImageValue = (session = {}) =>
+  session.image_url ||
+  session.photo_url ||
+  session.captured_image ||
+  session.image_path ||
+  session.image ||
+  session.photo ||
+  "";
+
+const isSameSession = (session, target) => {
+  if (!session || !target) return false;
+  if (session.id != null && target.id != null) return String(session.id) === String(target.id);
+  if (session.session_number != null && target.session_number != null) {
+    return Number(session.session_number) === Number(target.session_number);
+  }
+
+  return session === target;
+};
+
+const getMonitoringScope = (sessions = [], selectedSession = null) => {
+  const ordered = sessions.filter(Boolean);
+
+  if (!selectedSession) return ordered;
+
+  const selectedIndex = ordered.findIndex((session) => isSameSession(session, selectedSession));
+
+  if (selectedIndex >= 0) return ordered.slice(0, selectedIndex + 1);
+
+  return [...ordered, selectedSession].filter(Boolean);
+};
+
+const buildPdfInsights = ({ insights = [], monitoringStatus, session = {}, faceCondition }) => {
+  const confidence = toPercent(session.confidence);
+  const conditionLabel = formatConditionLabel(faceCondition?.dominant_condition);
+  const opening =
+    faceCondition && conditionLabel !== "-"
+      ? `Kondisi wajah dominan pada sesi ini adalah ${conditionLabel}. ${monitoringStatus.description}`
+      : monitoringStatus.description;
+  const quality =
+    confidence < 60
+      ? "Tingkat akurasi pemeriksaan masih perlu ditingkatkan agar hasil monitoring berikutnya lebih kuat."
+      : "Tingkat akurasi pemeriksaan cukup mendukung pemantauan kondisi kulit pada sesi ini.";
+
+  return [opening, ...insights, quality].filter(Boolean).slice(0, 4);
 };
 
 const blobToDataUrl = (blob) =>
@@ -140,7 +194,7 @@ const buildChartSvg = (sessions = []) => {
   }));
 
   if (!points.length) {
-    return `<div class="empty-chart">Belum ada data monitoring chart.</div>`;
+    return `<div class="empty-chart">Belum ada data grafik pemantauan.</div>`;
   }
 
   const width = 640;
@@ -201,23 +255,34 @@ const buildChartSvg = (sessions = []) => {
 const listItems = (items = []) =>
   items.length
     ? items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")
-    : "<li>Belum ada rekomendasi khusus pada session ini.</li>";
+    : "<li>Belum ada rekomendasi khusus pada sesi ini.</li>";
+
+const conditionMetricRows = (condition) =>
+  CONDITION_PROBABILITY_ITEMS.map((item) => ({
+    ...item,
+    value: condition?.predictions?.[item.key],
+    color: "#8b5cf6",
+  }));
 
 const buildTemplate = async ({ patient = {}, session = {}, sessions = [] }) => {
   const exportDate = new Date();
   const orderedSessions = sessions.length ? sessions : [session].filter(Boolean);
-  const firstSession = orderedSessions[0] || session;
   const latestSession = session || orderedSessions.at(-1) || {};
+  const monitoringSessions = getMonitoringScope(orderedSessions, latestSession);
   const confidence = toPercent(latestSession.confidence);
-  const conditionStatus = getConditionStatus(orderedSessions);
-  const insights = generateMonitoringInsight(orderedSessions);
-  const reminder = generateMonitoringReminder(orderedSessions);
-  const recommendations = generateSmartRecommendations(orderedSessions, latestSession);
-  const mainImage = await loadImageAsDataUrl(imageUrl(latestSession.image_path));
-  const beforeImage =
-    firstSession?.image_path && firstSession.image_path !== latestSession.image_path
-      ? await loadImageAsDataUrl(imageUrl(firstSession.image_path))
-      : "";
+  const faceCondition = buildFaceCondition(latestSession);
+  const skinMonitoringStatus = getConditionStatus(monitoringSessions);
+  const faceMonitoringStatus = getFaceConditionStatus(monitoringSessions);
+  const conditionStatus = faceCondition ? faceMonitoringStatus : skinMonitoringStatus;
+  const insights = buildPdfInsights({
+    insights: generateMonitoringInsight(monitoringSessions),
+    monitoringStatus: conditionStatus,
+    session: latestSession,
+    faceCondition,
+  });
+  const reminder = generateMonitoringReminder(monitoringSessions);
+  const recommendations = generateSmartRecommendations(monitoringSessions, latestSession);
+  const mainImage = await loadImageAsDataUrl(imageUrl(getSessionImageValue(latestSession)));
   const ingredients = asArray(latestSession.ingredients);
   const products = asArray(latestSession.products);
   const tips = asArray(latestSession.tips);
@@ -264,10 +329,11 @@ const buildTemplate = async ({ patient = {}, session = {}, sessions = [] }) => {
         .subtitle { margin-top: 5px; color: #475569; font-size: 13px; font-weight: 700; }
         .timestamp { text-align: right; color: #475569; font-size: 11px; line-height: 1.6; }
         .section { margin-top: 18px; break-inside: avoid; page-break-inside: avoid; }
-        .section-break { break-before: page; page-break-before: always; }
         .section-title { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 10px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .grid-monitoring { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
         .card {
           background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px;
           padding: 16px; box-shadow: 0 12px 30px rgba(15, 23, 42, .05);
@@ -344,8 +410,8 @@ const buildTemplate = async ({ patient = {}, session = {}, sessions = [] }) => {
         </div>
         <div class="timestamp">
           <strong>Laporan Monitoring Kulit</strong><br />
-          Tanggal export: ${escapeHtml(formatDate(exportDate))}<br />
-          Generated: ${escapeHtml(formatDate(exportDate, true))}
+          Tanggal ekspor: ${escapeHtml(formatDate(exportDate))}<br />
+          Dibuat: ${escapeHtml(formatDate(exportDate, true))}
         </div>
       </section>
 
@@ -359,15 +425,27 @@ const buildTemplate = async ({ patient = {}, session = {}, sessions = [] }) => {
       </section>
 
       <section class="section">
-        <h2 class="section-title">Hasil Pemeriksaan</h2>
-        <div class="grid-3">
+        <h2 class="section-title">Ringkasan Hasil</h2>
+        <div class="grid-4">
           <div class="card summary-card"><p class="label">Jenis Kulit</p><p class="value">${escapeHtml(latestSession.dominant_skin_type || "-")}</p></div>
+          <div class="card summary-card"><p class="label">Kondisi Wajah</p><p class="value">${escapeHtml(formatConditionLabel(faceCondition?.dominant_condition))}</p></div>
           <div class="card summary-card"><p class="label">Tingkat Akurasi</p><p class="value">${confidence}%</p></div>
-          <div class="card summary-card"><p class="label">Status Monitoring</p><p class="value"><span class="badge">${escapeHtml(conditionStatus.label)}</span></p></div>
+          <div class="card summary-card"><p class="label">Status Pemantauan</p><p class="value"><span class="badge">${escapeHtml(conditionStatus.label)}</span></p></div>
         </div>
       </section>
 
-      <section class="section grid-2">
+      <section class="section">
+        <h2 class="section-title">Ringkasan Monitoring</h2>
+        <div class="grid-monitoring">
+          <div class="card summary-card"><p class="label">Jenis Kulit Dominan</p><p class="value">${escapeHtml(latestSession.dominant_skin_type || "-")}</p></div>
+          <div class="card summary-card"><p class="label">Kondisi Dominan</p><p class="value">${escapeHtml(formatConditionLabel(faceCondition?.dominant_condition))}</p></div>
+          <div class="card summary-card"><p class="label">Tingkat Akurasi</p><p class="value">${confidence}%</p></div>
+          <div class="card summary-card"><p class="label">Status Pemantauan</p><p class="value"><span class="badge">${escapeHtml(conditionStatus.label)}</span></p></div>
+          <div class="card summary-card"><p class="label">Jumlah Sesi</p><p class="value">${monitoringSessions.length}</p></div>
+        </div>
+      </section>
+
+      <section class="section">
         <div class="card image-card">
           <h2 class="section-title">Foto Pemeriksaan</h2>
           ${
@@ -376,26 +454,11 @@ const buildTemplate = async ({ patient = {}, session = {}, sessions = [] }) => {
               : `<div class="image-placeholder">Foto tidak tersedia</div>`
           }
         </div>
-        <div class="card image-card">
-          <h2 class="section-title">Before vs After</h2>
-          <div class="grid-2">
-            ${
-              beforeImage
-                ? `<img src="${beforeImage}" alt="Before" />`
-                : `<div class="image-placeholder">Before belum tersedia</div>`
-            }
-            ${
-              mainImage
-                ? `<img src="${mainImage}" alt="After" />`
-                : `<div class="image-placeholder">After belum tersedia</div>`
-            }
-          </div>
-        </div>
       </section>
 
-      <section class="section grid-2">
+      <section class="section">
         <div class="card">
-          <h2 class="section-title">Parameter Kulit</h2>
+          <h2 class="section-title">Hasil Pemeriksaan Jenis Kulit</h2>
           <div class="metric">
             ${metricRows(latestSession)
               .map((metric) => {
@@ -411,17 +474,55 @@ const buildTemplate = async ({ patient = {}, session = {}, sessions = [] }) => {
               .join("")}
           </div>
         </div>
+      </section>
+
+      <section class="section">
         <div class="card">
-          <h2 class="section-title">Monitoring Insight</h2>
-          <p class="badge">${escapeHtml(conditionStatus.description)}</p>
+          <h2 class="section-title">Hasil Pemeriksaan Kondisi Wajah</h2>
+          ${
+            faceCondition
+              ? `
+                <div class="grid-2">
+                  <div class="card summary-card">
+                    <p class="label">Kondisi Dominan</p>
+                    <p class="value">${escapeHtml(formatConditionLabel(faceCondition.dominant_condition))}</p>
+                  </div>
+                  <div class="card summary-card">
+                    <p class="label">Tingkat Akurasi Kondisi</p>
+                    <p class="value">${escapeHtml(formatConditionPercent(faceCondition.confidence))}</p>
+                  </div>
+                </div>
+                <div class="metric">
+                  ${conditionMetricRows(faceCondition)
+                    .map((metric) => {
+                      const percent = getConditionPercentValue(metric.value);
+                      return `
+                        <div class="metric-row">
+                          <span class="metric-label">${escapeHtml(metric.label)}</span>
+                          <span class="bar"><span style="width:${percent}%; background:${metric.color};"></span></span>
+                          <span class="metric-value">${percent}%</span>
+                        </div>
+                      `;
+                    })
+                    .join("")}
+                </div>
+              `
+              : `<p class="insight">Kondisi wajah belum tersedia pada sesi ini.</p>`
+          }
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="card">
+          <h2 class="section-title">Insight Monitoring</h2>
           ${insights.map((item) => `<p class="insight">${escapeHtml(item)}</p>`).join("")}
         </div>
       </section>
 
-      <section class="section section-break chart-section" data-pdf-keep="true">
-        <h2 class="section-title">Monitoring Chart</h2>
+      <section class="section chart-section" data-pdf-keep="true">
+        <h2 class="section-title">Perkembangan Tingkat Akurasi Pemeriksaan</h2>
         <div class="chart-wrap">
-          ${buildChartSvg(orderedSessions)}
+          ${buildChartSvg(monitoringSessions)}
         </div>
       </section>
 
@@ -458,9 +559,9 @@ const buildTemplate = async ({ patient = {}, session = {}, sessions = [] }) => {
 
       <footer class="footer">
         <div>
-          <strong>Generated by SkinAI</strong><br />
+          <strong>Dibuat oleh SkinAI</strong><br />
           Laporan ini dibuat otomatis untuk mendukung monitoring klinik dan perlu divalidasi sesuai kebutuhan klinis.<br />
-          Timestamp: ${escapeHtml(exportDate.toISOString())}
+          Waktu sistem: ${escapeHtml(exportDate.toISOString())}
         </div>
         <div class="qr" aria-label="QR placeholder"></div>
       </footer>

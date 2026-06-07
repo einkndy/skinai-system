@@ -15,7 +15,7 @@ export default function MainLayout({ children }) {
     if (location.pathname === "/dashboard") return "Dashboard";
     if (location.pathname === "/analisis") return "Analisis Baru";
     if (location.pathname === "/rekam-medis") return "Rekam Medis";
-    if (location.pathname === "/profile") return "Profile Admin";
+    if (location.pathname === "/profile") return "Profil Admin";
     if (location.pathname.startsWith("/result")) return "Hasil Pemeriksaan";
     return "SkinAI";
   };

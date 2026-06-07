@@ -49,7 +49,7 @@ export const markSaveFlow = ({ payload, response }) => {
     history_id: Number(historyId),
     patient_id: Number(patientId),
     session_number: Number(sessionNumber),
-    redirect_expected: `/result/${historyId}`,
+    redirect_expected: `/detail/${patientId}`,
   });
 
   return true;

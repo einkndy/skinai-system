@@ -1,2 +1,1 @@
-from .face_alignment import align_face_image_bytes
-
+from .face_alignment import align_face_image_bytes, detect_crop_face_for_prediction

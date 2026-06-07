@@ -61,7 +61,7 @@ export default class GlobalErrorBoundary extends Component {
               to="/dashboard"
               className="btn-premium px-5 py-3 rounded-2xl bg-slate-900 text-white font-semibold"
             >
-              Kembali Dashboard
+              Kembali ke Dasbor
             </Link>
           </div>
         </div>

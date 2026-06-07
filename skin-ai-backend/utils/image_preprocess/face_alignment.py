@@ -8,6 +8,10 @@ except ImportError:
 
 OUTPUT_SIZE = 640
 CROP_RATIO = 2.35
+MIN_FACE_RATIO = 0.08
+MIN_BLUR_SCORE = 80.0
+MIN_BRIGHTNESS = 45.0
+MAX_BRIGHTNESS = 210.0
 
 
 def _decode_image(image_bytes):
@@ -163,6 +167,149 @@ def _crop_face_square(image, face):
     cropped = image[top:bottom, left:right]
 
     return cropped
+
+
+def _quality_metrics(image, face=None):
+    gray = cv2.cvtColor(
+        image,
+        cv2.COLOR_BGR2GRAY,
+    )
+
+    blur_score = float(cv2.Laplacian(gray, cv2.CV_64F).var())
+    brightness = float(np.mean(gray))
+    image_h, image_w = image.shape[:2]
+    face_ratio = None
+
+    if face is not None:
+        _, _, w, h = face
+        face_ratio = float((w * h) / max(image_w * image_h, 1))
+
+    issues = []
+
+    if blur_score < MIN_BLUR_SCORE:
+        issues.append("blur")
+
+    if brightness < MIN_BRIGHTNESS:
+        issues.append("too_dark")
+    elif brightness > MAX_BRIGHTNESS:
+        issues.append("too_bright")
+
+    if face is None:
+        issues.append("face_not_detected")
+    elif face_ratio is not None and face_ratio < MIN_FACE_RATIO:
+        issues.append("face_too_small")
+
+    return {
+        "blur_score": blur_score,
+        "brightness": brightness,
+        "face_ratio": face_ratio,
+        "quality_ok": len(issues) == 0,
+        "quality_issues": issues,
+    }
+
+
+def detect_crop_face_for_prediction(
+    image_bytes,
+    output_size=OUTPUT_SIZE,
+):
+    metadata = {
+        "face_detected": False,
+        "face_box": None,
+        "original_width": None,
+        "original_height": None,
+        "processed_width": None,
+        "processed_height": None,
+        "crop_applied": False,
+        "quality_ok": False,
+        "quality_issues": ["face_not_detected"],
+        "blur_score": None,
+        "brightness": None,
+        "face_ratio": None,
+        "fallback_reason": "face_not_detected",
+    }
+
+    try:
+        if cv2 is None:
+            metadata["quality_issues"] = ["opencv_unavailable"]
+            metadata["fallback_reason"] = "opencv_unavailable"
+            return image_bytes, metadata
+
+        image = _decode_image(image_bytes)
+
+        if image is None:
+            metadata["quality_issues"] = ["image_decode_failed"]
+            metadata["fallback_reason"] = "image_decode_failed"
+            return image_bytes, metadata
+
+        image = _ensure_portrait(image)
+        image_h, image_w = image.shape[:2]
+        metadata["original_width"] = int(image_w)
+        metadata["original_height"] = int(image_h)
+
+        face = _detect_largest_face(image)
+        metrics = _quality_metrics(image, face)
+        metadata.update(metrics)
+
+        if face is None:
+            print("PREDICT FACE NOT DETECTED")
+            metadata["fallback_reason"] = "face_not_detected"
+            return image_bytes, metadata
+
+        x, y, w, h = face
+        metadata["face_detected"] = True
+        metadata["face_box"] = {
+            "x": int(x),
+            "y": int(y),
+            "width": int(w),
+            "height": int(h),
+        }
+
+        angle = _calculate_rotation_angle(face)
+        rotated = _rotate_image(
+            image,
+            angle,
+        )
+
+        rotated_face = _detect_largest_face(rotated)
+
+        if rotated_face is None:
+            rotated_face = face
+
+        cropped = _crop_face_square(
+            rotated,
+            rotated_face,
+        )
+
+        resized = cv2.resize(
+            cropped,
+            (output_size, output_size),
+            interpolation=cv2.INTER_AREA,
+        )
+
+        encoded = _encode_jpeg(resized)
+
+        if encoded is None:
+            metadata["quality_ok"] = False
+            metadata["quality_issues"] = ["crop_encode_failed"]
+            metadata["fallback_reason"] = "crop_encode_failed"
+            return image_bytes, metadata
+
+        metadata["processed_width"] = int(output_size)
+        metadata["processed_height"] = int(output_size)
+        metadata["crop_applied"] = True
+        metadata["fallback_reason"] = None
+
+        print("PREDICT FACE DETECTED")
+        print("PREDICT FACE CROP APPLIED")
+
+        return encoded, metadata
+
+    except Exception as error:
+        print("PREDICT FACE CROP ERROR:", error)
+        metadata["quality_ok"] = False
+        metadata["quality_issues"] = ["face_crop_error"]
+        metadata["fallback_reason"] = "face_crop_error"
+        return image_bytes, metadata
 
 
 def align_face_image_bytes(

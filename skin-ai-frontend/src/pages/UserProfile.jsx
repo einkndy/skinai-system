@@ -29,7 +29,7 @@ export default function UserProfile() {
           password: "",
         });
       } catch (error) {
-        toast.error(error.message || "Profile gagal dimuat");
+        toast.error(error.message || "Profil gagal dimuat");
       } finally {
         setLoading(false);
       }
@@ -75,9 +75,9 @@ export default function UserProfile() {
         phone: response.phone,
       });
       setForm((prev) => ({ ...prev, password: "" }));
-      toast.success("Profile berhasil diperbarui");
+      toast.success("Profil berhasil diperbarui");
     } catch (error) {
-      toast.error(error.message || "Profile gagal disimpan");
+      toast.error(error.message || "Profil gagal disimpan");
     } finally {
       setSaving(false);
     }
@@ -91,16 +91,16 @@ export default function UserProfile() {
             <UserRound size={30} />
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-bold text-slate-500">Profile Pasien</p>
+            <p className="text-sm font-bold text-slate-500">Profil Pasien</p>
             <h1 className="truncate text-2xl font-black text-slate-900">
-              {form.full_name || "User SkinAI"}
+              {form.full_name || "Pengguna SkinAI"}
             </h1>
           </div>
         </div>
 
         <div className="mt-6 rounded-[24px] bg-blue-50 p-4 text-sm font-semibold text-blue-800 ring-1 ring-blue-100">
           <span className="inline-flex items-center gap-2">
-            <ShieldCheck size={18} /> Profile ini hanya dapat diubah oleh akun Anda sendiri.
+            <ShieldCheck size={18} /> Profil ini hanya dapat diubah oleh akun Anda sendiri.
           </span>
         </div>
       </section>
@@ -111,7 +111,7 @@ export default function UserProfile() {
       >
         {loading ? (
           <div className="flex items-center gap-2 text-sm font-semibold text-slate-500">
-            <ButtonSpinner /> Memuat profile...
+            <ButtonSpinner /> Memuat profil...
           </div>
         ) : (
           <div className="space-y-5">
@@ -171,7 +171,7 @@ export default function UserProfile() {
               className="flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3 font-black text-white shadow-lg shadow-blue-200 transition hover:bg-blue-700 active:scale-[0.99] disabled:opacity-60"
             >
               {saving ? <ButtonSpinner /> : <Save size={18} />}
-              {saving ? "Menyimpan..." : "Simpan Profile"}
+              {saving ? "Menyimpan..." : "Simpan Profil"}
             </button>
           </div>
         )}

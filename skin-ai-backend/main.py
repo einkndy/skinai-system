@@ -1,20 +1,22 @@
-from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Response, Header
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Response, Depends
 from database import get_db_connection, is_db_error
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from typing import Dict, List
 from datetime import datetime
 from urllib.request import Request as UrlRequest, urlopen
 from urllib.error import URLError, HTTPError
 import asyncio
 import tensorflow as tf
+from tensorflow.keras.applications.efficientnet import preprocess_input as efficientnet_preprocess_input
 import numpy as np
 from PIL import Image
 import io
 import os
 import uuid
 from fastapi.staticfiles import StaticFiles
-from utils.image_preprocess import align_face_image_bytes
+from utils.image_preprocess import align_face_image_bytes, detect_crop_face_for_prediction
 import hashlib
 import hmac
 import base64
@@ -29,6 +31,9 @@ import zipfile
 app = FastAPI(title="Skin AI Backend")
 if not os.path.exists("uploads"):
     os.makedirs("uploads")
+
+PREDICT_DEBUG_CROP_DIR = os.path.join("uploads", "debug_crops")
+os.makedirs(PREDICT_DEBUG_CROP_DIR, exist_ok=True)
 
 DEVICE_CAPTURE_DIR = "device_capture"
 os.makedirs(DEVICE_CAPTURE_DIR, exist_ok=True)
@@ -76,7 +81,11 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type"],
 )
 
-CLASSES = ["berminyak", "kombinasi", "normal", "kering", "sensitif"]
+CLASSES = ["berminyak", "kering", "kombinasi", "normal", "sensitif"]
+TRAINING_CLASS_ORDER_NOTE = (
+    "Expected order follows Keras flow_from_directory alphabetical class_indices: "
+    "{'berminyak': 0, 'kering': 1, 'kombinasi': 2, 'normal': 3, 'sensitif': 4}"
+)
 
 MODEL_PATH = os.environ.get("SKINAI_MODEL_PATH", "model/model_fixed.h5")
 MODEL_DIR = os.environ.get("SKINAI_MODEL_DIR", "saved_model")
@@ -86,6 +95,15 @@ MODEL_DRIVE_FILE_ID = os.environ.get(
     "1rrgKcnFbCHoG_ditGhvb4RBzvlrRfIcQ",
 )
 ACTIVE_MODEL_PATH = None
+
+CONDITION_MODEL_PATH = os.environ.get(
+    "SKINAI_CONDITION_MODEL_PATH",
+    "model/condition_best.keras",
+)
+CONDITION_CLASS_INDICES_PATH = os.environ.get(
+    "SKINAI_CONDITION_CLASS_INDICES_PATH",
+    "model/condition_class_indices.json",
+)
 
 
 def path_size_mb(path: str) -> float | None:
@@ -102,6 +120,13 @@ def path_size_mb(path: str) -> float | None:
             total_size += os.path.getsize(os.path.join(root, filename))
 
     return round(total_size / (1024 * 1024), 2)
+
+
+def path_file_label(path: str) -> str:
+    if os.path.isfile(path):
+        return os.path.basename(path)
+
+    return os.path.basename(os.path.normpath(path))
 
 
 def get_existing_model_path() -> str | None:
@@ -160,6 +185,12 @@ model = None
 MODEL_READY = False
 MODEL_ERROR = None
 MODEL_LOADED_AT = None
+condition_model = None
+CONDITION_MODEL_READY = False
+CONDITION_MODEL_ERROR = None
+CONDITION_MODEL_LOADED_AT = None
+CONDITION_CLASS_NAMES = []
+CONDITION_CLASS_INDICES = {}
 DEVICE_TIMEOUT_SECONDS = 90
 WATCHDOG_INTERVAL_SECONDS = 10
 DEVICE_HTTP_TIMEOUT_SECONDS = 30
@@ -168,6 +199,17 @@ AUTH_SECRET = os.environ.get("SKINAI_AUTH_SECRET", "skinai-local-session-secret"
 DEVICE_SHARED_SECRET = os.environ.get("DEVICE_SHARED_SECRET", "")
 SESSION_EXPIRE_HOURS = env_int("SESSION_EXPIRE_HOURS", 24)
 # TODO: validasi endpoint perangkat dengan secret ini setelah firmware siap.
+
+bearer_scheme = HTTPBearer(auto_error=False)
+
+
+def get_authorization_header(
+    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
+) -> str | None:
+    if not credentials:
+        return None
+
+    return f"Bearer {credentials.credentials}"
 
 
 def load_ai_model():
@@ -186,6 +228,11 @@ def load_ai_model():
         MODEL_LOADED_AT = datetime.now().isoformat(timespec="seconds")
 
         print("MODEL LOADED")
+        print("MODEL FILE:", path_file_label(active_model_path))
+        print("MODEL PATH:", active_model_path)
+        print("MODEL SIZE:", path_size_mb(active_model_path), "MB")
+        print("MODEL CLASS ORDER", CLASSES)
+        print("MODEL CLASS ORDER NOTE", TRAINING_CLASS_ORDER_NOTE)
         print("AI READY")
 
     except Exception as error:
@@ -201,6 +248,85 @@ def load_ai_model():
 
 
 load_ai_model()
+
+
+def load_condition_class_mapping() -> tuple[dict, list]:
+    if not os.path.exists(CONDITION_CLASS_INDICES_PATH):
+        raise FileNotFoundError(
+            f"Condition class mapping tidak ditemukan: {CONDITION_CLASS_INDICES_PATH}"
+        )
+
+    with open(CONDITION_CLASS_INDICES_PATH, "r", encoding="utf-8") as mapping_file:
+        class_indices = json.load(mapping_file)
+
+    if not isinstance(class_indices, dict) or not class_indices:
+        raise ValueError("Condition class mapping kosong atau tidak valid")
+
+    sorted_classes = sorted(
+        class_indices.items(),
+        key=lambda item: int(item[1]),
+    )
+    class_names = [class_name for class_name, _ in sorted_classes]
+
+    return class_indices, class_names
+
+
+def load_condition_model():
+    global condition_model
+    global CONDITION_MODEL_READY, CONDITION_MODEL_ERROR, CONDITION_MODEL_LOADED_AT
+    global CONDITION_CLASS_NAMES, CONDITION_CLASS_INDICES
+
+    try:
+        if not os.path.exists(CONDITION_MODEL_PATH):
+            raise FileNotFoundError(
+                f"Condition model tidak ditemukan: {CONDITION_MODEL_PATH}"
+            )
+
+        class_indices, class_names = load_condition_class_mapping()
+
+        loaded_model = tf.keras.models.load_model(
+            CONDITION_MODEL_PATH,
+            compile=False,
+        )
+
+        output_shape = loaded_model.output_shape
+        output_count = int(output_shape[-1])
+
+        if output_count != len(class_names):
+            raise ValueError(
+                "Jumlah output condition model tidak cocok dengan class mapping: "
+                f"model={output_count}, mapping={len(class_names)}"
+            )
+
+        condition_model = loaded_model
+        CONDITION_CLASS_INDICES = class_indices
+        CONDITION_CLASS_NAMES = class_names
+        CONDITION_MODEL_READY = True
+        CONDITION_MODEL_ERROR = None
+        CONDITION_MODEL_LOADED_AT = datetime.now().isoformat(timespec="seconds")
+
+        print("CONDITION MODEL LOADED")
+        print("CONDITION MODEL FILE:", path_file_label(CONDITION_MODEL_PATH))
+        print("CONDITION MODEL PATH:", CONDITION_MODEL_PATH)
+        print("CONDITION MODEL SIZE:", path_size_mb(CONDITION_MODEL_PATH), "MB")
+        print("CONDITION CLASS INDICES:", CONDITION_CLASS_INDICES)
+        print("CONDITION CLASS ORDER:", CONDITION_CLASS_NAMES)
+        print("CONDITION INPUT SHAPE:", loaded_model.input_shape)
+        print("CONDITION OUTPUT SHAPE:", loaded_model.output_shape)
+
+    except Exception as error:
+        condition_model = None
+        CONDITION_MODEL_READY = False
+        CONDITION_MODEL_ERROR = str(error)
+        CONDITION_MODEL_LOADED_AT = None
+        CONDITION_CLASS_NAMES = []
+        CONDITION_CLASS_INDICES = {}
+
+        print("CONDITION MODEL LOAD ERROR:")
+        print(CONDITION_MODEL_ERROR)
+
+
+load_condition_model()
 
 
 def hash_password(password: str) -> str:
@@ -275,7 +401,9 @@ def decode_session_token(token: str) -> dict | None:
         return None
 
 
-def get_current_user(authorization: str | None = Header(None)) -> dict:
+def get_current_user(
+    authorization: str | None = Depends(get_authorization_header),
+) -> dict:
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="session tidak valid")
 
@@ -308,7 +436,7 @@ def get_current_user(authorization: str | None = Header(None)) -> dict:
     return user
 
 
-def require_role(role: str, authorization: str | None = Header(None)) -> dict:
+def require_role(role: str, authorization: str | None = None) -> dict:
     user = get_current_user(authorization)
 
     if user["role"] != role:
@@ -319,11 +447,15 @@ def require_role(role: str, authorization: str | None = Header(None)) -> dict:
     return user
 
 
-def require_admin(authorization: str | None = Header(None)) -> dict:
+def require_admin(
+    authorization: str | None = Depends(get_authorization_header),
+) -> dict:
     return require_role("admin", authorization)
 
 
-def require_patient_user(authorization: str | None = Header(None)) -> dict:
+def require_patient_user(
+    authorization: str | None = Depends(get_authorization_header),
+) -> dict:
     return require_role("user", authorization)
 
 
@@ -1288,9 +1420,7 @@ def login(data: dict):
     return response
 
 @app.get("/admin/{admin_id}")
-def get_admin(admin_id: int, authorization: str | None = Header(None)):
-    current_user = require_admin(authorization)
-
+def get_admin(admin_id: int, current_user: dict = Depends(require_admin)):
     if int(current_user.get("admin_id") or 0) != int(admin_id):
         raise HTTPException(status_code=403, detail="akses tidak diizinkan")
 
@@ -1338,10 +1468,8 @@ async def update_admin(
     phone: str = Form(""),
     address: str = Form(""),
     profile_image: UploadFile | None = File(None),
-    authorization: str | None = Header(None),
+    current_user: dict = Depends(require_admin),
 ):
-    current_user = require_admin(authorization)
-
     if int(current_user.get("admin_id") or 0) != int(admin_id):
         raise HTTPException(status_code=403, detail="akses tidak diizinkan")
 
@@ -1480,14 +1608,102 @@ def preprocess_bytes(img_bytes: bytes, size=(224, 224)) -> np.ndarray:
     arr = np.expand_dims(arr, axis=0)  # (1, H, W, 3)
     return arr
 
+
+def preprocess_condition_bytes(img_bytes: bytes, size=(224, 224)) -> np.ndarray:
+    img = Image.open(io.BytesIO(img_bytes)).convert("RGB")
+    img = img.resize(size)
+    arr = np.array(img).astype("float32")
+    arr = efficientnet_preprocess_input(arr)
+    arr = np.expand_dims(arr, axis=0)  # (1, H, W, 3)
+    return arr
+
+
+def save_predict_debug_crop(crop_bytes: bytes, source_filename: str) -> str | None:
+    try:
+        debug_filename = f"crop-{source_filename}"
+        debug_path = os.path.join(PREDICT_DEBUG_CROP_DIR, debug_filename)
+
+        with open(debug_path, "wb") as f:
+            f.write(crop_bytes)
+
+        return f"debug_crops/{debug_filename}"
+
+    except Exception as error:
+        print("DEBUG CROP SAVE ERROR:", error)
+        return None
+
+
+@app.post("/predict-condition")
+async def predict_condition(
+    file: UploadFile = File(...),
+    _current_user: dict = Depends(require_admin),
+) -> Dict:
+    if not CONDITION_MODEL_READY or condition_model is None:
+        return {
+            "status": "error",
+            "message": "Model kondisi kulit belum tersedia",
+            "error": CONDITION_MODEL_ERROR,
+        }
+
+    print("CONDITION ANALYSIS START")
+    print("CONDITION MODEL LOADED")
+
+    img_bytes = await file.read()
+    filename = f"{uuid.uuid4()}.jpg"
+    filepath = os.path.join("uploads", filename)
+
+    with open(filepath, "wb") as f:
+        f.write(img_bytes)
+
+    model_img_bytes, image_quality = detect_crop_face_for_prediction(img_bytes)
+    debug_crop_path = None
+
+    if image_quality.get("crop_applied"):
+        debug_crop_path = save_predict_debug_crop(
+            model_img_bytes,
+            filename,
+        )
+
+    model_input = "face_crop" if image_quality.get("crop_applied") else "original_image"
+
+    if not image_quality.get("crop_applied"):
+        print("CONDITION FACE CROP FALLBACK REASON:", image_quality.get("fallback_reason"))
+
+    x = preprocess_condition_bytes(model_img_bytes)
+    preds = condition_model.predict(x, verbose=0)[0]
+    raw_predictions = preds.tolist()
+
+    print("CONDITION RAW OUTPUT", raw_predictions)
+
+    predictions = {
+        CONDITION_CLASS_NAMES[i]: float(preds[i])
+        for i in range(len(CONDITION_CLASS_NAMES))
+    }
+
+    dominant_index = int(np.argmax(preds))
+    dominant_condition = CONDITION_CLASS_NAMES[dominant_index]
+    confidence = float(np.max(preds))
+
+    print("CONDITION PREDICTIONS", predictions)
+    print("CONDITION DOMINANT", dominant_condition)
+    print("CONDITION CONFIDENCE", confidence)
+
+    return {
+        "predictions": predictions,
+        "dominant_condition": dominant_condition,
+        "confidence": confidence,
+        "image_path": filename,
+        "model_input": model_input,
+        "face_detected": bool(image_quality.get("face_detected")),
+        "debug_crop_path": debug_crop_path,
+    }
+
 # ===== ENDPOINT =====
 @app.post("/predict")
 async def predict(
     file: UploadFile = File(...),
-    authorization: str | None = Header(None),
+    _current_user: dict = Depends(require_admin),
 ) -> Dict:
-    require_admin(authorization)
-
     if not MODEL_READY or model is None:
         return {
             "status": "error",
@@ -1515,11 +1731,51 @@ async def predict(
         f.write(img_bytes)
 
     # =========================
+    # FACE DETECTION + CROP
+    # =========================
+    model_img_bytes, image_quality = detect_crop_face_for_prediction(img_bytes)
+    debug_crop_path = None
+
+    if image_quality.get("crop_applied"):
+        debug_crop_path = save_predict_debug_crop(
+            model_img_bytes,
+            filename,
+        )
+
+    model_input = "face_crop" if image_quality.get("crop_applied") else "original_image"
+    debug_panel = {
+        "model_input": model_input,
+        "face_detected": bool(image_quality.get("face_detected")),
+        "face_box": image_quality.get("face_box"),
+        "face_ratio": image_quality.get("face_ratio"),
+        "blur_score": image_quality.get("blur_score"),
+        "brightness": image_quality.get("brightness"),
+        "quality_issues": image_quality.get("quality_issues", []),
+        "debug_crop_path": debug_crop_path,
+        "fallback_reason": image_quality.get("fallback_reason"),
+    }
+
+    print("FACE DETECTED:", debug_panel["face_detected"])
+    print("FACE BOX:", debug_panel["face_box"])
+    print("FACE RATIO:", debug_panel["face_ratio"])
+    print("MODEL INPUT:", debug_panel["model_input"])
+    print("DEBUG CROP PATH:", debug_panel["debug_crop_path"])
+    print("BLUR SCORE:", debug_panel["blur_score"])
+    print("BRIGHTNESS:", debug_panel["brightness"])
+    print("QUALITY ISSUES:", debug_panel["quality_issues"])
+
+    if not image_quality.get("crop_applied"):
+        print("FACE CROP FALLBACK REASON:", debug_panel["fallback_reason"])
+
+    # =========================
     # AI PROCESS
     # =========================
-    x = preprocess_bytes(img_bytes)
+    x = preprocess_bytes(model_img_bytes)
 
     preds = model.predict(x, verbose=0)[0]
+    raw_predictions = preds.tolist()
+    print("RAW MODEL OUTPUT", raw_predictions)
+    print("CLASS ORDER", CLASSES)
 
     probs = {
         CLASSES[i]: float(preds[i])
@@ -1531,6 +1787,8 @@ async def predict(
     dominant = CLASSES[idx]
 
     confidence = float(np.max(preds))
+    print("DOMINANT CLASS", dominant)
+    print("CONFIDENCE", confidence)
 
     low_confidence = confidence < 0.6
 
@@ -1557,6 +1815,29 @@ async def predict(
         "confidence": confidence,
         "low_confidence": low_confidence,
         "warning": warning,
+        "raw_model_output": raw_predictions,
+        "class_names": CLASSES,
+        "class_order_note": TRAINING_CLASS_ORDER_NOTE,
+        "acne_percentage": None,
+        "blackhead_percentage": None,
+        "normal_percentage": probs.get("normal", 0),
+        "sensitive_percentage": probs.get("sensitif", 0),
+        "acne_supported": False,
+        "blackhead_supported": False,
+        "supported_classes": CLASSES,
+        "image_quality": image_quality,
+        "debug_crop_path": debug_crop_path,
+        "model_input": model_input,
+        "debug_panel": debug_panel,
+        "skin_condition_metrics": {
+            "acne_percentage": None,
+            "blackhead_percentage": None,
+            "normal_percentage": probs.get("normal", 0),
+            "sensitive_percentage": probs.get("sensitif", 0),
+            "acne_supported": False,
+            "blackhead_supported": False,
+            "supported_classes": CLASSES,
+        },
 
         "ingredients": INGREDIENTS[dominant],
         "products": PRODUCTS[dominant],
@@ -1568,9 +1849,22 @@ async def predict(
         "image_path": filename
     }
 
+
+def serialize_condition_predictions(value):
+    if not value:
+        return None
+
+    if isinstance(value, str):
+        return value
+
+    try:
+        return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+    except TypeError:
+        return None
+
+
 @app.post("/save-history")
-async def save_history(data: dict, authorization: str | None = Header(None)):
-    require_admin(authorization)
+async def save_history(data: dict, _current_user: dict = Depends(require_admin)):
     conn = None
     cursor = None
     lock_name = None
@@ -1588,6 +1882,19 @@ async def save_history(data: dict, authorization: str | None = Header(None)):
         nama_pasien = data.get("nama_pasien")
         kode_pasien = data.get("kode_pasien")
         email_pasien = (data.get("email_pasien") or data.get("email") or "").strip().lower()
+        condition_data = data.get("condition") if isinstance(data.get("condition"), dict) else {}
+        dominant_condition = data.get("dominant_condition") or condition_data.get("dominant_condition")
+        condition_confidence = data.get("condition_confidence")
+
+        if condition_confidence is None:
+            condition_confidence = condition_data.get("confidence")
+
+        condition_predictions = data.get("condition_predictions")
+
+        if condition_predictions is None:
+            condition_predictions = condition_data.get("predictions")
+
+        condition_predictions = serialize_condition_predictions(condition_predictions)
 
         if not nama_pasien or not kode_pasien:
             raise HTTPException(
@@ -1714,7 +2021,10 @@ async def save_history(data: dict, authorization: str | None = Header(None)):
 
             image_path,
             dominant_skin_type,
+            dominant_condition,
             confidence,
+            condition_confidence,
+            condition_predictions,
 
             oily,
             dry_skin,
@@ -1728,7 +2038,7 @@ async def save_history(data: dict, authorization: str | None = Header(None)):
             exam_date
 
         )
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
         """
 
         values = (
@@ -1743,13 +2053,16 @@ async def save_history(data: dict, authorization: str | None = Header(None)):
             data.get("image_path"),
 
             data.get("dominant_skin_type"),
+            dominant_condition,
             data.get("confidence"),
+            condition_confidence,
+            condition_predictions,
 
-            data.get("oily"),
-            data.get("dry_skin"),
-            data.get("combination_skin"),
-            data.get("normal_skin"),
-            data.get("sensitive_skin"),
+            data.get("oily", data.get("oily_percentage")),
+            data.get("dry_skin", data.get("dry_percentage")),
+            data.get("combination_skin", data.get("combination_percentage")),
+            data.get("normal_skin", data.get("normal_percentage")),
+            data.get("sensitive_skin", data.get("sensitive_percentage")),
 
             ",".join(data.get("ingredients", [])),
             ",".join(data.get("products", [])),
@@ -1828,9 +2141,7 @@ async def save_history(data: dict, authorization: str | None = Header(None)):
             conn.close()
     
 @app.get("/history")
-def get_history(authorization: str | None = Header(None)):
-    require_admin(authorization)
-
+def get_history(_current_user: dict = Depends(require_admin)):
     conn = open_db_or_error()
 
     if is_db_error(conn):
@@ -1861,9 +2172,7 @@ def get_history(authorization: str | None = Header(None)):
     return rows
 
 @app.get("/patients")
-def get_patients(authorization: str | None = Header(None)):
-    require_admin(authorization)
-
+def get_patients(_current_user: dict = Depends(require_admin)):
     conn = open_db_or_error()
 
     if is_db_error(conn):
@@ -1899,10 +2208,8 @@ def get_patients(authorization: str | None = Header(None)):
 @app.delete("/maintenance/patients/orphan-debug-test")
 def cleanup_orphan_debug_test_patients(
     confirm: bool = False,
-    authorization: str | None = Header(None),
+    _current_user: dict = Depends(require_admin),
 ):
-    require_admin(authorization)
-
     conn = open_db_or_error()
 
     if is_db_error(conn):
@@ -1976,9 +2283,7 @@ def cleanup_orphan_debug_test_patients(
     }
 
 @app.delete("/delete-history/{history_id}")
-def delete_history(history_id: int, authorization: str | None = Header(None)):
-    require_admin(authorization)
-
+def delete_history(history_id: int, _current_user: dict = Depends(require_admin)):
     conn = open_db_or_error()
 
     if is_db_error(conn):
@@ -2019,9 +2324,10 @@ def delete_history(history_id: int, authorization: str | None = Header(None)):
     }
 
 @app.get("/history/{history_id}")
-def get_history_detail(history_id: int, authorization: str | None = Header(None)):
-    current_user = get_current_user(authorization)
-
+def get_history_detail(
+    history_id: int,
+    current_user: dict = Depends(get_current_user),
+):
     conn = open_db_or_error()
 
     if is_db_error(conn):
@@ -2061,9 +2367,7 @@ def get_history_detail(history_id: int, authorization: str | None = Header(None)
     return data
 
 @app.get("/patient/{patient_id}")
-def get_patient_detail(patient_id: int, authorization: str | None = Header(None)):
-    require_admin(authorization)
-
+def get_patient_detail(patient_id: int, _current_user: dict = Depends(require_admin)):
     conn = open_db_or_error()
 
     if is_db_error(conn):
@@ -2109,8 +2413,7 @@ def get_patient_detail(patient_id: int, authorization: str | None = Header(None)
 
 
 @app.get("/user/dashboard")
-def get_user_dashboard(authorization: str | None = Header(None)):
-    current_user = require_patient_user(authorization)
+def get_user_dashboard(current_user: dict = Depends(require_patient_user)):
     print("USER DASHBOARD ACCESS", {"user_id": current_user["id"]})
 
     conn = open_db_or_error()
@@ -2152,9 +2455,7 @@ def get_user_dashboard(authorization: str | None = Header(None)):
 
 
 @app.get("/user/history")
-def get_user_history(authorization: str | None = Header(None)):
-    current_user = require_patient_user(authorization)
-
+def get_user_history(current_user: dict = Depends(require_patient_user)):
     conn = open_db_or_error()
 
     if is_db_error(conn):
@@ -2183,9 +2484,10 @@ def get_user_history(authorization: str | None = Header(None)):
 
 
 @app.get("/user/history/{history_id}")
-def get_user_history_detail(history_id: int, authorization: str | None = Header(None)):
-    current_user = require_patient_user(authorization)
-
+def get_user_history_detail(
+    history_id: int,
+    current_user: dict = Depends(require_patient_user),
+):
     conn = open_db_or_error()
 
     if is_db_error(conn):
@@ -2219,9 +2521,7 @@ def get_user_history_detail(history_id: int, authorization: str | None = Header(
 
 
 @app.get("/user/profile")
-def get_user_profile(authorization: str | None = Header(None)):
-    current_user = require_patient_user(authorization)
-
+def get_user_profile(current_user: dict = Depends(require_patient_user)):
     conn = open_db_or_error()
 
     if is_db_error(conn):
@@ -2265,8 +2565,10 @@ def get_user_profile(authorization: str | None = Header(None)):
 
 
 @app.put("/user/profile")
-def update_user_profile(data: dict, authorization: str | None = Header(None)):
-    current_user = require_patient_user(authorization)
+def update_user_profile(
+    data: dict,
+    current_user: dict = Depends(require_patient_user),
+):
     full_name = (data.get("full_name") or "").strip()
     email = (data.get("email") or "").strip().lower()
     phone = (data.get("phone") or "").strip()

@@ -124,9 +124,9 @@ export default function Profile() {
       syncForm(res.data);
       setProfileFile(null);
 
-      toast.success("Profile berhasil diperbarui");
+      toast.success("Profil berhasil diperbarui");
     } catch (error) {
-      toast.error(error.response?.data?.detail || "Profile gagal diperbarui. Coba beberapa saat lagi.");
+      toast.error(error.response?.data?.detail || "Profil gagal diperbarui. Coba beberapa saat lagi.");
     } finally {
       setSaving(false);
     }
@@ -156,7 +156,7 @@ export default function Profile() {
                   {preview ? (
                       <img
                         src={preview}
-                        alt="Profile admin"
+                        alt="Profil admin"
                         className="image-fade w-full h-full object-cover"
                         loading="lazy"
                         decoding="async"
@@ -217,7 +217,7 @@ export default function Profile() {
               className="btn-premium inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-blue-600 text-white font-semibold disabled:opacity-60"
             >
               {saving ? <ButtonSpinner /> : <Save size={18} />}
-              {saving ? "Menyimpan..." : "Simpan Profile"}
+              {saving ? "Menyimpan..." : "Simpan Profil"}
             </button>
           </div>
 
@@ -344,7 +344,7 @@ export default function Profile() {
 
         <div className="bg-white rounded-3xl p-5 sm:p-6 premium-card border border-slate-100 shadow-sm">
           <p className="text-sm text-slate-400 font-semibold">
-            Tracking Aktif
+            Pelacakan Aktif
           </p>
 
           <h2 className="text-3xl sm:text-4xl font-bold text-purple-600 mt-2">
@@ -401,7 +401,7 @@ export default function Profile() {
             <div className="rounded-2xl bg-purple-50 p-4 min-w-[180px]">
               <div className="flex items-center gap-2 text-purple-600 font-bold">
                 <Activity size={18} />
-                Monitoring
+                Pemantauan
               </div>
               <p className="text-sm text-slate-500 mt-2">
                 {statsLoading ? "Memuat..." : `${records.length} pemeriksaan`}
@@ -414,5 +414,4 @@ export default function Profile() {
     </AnimatedPage>
   );
 }
-
 

@@ -56,7 +56,7 @@ export default function Sidebar({ mobile = false, onClose }) {
             <div>
               <h1 className="text-xl font-bold text-slate-800">SkinAI</h1>
               <p className="text-xs text-slate-400">
-                Sistem Monitoring Kulit Klinik
+                Sistem Pemantauan Kondisi Wajah
               </p>
             </div>
           </div>
@@ -126,7 +126,7 @@ export default function Sidebar({ mobile = false, onClose }) {
             }
           >
             <UserCircle size={20} />
-            Profile
+            Profil
           </NavLink>
 
           <button
@@ -134,7 +134,7 @@ export default function Sidebar({ mobile = false, onClose }) {
             className={`${mobile ? "flex" : "lg:hidden flex"} items-center gap-3 px-5 py-3 rounded-xl font-medium transition-all text-red-600 bg-red-50 hover:bg-red-100 whitespace-nowrap`}
           >
             <LogOut size={20} />
-            Logout
+            Keluar
           </button>
         </div>
       </div>
@@ -174,7 +174,7 @@ export default function Sidebar({ mobile = false, onClose }) {
           className="btn-premium w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-50 text-red-600 font-semibold hover:bg-red-100 transition"
         >
           <LogOut size={18} />
-          Logout
+          Keluar
         </button>
       </div>
     </div>

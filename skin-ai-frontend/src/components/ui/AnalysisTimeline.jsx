@@ -3,18 +3,21 @@ import { motion } from "framer-motion";
 const statusConfig = {
   completed: {
     icon: "✓",
+    label: "Selesai",
     dot: "bg-emerald-500 text-white",
     text: "text-emerald-700",
     card: "border-emerald-100 bg-emerald-50",
   },
   processing: {
-    icon: "↻",
+    icon: "AI",
+    label: "Diproses",
     dot: "bg-blue-600 text-white",
     text: "text-blue-700",
     card: "border-blue-100 bg-blue-50",
   },
   waiting: {
-    icon: "•",
+    icon: "-",
+    label: "Menunggu",
     dot: "bg-slate-200 text-slate-500",
     text: "text-slate-500",
     card: "border-slate-100 bg-slate-50",
@@ -80,8 +83,8 @@ export default function AnalysisTimeline({ steps = [] }) {
               <p className={`font-bold ${config.text}`}>
                 {step.title}
               </p>
-              <p className="text-xs text-slate-500 capitalize">
-                {step.status}
+              <p className="text-xs text-slate-500">
+                {config.label}
               </p>
             </div>
           </motion.div>

@@ -61,6 +61,49 @@ export const predictSkin = async (imageFile) => {
     }
 };
 
+export const predictSkinCondition = async (imageFile) => {
+    const startedAt = performance.now();
+
+    try {
+        console.log("CONDITION ANALYSIS REQUEST START");
+
+        const formData = new FormData();
+        formData.append("file", imageFile);
+
+        const response = await api.post("/predict-condition", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+
+        const data = response.data;
+
+        if (data?.status === "error") {
+            const error = new Error(data.message || "Model kondisi kulit belum tersedia");
+            error.code = "CONDITION_ANALYSIS_OFFLINE";
+            error.payload = data;
+            throw error;
+        }
+
+        console.log("CONDITION ANALYSIS REQUEST END");
+        console.log("CONDITION ANALYSIS DURATION", Math.round(performance.now() - startedAt));
+
+        return data;
+
+    } catch (error) {
+        console.log("CONDITION ANALYSIS REQUEST END");
+        console.log("CONDITION ANALYSIS DURATION", Math.round(performance.now() - startedAt));
+
+        console.error(error);
+
+        if (!error.code) {
+            error.code = "CONDITION_ANALYSIS_OFFLINE";
+        }
+
+        throw error;
+    }
+};
+
 export const getPatients = async () => {
     const response = await api.get(`/patients`);
 

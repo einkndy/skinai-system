@@ -5,11 +5,19 @@ function OptimizedImage({
   alt,
   className = "",
   eager = false,
+  fallback = null,
+  onError,
   ...props
 }) {
   const imageRef = useRef(null);
   const [visible, setVisible] = useState(eager);
   const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    setLoaded(false);
+    setFailed(false);
+  }, [src]);
 
   useEffect(() => {
     if (eager || !imageRef.current) return undefined;
@@ -31,6 +39,10 @@ function OptimizedImage({
     return () => observer.disconnect();
   }, [eager]);
 
+  if (failed && fallback) {
+    return typeof fallback === "function" ? fallback() : fallback;
+  }
+
   return (
     <img
       ref={imageRef}
@@ -39,6 +51,10 @@ function OptimizedImage({
       loading={eager ? "eager" : "lazy"}
       decoding="async"
       onLoad={() => setLoaded(true)}
+      onError={(event) => {
+        setFailed(true);
+        onError?.(event);
+      }}
       className={`${className} transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
       {...props}
     />
