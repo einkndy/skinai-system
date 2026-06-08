@@ -5,20 +5,15 @@ from tensorflow.keras import layers, models
 import matplotlib.pyplot as plt
 import os
 
-# =========================
-# DATASET PATH
-# =========================
+
+# FOLDER DATASET
 DATASET_PATH = "dataset"
 
-# =========================
-# IMAGE SETTINGS
-# =========================
+# SETTING GAMBAR & BATCH
 IMG_SIZE = (224, 224)
 BATCH_SIZE = 16
 
-# =========================
-# DATA AUGMENTATION
-# =========================
+# DATA AUGMENTSI
 datagen = ImageDataGenerator(
     rescale=1./255,
     validation_split=0.2,
@@ -29,9 +24,7 @@ datagen = ImageDataGenerator(
     brightness_range=[0.8, 1.2],
 )
 
-# =========================
 # TRAIN DATA
-# =========================
 train_data = datagen.flow_from_directory(
     DATASET_PATH,
     target_size=IMG_SIZE,
@@ -40,9 +33,7 @@ train_data = datagen.flow_from_directory(
     subset='training'
 )
 
-# =========================
-# VALIDATION DATA
-# =========================
+# VALIDASI DATA
 val_data = datagen.flow_from_directory(
     DATASET_PATH,
     target_size=IMG_SIZE,
@@ -51,9 +42,7 @@ val_data = datagen.flow_from_directory(
     subset='validation'
 )
 
-# =========================
-# CNN MODEL
-# =========================
+# CNN MODEL 
 model = models.Sequential([
 
     layers.Conv2D(32, (3,3), activation='relu', input_shape=(224,224,3)),
@@ -73,41 +62,31 @@ model = models.Sequential([
     layers.Dense(5, activation='softmax')
 ])
 
-# =========================
-# COMPILE
-# =========================
+# kompile
 model.compile(
     optimizer='adam',
     loss='categorical_crossentropy',
     metrics=['accuracy']
 )
 
-# =========================
 # SUMMARY
-# =========================
 model.summary()
 
-# =========================
 # TRAINING
-# =========================
 history = model.fit(
     train_data,
     validation_data=val_data,
     epochs=10
 )
 
-# =========================
-# SAVE MODEL
-# =========================
+# SAVE MODEL ke folder
 os.makedirs("model", exist_ok=True)
 
 model.save("model/model.h5")
 
 print("\nMODEL BERHASIL DISIMPAN!")
 
-# =========================
-# PLOT ACCURACY
-# =========================
+# PLOT akurasi
 plt.plot(history.history['accuracy'])
 plt.plot(history.history['val_accuracy'])
 

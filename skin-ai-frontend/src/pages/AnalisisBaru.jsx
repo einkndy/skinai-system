@@ -906,7 +906,7 @@ export default function AnalisisBaru() {
   };
 
   /* =========================
-    ANALYZE
+    ANALISIS
   ========================= */
   const handleAnalyze = async (analysisFile = confirmedFile || imageFile) => {
     if (isAnalyzing) return;
@@ -1317,7 +1317,7 @@ export default function AnalisisBaru() {
     console.log("ESP32 PROXY FLOW ACTIVE");
   }, []);
   /* =========================
-    ESP32 CONNECTION MANAGER
+    ESP32 KONEKSI MANAGER
   ========================= */
   const setActiveCameraDeviceState = (device) => {
     setSelectedDevice(device);

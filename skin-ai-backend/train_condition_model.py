@@ -39,9 +39,6 @@ AUTOTUNE = tf.data.AUTOTUNE
 FINAL_MODEL_PATH = MODEL_DIR / "condition_model_v1.keras"
 BEST_MODEL_PATH = MODEL_DIR / "condition_best.keras"
 CLASS_INDICES_PATH = MODEL_DIR / "condition_class_indices.json"
-HISTORY_CSV_PATH = MODEL_DIR / "condition_history.csv"
-CLASSIFICATION_REPORT_PATH = MODEL_DIR / "condition_classification_report.txt"
-CONFUSION_MATRIX_PATH = MODEL_DIR / "condition_confusion_matrix.png"
 
 
 def collect_dataset(dataset_path):

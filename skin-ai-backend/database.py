@@ -5,8 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# DATABASE CONFIG
-
+# DATABASE CONFIk
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = int(os.getenv("DB_PORT", 3306))
 DB_USER = os.getenv("DB_USER", "root")
@@ -18,9 +17,7 @@ DB_SSL_VERIFY_CERT = os.getenv("DB_SSL_VERIFY_CERT", "false").strip().lower() ==
 DB_CONNECTION_TIMEOUT = int(os.getenv("DB_CONNECTION_TIMEOUT", 30))
 DB_DEBUG_PRINTED = False
 
-# DATABASE CONNECTION
-
-
+# DATABASE KONEKSI
 def print_database_config_debug():
     global DB_DEBUG_PRINTED
 
